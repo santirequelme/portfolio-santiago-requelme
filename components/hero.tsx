@@ -14,28 +14,14 @@ export function Hero() {
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Content Section - 70% */}
         <div className="flex-1 lg:w-[70%] text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-1.5 text-sm text-accent">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              Now in Beta
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-balance"
           >
-            <TypingText /> <span className="text-muted">with minimal friction</span>
+            <TypingText /> 
+            <span className="text-muted block">with minimal friction</span>
           </motion.h1>
 
           <motion.p
@@ -73,21 +59,6 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-16"
-          >
-            <p className="text-sm text-muted mb-6">Trusted by teams at leading companies</p>
-            <div className="flex flex-wrap items-center lg:justify-start justify-center gap-8 opacity-50">
-              {["Acme Inc", "Globex", "Initech", "Umbrella", "Hooli"].map((company) => (
-                <span key={company} className="text-lg font-semibold tracking-tight">
-                  {company}
-                </span>
-              ))}
-            </div>
-          </motion.div>
         </div>
 
         <motion.div

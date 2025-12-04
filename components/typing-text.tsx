@@ -43,7 +43,7 @@ export function TypingText() {
       }
     }
 
-    const typingSpeed = isDeleting ? 50 : 100
+    const typingSpeed = isDeleting ? 20 : 50
     const timeout = setTimeout(handleTyping, typingSpeed)
 
     return () => clearTimeout(timeout)
