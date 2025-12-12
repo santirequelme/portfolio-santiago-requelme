@@ -124,6 +124,11 @@
     @apply bg-background text-foreground;
   }
 
+  /* Adding smooth scroll behavior globally */
+  html {
+    scroll-behavior: smooth;
+  }
+
   /* Adding custom animations for cursor effects */
   @keyframes float {
     0%,

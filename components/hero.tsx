@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useState } from "react"
@@ -8,6 +10,17 @@ import { TypingText } from "./typing-text"
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
+
+  const handleScrollToProjects = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const element = document.getElementById("projectList")
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+  }
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-16">
@@ -20,7 +33,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-balance"
           >
-            <TypingText /> 
+            <TypingText />
             <span className="text-muted block">with minimal friction</span>
           </motion.h1>
 
@@ -43,13 +56,13 @@ export function Hero() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="#projectList"
+                onClick={handleScrollToProjects}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-8 text-sm font-medium text-background transition-opacity hover:opacity-90"
               >
                 View projects
               </Link>
             </motion.div>
           </motion.div>
-
         </div>
 
         <motion.div
