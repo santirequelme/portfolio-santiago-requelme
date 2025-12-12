@@ -26,7 +26,7 @@ export function ProjectsList() {
     <section id="projectList" className="py-24 px-4">
       <div className="mx-auto max-w-6xl">
         <ScrollRevealSection className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Projects I've worked on</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Projects</h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Built with modern tools and best practices for optimal performance
           </p>
