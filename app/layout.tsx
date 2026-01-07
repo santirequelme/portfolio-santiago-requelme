@@ -8,7 +8,7 @@ const _inter = Inter({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Minimal - Modern Web Solutions",
+  title: "Santiago Requelme - Portfolio",
   description: "A clean, minimal Next.js 16 project with TailwindCSS and Framer Motion animations",
   generator: "v0.app",
   icons: {

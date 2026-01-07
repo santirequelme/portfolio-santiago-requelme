@@ -76,7 +76,7 @@ export function Hero() {
           <div className="relative aspect-square w-full overflow-hidden rounded-3xl">
             <motion.div
               animate={{ opacity: isHovered ? 0 : 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.5 }}
               className="absolute inset-0"
             >
               <Image src="/images/foto1.png" alt="Profile" fill className="object-cover" priority />

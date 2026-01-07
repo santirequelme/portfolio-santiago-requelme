@@ -38,7 +38,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-              <span className="text-sm font-bold text-background">M</span>
+              <span className="text-sm font-bold text-background">SR</span>
             </div>
             <span className="text-xl font-semibold tracking-tight">Santiago Requelme</span>
           </Link>
