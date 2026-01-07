@@ -43,7 +43,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed text-pretty lg:mx-0 mx-auto"
           >
-          From design vision to robust, scalable, clean code that solves real problems.
+            From design vision to robust, scalable, clean code that solves real problems.
           </motion.p>
 
           <motion.div
@@ -56,7 +56,7 @@ export function Hero() {
               <Link
                 href="#projectList"
                 onClick={handleScrollToProjects}
-                className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-8 text-sm font-medium text-background transition-opacity hover:opacity-90"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-sm font-medium text-background transition-all hover:shadow-lg hover:shadow-primary/30"
               >
                 View projects
               </Link>
@@ -72,7 +72,7 @@ export function Hero() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="relative aspect-square w-full overflow-hidden rounded-3xl">
+          <div className="relative aspect-square w-full overflow-hidden rounded-3xl ring-1 ring-border hover:ring-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/20">
             <motion.div
               animate={{ opacity: isHovered ? 0 : 1 }}
               transition={{ duration: 0.5 }}
@@ -92,7 +92,7 @@ export function Hero() {
       </div>
 
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 rounded-full blur-3xl" />
       </div>
     </section>
   )

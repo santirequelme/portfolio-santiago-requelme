@@ -26,7 +26,9 @@ export function ProjectsList() {
     <section id="projectList" className="py-24 px-4">
       <div className="mx-auto max-w-6xl">
         <ScrollRevealSection className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Projects</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            Projects
+          </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Built with modern tools and best practices for optimal performance
           </p>
@@ -35,10 +37,12 @@ export function ProjectsList() {
         <div className="grid gap-8 md:grid-cols-3">
           {features.map((feature, index) => (
             <ScrollRevealSection key={feature.title} delay={index * 0.15}>
-              <div className="group relative rounded-2xl border border-border bg-card p-8 transition-all hover:border-muted-foreground/20 hover:shadow-lg">
-                <div className="mb-4 text-4xl">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+              <div className="group relative rounded-2xl border border-border bg-card p-8 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+                <div className="relative z-10">
+                  <div className="mb-4 text-4xl">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                </div>
               </div>
             </ScrollRevealSection>
           ))}
