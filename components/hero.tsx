@@ -34,7 +34,7 @@ export function Hero() {
             className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-balance"
           >
             <TypingText />
-            <span className="text-muted block">with minimal friction</span>
+            <span className="text-muted block">not just screens.</span>
           </motion.h1>
 
           <motion.p
@@ -43,8 +43,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed text-pretty lg:mx-0 mx-auto"
           >
-            A clean, modern framework for building exceptional web experiences. Designed for developers who value
-            simplicity and performance.
+          From design vision to robust, scalable, clean code that solves real problems.
           </motion.p>
 
           <motion.div
