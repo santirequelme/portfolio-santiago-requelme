@@ -56,7 +56,9 @@ export function Hero() {
               <Link
                 href="#projectList"
                 onClick={handleScrollToProjects}
-                className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-sm font-medium text-background transition-all hover:shadow-lg hover:shadow-primary/30"
+                className="px-8 py-3 bg-[#af52de]/10 border border-[#af52de]/50 text-[#af52de] font-semibold rounded-full
+               hover:bg-[#af52de] hover:text-white hover:shadow-[0_0_20px_rgba(175,82,222,0.4)] 
+               transition-all duration-300"
               >
                 View projects
               </Link>
