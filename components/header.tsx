@@ -7,7 +7,7 @@ import { HamburgerMenu } from "./hamburger-menu"
 import { ThemeToggle } from "./theme-toggle"
 
 const navItems = [
-  { name: "Features", href: "#features" },
+  { name: "Projects", href: "#projectList" },
   { name: "About", href: "#about" },
   { name: "Contact", href: "#contact" },
 ]
