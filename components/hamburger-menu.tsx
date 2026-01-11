@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import { useLanguage } from "@/contexts/language-context"
 
 interface MenuItem {
   name: string
@@ -15,6 +16,7 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ items }: HamburgerMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const { t } = useLanguage()
 
   const toggleMenu = () => setIsOpen(!isOpen)
 
@@ -89,14 +91,24 @@ export function HamburgerMenu({ items }: HamburgerMenuProps) {
           >
             <ul className="flex flex-col gap-4">
               {items.map((item, i) => (
-                <motion.li key={item.name} custom={i} variants={itemVariants} initial="closed" animate="open">
-                  <Link
-                    href={item.href}
-                    onClick={toggleMenu}
-                    className="block py-3 text-lg font-medium text-muted-foreground transition-colors hover:text-foreground hover:translate-x-2 duration-200"
-                  >
-                    {item.name}
-                  </Link>
+                <motion.li key={item.href} custom={i} variants={itemVariants} initial="closed" animate="open">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={toggleMenu}
+                        className="block py-3 text-lg font-medium text-muted-foreground transition-colors hover:text-foreground hover:translate-x-2 duration-200"
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  </AnimatePresence>
                 </motion.li>
               ))}
             </ul>
@@ -107,7 +119,6 @@ export function HamburgerMenu({ items }: HamburgerMenuProps) {
               transition={{ delay: 0.4 }}
               className="mt-8 flex flex-col gap-4"
             >
-              {/* Social Media Icons Row */}
               <div className="flex items-center justify-center gap-6">
                 <Link
                   href="https://www.linkedin.com/in/santiago-requelme/"
@@ -159,14 +170,20 @@ export function HamburgerMenu({ items }: HamburgerMenuProps) {
                 </Link>
               </div>
 
-              {/* Hire Me Button */}
-              <a
-                href="mailto:santireke37@gmail.com"
-                onClick={toggleMenu}
-                className="w-full rounded-full bg-gradient-to-r from-primary to-accent py-3 text-center text-sm font-medium text-primary-foreground transition-all hover:opacity-90 hover:shadow-lg hover:shadow-primary/30"
-              >
-                Hire me!
-              </a>
+              <AnimatePresence mode="wait">
+                <motion.a
+                  key={t("nav.hireMe")}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  href="mailto:santireke37@gmail.com"
+                  onClick={toggleMenu}
+                  className="w-full rounded-full bg-gradient-to-r from-primary to-accent py-3 text-center text-sm font-medium text-primary-foreground transition-all hover:opacity-90 hover:shadow-lg hover:shadow-primary/30"
+                >
+                  {t("nav.hireMe")}
+                </motion.a>
+              </AnimatePresence>
             </motion.div>
           </motion.nav>
         )}
