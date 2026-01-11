@@ -1,6 +1,6 @@
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
-import { Features } from "@/components/features"
+import { ProjectsList } from "@/components/projects-list"
 import { ContentSections } from "@/components/content-sections"
 import { Footer } from "@/components/footer"
 import { CursorEffect } from "@/components/cursor-effect"
@@ -12,7 +12,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Features />
+        <ProjectsList />
         <ContentSections />
       </main>
       <Footer />

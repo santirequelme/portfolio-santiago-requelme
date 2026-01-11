@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import { useLanguage } from "@/contexts/language-context"
 
 const socialLinks = [
   {
@@ -46,13 +47,15 @@ const socialLinks = [
   },
 ]
 
-const footerLinks = [
-  { name: "Privacy", href: "#" },
-  { name: "Terms", href: "#" },
-  { name: "Docs", href: "#" },
-]
-
 export function Footer() {
+  const { t } = useLanguage()
+
+  const footerLinks = [
+    { name: t("footer.privacy"), href: "#" },
+    { name: t("footer.terms"), href: "#" },
+    { name: t("footer.docs"), href: "#" },
+  ]
+
   return (
     <footer className="border-t border-border py-12 px-4">
       <div className="mx-auto max-w-6xl">
@@ -73,17 +76,37 @@ export function Footer() {
 
           <nav className="flex items-center gap-6">
             {footerLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.name}
-              </Link>
+              <AnimatePresence mode="wait" key={link.href}>
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
             ))}
           </nav>
 
-          <p className="text-sm text-muted">© {new Date().getFullYear()} Minimal. All rights reserved.</p>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={t("footer.rights")}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-sm text-muted"
+            >
+              © {new Date().getFullYear()} Minimal. {t("footer.rights")}
+            </motion.p>
+          </AnimatePresence>
         </div>
       </div>
     </footer>

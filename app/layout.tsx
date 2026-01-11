@@ -3,12 +3,13 @@ import type { Metadata, Viewport } from "next"
 import { Inter, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { LanguageProvider } from "@/contexts/language-context"
 
 const _inter = Inter({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Minimal - Modern Web Solutions",
+  title: "Santiago Requelme - Portfolio",
   description: "A clean, minimal Next.js 16 project with TailwindCSS and Framer Motion animations",
   generator: "v0.app",
   icons: {
@@ -59,8 +60,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="font-sans antialiased">
-        {children}
-        <Analytics />
+        <LanguageProvider>
+          {children}
+          <Analytics />
+        </LanguageProvider>
       </body>
     </html>
   )
