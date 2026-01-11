@@ -14,7 +14,7 @@ const projects = [
     title: "Hotel Booking App",
     description:
       "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
-    image: "/images/Booking.png",
+    image: "/images/booking.png",
   },
   {
     title: "Experience App",
