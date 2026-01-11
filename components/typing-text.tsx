@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
 
 export function TypingText() {
@@ -20,6 +19,12 @@ export function TypingText() {
 
     return () => clearInterval(cursorInterval)
   }, [])
+
+  useEffect(() => {
+    setCurrentText("")
+    setCurrentIndex(0)
+    setIsDeleting(false)
+  }, [t("hero.role1")]) // Reset when language changes
 
   useEffect(() => {
     const currentTitle = titles[currentIndex]
@@ -41,27 +46,18 @@ export function TypingText() {
       }
     }
 
-    const typingSpeed = isDeleting ? 20 : 50
+    const typingSpeed = isDeleting ? 50 : 100
     const timeout = setTimeout(handleTyping, typingSpeed)
 
     return () => clearTimeout(timeout)
   }, [currentText, isDeleting, currentIndex]) // Removed titles from dependencies
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={currentText}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="inline-block"
-      >
-        {currentText}
-        <span
-          className={`inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle ${showCursor ? "opacity-100" : "opacity-0"}`}
-        />
-      </motion.span>
-    </AnimatePresence>
+    <span className="inline-block">
+      {currentText}
+      <span
+        className={`inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
+      />
+    </span>
   )
 }

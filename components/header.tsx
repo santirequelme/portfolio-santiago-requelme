@@ -70,7 +70,6 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <LanguageToggle />
             <ThemeToggle />
 
             <Link
@@ -119,6 +118,8 @@ export function Header() {
                 <path d="M9 18c-4.51 2-5-2-7-2" />
               </svg>
             </Link>
+
+            <LanguageToggle />
 
             <a
               href="mailto:santireke37@gmail.com"
