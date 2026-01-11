@@ -51,7 +51,7 @@ export function ProjectsList() {
   return (
     <section id="projectList" className="py-24 px-4">
       <div className="mx-auto max-w-6xl">
-        <ScrollRevealSection className="text-center mb-16">
+        <ScrollRevealSection className="text-center mb-16" variant="slide-left">
           <AnimatePresence mode="wait">
             <motion.h2
               key={t("projects.title")}
@@ -80,7 +80,12 @@ export function ProjectsList() {
 
         <div className="grid gap-8 md:grid-cols-3">
           {projects.map((project, index) => (
-            <ScrollRevealSection key={`${project.title}-${index}`} delay={index * 0.15} className="h-full">
+            <ScrollRevealSection
+              key={`${project.title}-${index}`}
+              delay={index * 0.15}
+              className="h-full"
+              variant="blur-fade-up"
+            >
               <Link href={project.url} target="_blank" rel="noopener noreferrer" className="block h-full">
                 <div className="h-full flex flex-col group relative rounded-2xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity overflow-hidden cursor-pointer">
                   <div className="h-full flex flex-col relative z-10">
