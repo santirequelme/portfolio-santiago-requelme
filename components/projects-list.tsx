@@ -5,22 +5,28 @@ import Image from "next/image"
 
 const projects = [
   {
-    title: "Experiencies",
+    title: "Wedding Planner App",
     description:
-      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
-    image: "/images/screenshot-202026-01-09-20at-208.png",
+      "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
+    image: "/images/Weddings.png",
   },
   {
-    title: "Experiencies",
+    title: "Hotel Booking App",
     description:
-      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
-    image: "/images/screenshot-202026-01-09-20at-208.png",
+      "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
+    image: "/images/Booking.png",
   },
   {
-    title: "Experiencies",
+    title: "Experience App",
     description:
-      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
-    image: "/images/screenshot-202026-01-09-20at-208.png",
+      "Immersive app highlighting unique hotel experiences, entertainment, and guest activities. Resolving issues like dynamic content rendering, smooth animations across devices, and turning rich media prototypes into performant code.",
+    image: "/images/experience.png",
+  },
+  {
+    title: "Hotel Platform",
+    description:
+      "Dynamic hotel chain platform. Fixing high-impact hero animations, fast-loading multilingual sections, fully responsive layouts from design to code, improving SEO and overall performance.",
+    image: "/images/homepage.png",
   },
 ]
 
@@ -32,18 +38,18 @@ export function ProjectsList() {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
             Projects
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Built with modern tools and best practices for optimal performance
+          <p className="mt-4 text-lg text-muted-foreground mx-auto">
+          A showcase of projects, leading teams to deliver precision UI and intentional UX.
           </p>
         </ScrollRevealSection>
 
         <div className="grid gap-8 md:grid-cols-3">
           {projects.map((project, index) => (
-            <ScrollRevealSection key={`${project.title}-${index}`} delay={index * 0.15}>
-              <div className="group relative rounded-2xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity overflow-hidden">
-                <div className="relative z-10">
+            <ScrollRevealSection key={`${project.title}-${index}`} delay={index * 0.15} className="h-full">
+              <div className="h-full flex flex-col group relative rounded-2xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity overflow-hidden">
+                <div className="h-full flex flex-col relative z-10">
                   <div className="relative overflow-hidden rounded-t-2xl">
-                    <div className="relative aspect-video w-full overflow-hidden">
+                    <div className="relative aspect-4/3 w-full overflow-hidden">
                       <Image
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
@@ -54,7 +60,7 @@ export function ProjectsList() {
                     </div>
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-6 flex-grow">
                     <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                       {project.title}
                     </h3>
