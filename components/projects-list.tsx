@@ -34,6 +34,18 @@ export function ProjectsList() {
       image: "/images/homepage.png",
       url: "https://www.riu.com/en",
     },
+    {
+      title: t("projects.hubspot.title"),
+      description: t("projects.hubspot.description"),
+      image: "/images/hubspot.png",
+      url: "",
+    },
+    {
+      title: t("projects.email-campaigns.title"),
+      description: t("projects.email-campaigns.description"),
+      image: "/images/email-campaign.png",
+      url: "",
+    },
   ]
 
   return (

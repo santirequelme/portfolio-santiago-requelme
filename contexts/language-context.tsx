@@ -31,19 +31,25 @@ const translations = {
     // Projects
     "projects.title": "Projects",
     "projects.subtitle": "A showcase of projects, including leading teams to deliver precision UI and intentional UX.",
-    "projects.wedding.title": "Wedding Planner App",
+    "projects.wedding.title": "Wedding Planner",
     "projects.wedding.description":
       "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
-    "projects.booking.title": "Hotel Booking App",
+    "projects.booking.title": "Hotel Booking",
     "projects.booking.description":
       "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
-    "projects.experience.title": "Experience App",
+    "projects.experience.title": "Experiences Hotel",
     "projects.experience.description":
       "Immersive app highlighting unique hotel experiences, entertainment, and guest activities. Resolving issues like dynamic content rendering, smooth animations across devices, and turning rich media prototypes into performant code.",
     "projects.hotel.title": "Hotel Platform",
     "projects.hotel.description":
       "Dynamic hotel chain platform. Fixing high-impact hero animations, fast-loading multilingual sections, fully responsive layouts from design to code, improving SEO and overall performance.",
-
+      "projects.hubspot.title": "HubSpot Integrations",
+      "projects.hubspot.description":
+        "Spearheaded the componentization and modular construction of themes, templates, and components within the HubSpot CMS using a robust stack of HTML, CSS, JavaScript, and HubL, significantly enhancing development speed and code maintainability through high reusability.",
+        "projects.email-campaigns.title": "E-mail Campaigns",
+        "projects.email-campaigns.description":
+        "High-Performance Email Development: Developed high-conversion, responsive email campaigns from Figma prototypes, leveraging Litmus for QA to resolve cross-client rendering issues and boost engagement rates.",
+  
     // About
     "about.title": "Who am I ?",
     "about.intro":
@@ -95,7 +101,13 @@ const translations = {
     "projects.hotel.title": "Plataforma Hotelera",
     "projects.hotel.description":
       "Plataforma dinámica de cadena hotelera. Arreglando animaciones hero de alto impacto, secciones multilingües de carga rápida, layouts completamente responsive desde diseño a código, mejorando SEO y rendimiento general.",
-
+      "projects.hubspot.title": "Integraciones con Hubspot",
+      "projects.hubspot.description":
+        "Lideré la componentización y construcción modulos, plantillas y componentes dentro del CMS de HubSpot, utilizando una sólida combinación de HTML, CSS, JavaScript y HubL, mejorando significativamente la velocidad de desarrollo y la mantenibilidad del código gracias a una alta reutilización.",
+        "projects.email-campaigns.title": "Campañas de E-mail",
+        "projects.email-campaigns.description":
+        "Desarrollo plantillas de e-mail: campañas de email responsivas y de alta conversión a partir de prototipos en Figma, utilizando Litmus para control de calidad y resolver problemas de renderizado entre clientes, aumentando las tasas de engagement.",
+  
     // About
     "about.title": "¿Quién soy?",
     "about.intro":
