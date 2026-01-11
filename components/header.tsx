@@ -35,10 +35,21 @@ export function Header() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-              <span className="text-sm font-bold text-background">SR</span>
-            </div>
+          <Link href="/" className="flex items-center gap-2 group">
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{
+                duration: 0.6,
+                ease: "easeOut",
+                delay: 0.2,
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300"
+            >
+              <span className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300">
+                SR
+              </span>
+            </motion.div>
             <span className="text-xl font-semibold tracking-tight">Santiago Requelme</span>
           </Link>
 

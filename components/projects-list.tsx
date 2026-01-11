@@ -1,23 +1,26 @@
 "use client"
 
 import { ScrollRevealSection } from "./scroll-reveal-section"
+import Image from "next/image"
 
-const features = [
+const projects = [
   {
-    title: "Lightning Fast",
-    description: "Built on Next.js 16 with Turbopack, delivering blazing-fast development and production builds.",
-    icon: "⚡",
-  },
-  {
-    title: "Type Safe",
+    title: "Experiencies",
     description:
-      "Full TypeScript support out of the box. Catch errors before they happen with intelligent autocomplete.",
-    icon: "🛡️",
+      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
+    image: "/images/screenshot-202026-01-09-20at-208.png",
   },
   {
-    title: "Beautifully Minimal",
-    description: "Clean, modern design with TailwindCSS. Every component is crafted with attention to detail.",
-    icon: "✨",
+    title: "Experiencies",
+    description:
+      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
+    image: "/images/screenshot-202026-01-09-20at-208.png",
+  },
+  {
+    title: "Experiencies",
+    description:
+      "Colaboré en este proyecto con un equipo, participando en el desarrollo de interfaces modernas, con foco en UI/UX y buenas prácticas frontend.",
+    image: "/images/screenshot-202026-01-09-20at-208.png",
   },
 ]
 
@@ -35,13 +38,28 @@ export function ProjectsList() {
         </ScrollRevealSection>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {features.map((feature, index) => (
-            <ScrollRevealSection key={feature.title} delay={index * 0.15}>
-              <div className="group relative rounded-2xl border border-border bg-card p-8 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+          {projects.map((project, index) => (
+            <ScrollRevealSection key={`${project.title}-${index}`} delay={index * 0.15}>
+              <div className="group relative rounded-2xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity overflow-hidden">
                 <div className="relative z-10">
-                  <div className="mb-4 text-4xl">{feature.icon}</div>
-                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <div className="relative overflow-hidden rounded-t-2xl">
+                    <div className="relative aspect-video w-full overflow-hidden">
+                      <Image
+                        src={project.image || "/placeholder.svg"}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      {project.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed text-sm">{project.description}</p>
+                  </div>
                 </div>
               </div>
             </ScrollRevealSection>
