@@ -30,7 +30,7 @@ const translations = {
 
     // Projects
     "projects.title": "Projects",
-    "projects.subtitle": "A showcase of projects, leading teams to deliver precision UI and intentional UX.",
+    "projects.subtitle": "A showcase of projects, including leading teams to deliver precision UI and intentional UX.",
     "projects.wedding.title": "Wedding Planner App",
     "projects.wedding.description":
       "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
@@ -82,7 +82,7 @@ const translations = {
 
     // Projects
     "projects.title": "Proyectos",
-    "projects.subtitle": "Una muestra de proyectos, liderando equipos para entregar UI de precisión y UX intencional.",
+    "projects.subtitle": "Una muestra de proyectos, que incluye el liderazgo de equipos para entregar UI precisas y una mejor experiencia de usuario.",
     "projects.wedding.title": "App de Planificación de Bodas",
     "projects.wedding.description":
       "App de cadena hotelera para cotizaciones instantáneas de bodas basadas en lugar, estilo, invitados y extras. Entregué una UI intuitiva y responsive traduciendo requisitos complejos en soluciones frontend limpias y escalables.",
@@ -109,7 +109,7 @@ const translations = {
     "about.designChampion.title": "Un defensor del diseño",
     "about.designChampion.content":
       "Un defensor del usuario que asegura que las necesidades y perspectivas del usuario sean respetadas durante todo el proceso de desarrollo, desde el diseño hasta el producto final.",
-    "about.workWithMe": "¡Trabaja conmigo!",
+    "about.workWithMe": "¡Trabajemos juntos!",
 
     // Footer
     "footer.privacy": "Privacidad",
