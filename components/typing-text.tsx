@@ -1,19 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useLanguage } from "@/contexts/language-context"
-import { motion, AnimatePresence } from "framer-motion"
+
+const titles = ["Frontend engineer", "UI specialist", "Problem solver"]
 
 export function TypingText() {
-  const { t } = useLanguage()
-  const titles = [t("hero.role1"), t("hero.role2"), t("hero.role3")]
-
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentText, setCurrentText] = useState("")
   const [isDeleting, setIsDeleting] = useState(false)
   const [showCursor, setShowCursor] = useState(true)
 
   useEffect(() => {
+    // Blinking cursor effect
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev)
     }, 500)
@@ -26,15 +24,19 @@ export function TypingText() {
 
     const handleTyping = () => {
       if (!isDeleting) {
+        // Typing phase
         if (currentText.length < currentTitle.length) {
           setCurrentText(currentTitle.slice(0, currentText.length + 1))
         } else {
+          // Wait 3 seconds before deleting
           setTimeout(() => setIsDeleting(true), 3000)
         }
       } else {
+        // Deleting phase
         if (currentText.length > 0) {
           setCurrentText(currentText.slice(0, -1))
         } else {
+          // Move to next title
           setIsDeleting(false)
           setCurrentIndex((prev) => (prev + 1) % titles.length)
         }
@@ -48,20 +50,11 @@ export function TypingText() {
   }, [currentText, isDeleting, currentIndex])
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={currentText}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="inline-block"
-      >
-        {currentText}
-        <span
-          className={`inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle ${showCursor ? "opacity-100" : "opacity-0"}`}
-        />
-      </motion.span>
-    </AnimatePresence>
+    <span className="inline-block">
+      {currentText}
+      <span
+        className={`inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle ${showCursor ? "opacity-100" : "opacity-0"}`}
+      />
+    </span>
   )
 }
