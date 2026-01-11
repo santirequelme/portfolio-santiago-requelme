@@ -5,15 +5,18 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { HamburgerMenu } from "./hamburger-menu"
 import { ThemeToggle } from "./theme-toggle"
-
-const navItems = [
-  { name: "Projects", href: "#projectList" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
-]
+import { LanguageToggle } from "./language-toggle"
+import { useLanguage } from "@/contexts/language-context"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
+  const { t } = useLanguage()
+
+  const navItems = [
+    { name: t("nav.projects"), href: "#projectList" },
+    { name: t("nav.about"), href: "#about" },
+    { name: t("nav.contact"), href: "#contact" },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,9 +70,9 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
+            <LanguageToggle />
             <ThemeToggle />
 
-            {/* Social Media Icons */}
             <Link
               href="https://www.linkedin.com/in/santiago-requelme/"
               target="_blank"
@@ -117,16 +120,16 @@ export function Header() {
               </svg>
             </Link>
 
-            {/* Hire Me Button */}
             <a
               href="mailto:santireke37@gmail.com"
               className="inline-flex h-9 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-5 text-sm font-medium text-primary-foreground transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
             >
-              Hire me!
+              {t("header.hireMe")}
             </a>
           </div>
 
           <div className="md:hidden flex items-center gap-3">
+            <LanguageToggle />
             <ThemeToggle />
             <HamburgerMenu items={navItems} />
           </div>

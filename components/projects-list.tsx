@@ -2,45 +2,63 @@
 
 import { ScrollRevealSection } from "./scroll-reveal-section"
 import Image from "next/image"
-
-const projects = [
-  {
-    title: "Wedding Planner App",
-    description:
-      "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
-    image: "/images/Weddings.png",
-  },
-  {
-    title: "Hotel Booking App",
-    description:
-      "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
-    image: "/images/booking.png",
-  },
-  {
-    title: "Experience App",
-    description:
-      "Immersive app highlighting unique hotel experiences, entertainment, and guest activities. Resolving issues like dynamic content rendering, smooth animations across devices, and turning rich media prototypes into performant code.",
-    image: "/images/experience.png",
-  },
-  {
-    title: "Hotel Platform",
-    description:
-      "Dynamic hotel chain platform. Fixing high-impact hero animations, fast-loading multilingual sections, fully responsive layouts from design to code, improving SEO and overall performance.",
-    image: "/images/homepage.png",
-  },
-]
+import { useLanguage } from "@/contexts/language-context"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function ProjectsList() {
+  const { t } = useLanguage()
+
+  const projects = [
+    {
+      title: t("projects.wedding.title"),
+      description: t("projects.wedding.description"),
+      image: "/images/Weddings.png",
+    },
+    {
+      title: t("projects.booking.title"),
+      description: t("projects.booking.description"),
+      image: "/images/booking.png",
+    },
+    {
+      title: t("projects.experience.title"),
+      description: t("projects.experience.description"),
+      image: "/images/experience.png",
+    },
+    {
+      title: t("projects.hotel.title"),
+      description: t("projects.hotel.description"),
+      image: "/images/homepage.png",
+    },
+  ]
+
   return (
     <section id="projectList" className="py-24 px-4">
       <div className="mx-auto max-w-6xl">
         <ScrollRevealSection className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-            Projects
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground mx-auto">
-          A showcase of projects, leading teams to deliver precision UI and intentional UX.
-          </p>
+          <AnimatePresence mode="wait">
+            <motion.h2
+              key={t("projects.title")}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+            >
+              {t("projects.title")}
+            </motion.h2>
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={t("projects.subtitle")}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 text-lg text-muted-foreground mx-auto"
+            >
+              {t("projects.subtitle")}
+            </motion.p>
+          </AnimatePresence>
         </ScrollRevealSection>
 
         <div className="grid gap-8 md:grid-cols-3">
@@ -61,10 +79,30 @@ export function ProjectsList() {
                   </div>
 
                   <div className="p-6 flex-grow">
-                    <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">{project.description}</p>
+                    <AnimatePresence mode="wait">
+                      <motion.h3
+                        key={project.title}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-xl font-semibold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                      >
+                        {project.title}
+                      </motion.h3>
+                    </AnimatePresence>
+                    <AnimatePresence mode="wait">
+                      <motion.p
+                        key={project.description}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-muted-foreground leading-relaxed text-sm"
+                      >
+                        {project.description}
+                      </motion.p>
+                    </AnimatePresence>
                   </div>
                 </div>
               </div>
