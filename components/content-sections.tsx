@@ -27,7 +27,7 @@ export function ContentSections() {
         <ScrollRevealSection>
           <h2 className="text-3xl font-semibold pb-8">Who am I ? </h2>
           <p className="text-xl mb-4">🧑🏽‍💻 Design speaks. I code it.
-           I craft beautiful, reliable interfaces that delight users and solve problems. Pixel-perfect, fast-moving Frontend & UI Developer turning chaos into clean, elegant code from Figma designs.</p>
+            I craft beautiful, reliable interfaces that delight users and solve problems. Pixel-perfect, fast-moving Frontend & UI Developer turning chaos into clean, elegant code from Figma designs.</p>
         </ScrollRevealSection>
         {sections.map((section, index) => (
           <ScrollRevealSection key={section.title} delay={index * 0.1}>
@@ -37,14 +37,12 @@ export function ContentSections() {
             </article>
           </ScrollRevealSection>
         ))}
-        <div className="flex justify-center pt-4">
-          <a
-            href="mailto:santireke37@gmail.com"
-            className="inline-flex mx-auto h-9 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent py-6 px-12 text-sm font-medium text-primary-foreground transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
-          >
-           Work with me! 
-          </a>
-        </div>
+        <a
+          href="mailto:santireke37@gmail.com"
+          className="flex w-fit mx-auto mt-4 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent py-5 px-12 text-sm font-medium text-primary-foreground transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
+        >
+          Work with me!
+        </a>
       </div>
     </section>
   )
