@@ -63,7 +63,7 @@ const translations = {
     "about.designChampion.title": "A design champion",
     "about.designChampion.content":
       "A user advocate who ensures that user needs and perspectives are respected throughout the development process, from design to the final product.",
-    "about.coreStrength": "CORE STRENGTH",
+    "about.coreStrength": "Tech Stack",
     "about.workWithMe": "Work with me!",
 
     // Footer
@@ -123,7 +123,7 @@ const translations = {
     "about.designChampion.title": "Un defensor del usuario",
     "about.designChampion.content":
       "Un defensor del usuario que asegura que las necesidades y perspectivas del usuario sean respetadas durante todo el proceso de desarrollo, desde el diseño hasta el producto final.",
-    "about.coreStrength": "FORTALEZAS",
+    "about.coreStrength": "Tecnologías",
     "about.workWithMe": "¡Trabajemos juntos!",
 
     // Footer
