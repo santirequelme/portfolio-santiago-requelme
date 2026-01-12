@@ -25,7 +25,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-16">
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 md:pt-16">
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         <div className="flex-1 lg:w-[70%] text-center lg:text-left">
           <motion.h1

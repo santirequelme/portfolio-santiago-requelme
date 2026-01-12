@@ -31,18 +31,24 @@ const translations = {
     // Projects
     "projects.title": "Projects",
     "projects.subtitle": "A showcase of projects, including leading teams to deliver precision UI and intentional UX.",
-    "projects.wedding.title": "Wedding Planner App",
+    "projects.wedding.title": "Wedding Planner",
     "projects.wedding.description":
       "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
-    "projects.booking.title": "Hotel Booking App",
+    "projects.booking.title": "Booking Room",
     "projects.booking.description":
       "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
-    "projects.experience.title": "Experience App",
+    "projects.experience.title": "Experiences Hotel",
     "projects.experience.description":
       "Immersive app highlighting unique hotel experiences, entertainment, and guest activities. Resolving issues like dynamic content rendering, smooth animations across devices, and turning rich media prototypes into performant code.",
     "projects.hotel.title": "Hotel Platform",
     "projects.hotel.description":
       "Dynamic hotel chain platform. Fixing high-impact hero animations, fast-loading multilingual sections, fully responsive layouts from design to code, improving SEO and overall performance.",
+    "projects.hubspot.title": "HubSpot Integrations",
+    "projects.hubspot.description":
+      "Spearheaded the componentization and modular construction of themes, templates, and components within the HubSpot CMS using a robust stack of HTML, CSS, JavaScript, and HubL, significantly enhancing development speed and code maintainability through high reusability.",
+    "projects.email-campaigns.title": "E-mail Campaigns",
+    "projects.email-campaigns.description":
+      "High-Performance Email Development: Developed high-conversion, responsive email campaigns from Figma prototypes, leveraging Litmus for QA to resolve cross-client rendering issues and boost engagement rates.",
 
     // About
     "about.title": "Who am I ?",
@@ -57,6 +63,7 @@ const translations = {
     "about.designChampion.title": "A design champion",
     "about.designChampion.content":
       "A user advocate who ensures that user needs and perspectives are respected throughout the development process, from design to the final product.",
+    "about.coreStrength": "Tech Stack",
     "about.workWithMe": "Work with me!",
 
     // Footer
@@ -82,7 +89,8 @@ const translations = {
 
     // Projects
     "projects.title": "Proyectos",
-    "projects.subtitle": "Una muestra de proyectos, que incluye el liderazgo de equipos para entregar UI precisas y una mejor experiencia de usuario.",
+    "projects.subtitle":
+      "Una muestra de proyectos, que incluye el liderazgo de equipos para entregar UI precisas y una mejor experiencia de usuario.",
     "projects.wedding.title": "App de Planificación de Bodas",
     "projects.wedding.description":
       "App de cadena hotelera para cotizaciones instantáneas de bodas basadas en lugar, estilo, invitados y extras. Entregué una UI intuitiva y responsive traduciendo requisitos complejos en soluciones frontend limpias y escalables.",
@@ -95,20 +103,27 @@ const translations = {
     "projects.hotel.title": "Plataforma Hotelera",
     "projects.hotel.description":
       "Plataforma dinámica de cadena hotelera. Arreglando animaciones hero de alto impacto, secciones multilingües de carga rápida, layouts completamente responsive desde diseño a código, mejorando SEO y rendimiento general.",
+    "projects.hubspot.title": "Integraciones con Hubspot",
+    "projects.hubspot.description":
+      "Lideré la componentización y construcción modulos, plantillas y componentes dentro del CMS de HubSpot, utilizando una sólida combinación de HTML, CSS, JavaScript y HubL, mejorando significativamente la velocidad de desarrollo y la mantenibilidad del código gracias a una alta reutilización.",
+    "projects.email-campaigns.title": "Campañas de E-mail",
+    "projects.email-campaigns.description":
+      "Desarrollo plantillas de e-mail: campañas de email responsivas y de alta conversión a partir de prototipos en Figma, utilizando Litmus para control de calidad y resolver problemas de renderizado entre clientes, aumentando las tasas de engagement.",
 
     // About
-    "about.title": "¿Quién soy?",
+    "about.title": "Acerca de mí",
     "about.intro":
-      "🧑🏽‍💻 El diseño habla. Yo lo codifico. Creo interfaces hermosas y confiables que deleitan a los usuarios y resuelven problemas. Desarrollador Frontend & UI perfecto al píxel y de rápido movimiento, convirtiendo caos en código limpio y elegante desde diseños de Figma.",
+      "🧑🏽‍💻 El diseño habla. Yo lo codeo. Creo interfaces confiables que deleitan a los usuarios y resuelven problemas. Frontend & UI detallista y ágil, transformando el caos en código limpio y elegante a partir de diseños en Figma",
     "about.problemSolver.title": "Un solucionador de problemas",
     "about.problemSolver.content":
-      "Alguien que no deja cabos sueltos, probando, refinando e iterando hasta que las soluciones visuales y técnicas sean sólidas y consistentes.",
-    "about.changeMaker.title": "Un agente de cambio",
+      "Obsesión por el detalle, alguien que no deja cabos sueltos, probando, refinando e iterando hasta que las soluciones visuales, técnicas sean sólidas y consistentes.",
+    "about.changeMaker.title": "Impulsor de mejoras continuas",
     "about.changeMaker.content":
       "Capaz de traducir investigación, datos y procesos de diseño en decisiones técnicas claras, alineando objetivos de negocio con implementaciones frontend precisas y mantenibles.",
-    "about.designChampion.title": "Un defensor del diseño",
+    "about.designChampion.title": "Un defensor del usuario",
     "about.designChampion.content":
       "Un defensor del usuario que asegura que las necesidades y perspectivas del usuario sean respetadas durante todo el proceso de desarrollo, desde el diseño hasta el producto final.",
+    "about.coreStrength": "Tecnologías",
     "about.workWithMe": "¡Trabajemos juntos!",
 
     // Footer

@@ -53,7 +53,7 @@ export function Header() {
                 SR
               </span>
             </motion.div>
-            <span className="text-xl font-semibold tracking-tight">Santiago Requelme</span>
+            <span className="text-sm md:text-xl font-semibold tracking-tight">Santiago Requelme</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
