@@ -3,6 +3,7 @@
 import { ScrollRevealSection } from "./scroll-reveal-section"
 import { useLanguage } from "@/contexts/language-context"
 import { motion, AnimatePresence } from "framer-motion"
+import { Code2, Palette, Zap, Users, GitPullRequest, Lightbulb, Layout, Smartphone, Layers } from "lucide-react"
 
 export function ContentSections() {
   const { t } = useLanguage()
@@ -20,6 +21,26 @@ export function ContentSections() {
       title: t("about.designChampion.title"),
       content: t("about.designChampion.content"),
     },
+  ]
+
+  const skills = [
+    { name: "Angular", icon: Code2 },
+    { name: "React", icon: Code2 },
+    { name: "Next.js", icon: Code2 },
+    { name: "TypeScript", icon: Code2 },
+    { name: "SCSS/BEM", icon: Palette },
+    { name: "Tailwind", icon: Palette },
+    { name: "Performance", icon: Zap },
+    { name: "Accessibility", icon: Users },
+    { name: "Design Systems", icon: Layers },
+    { name: "Component Architecture", icon: Layout },
+    { name: "Figma-to-Code Workflow", icon: Smartphone },
+    { name: "AI Automation", icon: Lightbulb },
+    { name: "Leadership", icon: Users },
+    { name: "Mentorship", icon: Users },
+    { name: "Cross-team Collaboration", icon: Users },
+    { name: "PR Reviews", icon: GitPullRequest },
+    { name: "UX Partnerships", icon: Users },
   ]
 
   return (
@@ -81,6 +102,42 @@ export function ContentSections() {
             </article>
           </ScrollRevealSection>
         ))}
+
+        <ScrollRevealSection delay={0.3}>
+          <div className="space-y-8">
+            <AnimatePresence mode="wait">
+              <motion.h3
+                key={t("about.coreStrength")}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-2xl font-semibold"
+              >
+                {t("about.coreStrength")}
+              </motion.h3>
+            </AnimatePresence>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {skills.map((skill, index) => {
+                const Icon = skill.icon
+                return (
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+                  >
+                    <Icon className="w-5 h-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">{skill.name}</span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </ScrollRevealSection>
+
         <AnimatePresence mode="wait">
           <motion.a
             key={t("about.workWithMe")}

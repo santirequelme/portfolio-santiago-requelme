@@ -40,20 +40,20 @@ To run this project locally, follow these steps:
 ### Installation
 
 1. **Clone the repository**
-   ```bash
+   \`\`\`bash
    git clone [https://github.com/santirequelme/portfolio-santiago-requelme.git](https://github.com/santirequelme/portfolio-santiago-requelme.git)
-   ```
+   \`\`\`
 
 2. **Install dependencies**
-   ```bash
+   \`\`\`bash
    cd portfolio-santiago-requelme
    pnpm install
-   ```
+   \`\`\`
 
 3. **Run the development server**
-   ```bash
+   \`\`\`bash
    pnpm dev
-   ```
+   \`\`\`
 
    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
