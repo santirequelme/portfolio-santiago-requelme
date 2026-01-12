@@ -29,6 +29,7 @@ export function ContentSections() {
     { name: "Next.js", icon: Code2 },
     { name: "TypeScript", icon: Code2 },
     { name: "SCSS/BEM", icon: Palette },
+    { name: "Framer", icon: Palette },
     { name: "Tailwind", icon: Palette },
     { name: "Performance", icon: Zap },
     { name: "Accessibility", icon: Users },
@@ -118,7 +119,7 @@ export function ContentSections() {
               </motion.h3>
             </AnimatePresence>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
               {skills.map((skill, index) => {
                 const Icon = skill.icon
                 return (
@@ -127,7 +128,7 @@ export function ContentSections() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg transition-colors"
                   >
                     <Icon className="w-5 h-5 text-primary flex-shrink-0" />
                     <span className="text-foreground">{skill.name}</span>
