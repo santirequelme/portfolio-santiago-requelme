@@ -10,8 +10,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Santiago Requelme - Portfolio",
-  description: "A clean, minimal Next.js 16 project with TailwindCSS and Framer Motion animations",
-  generator: "v0.app",
+  description: "Modern and minimal portfolio by Santiago Requelme — built with Next.js 16, TailwindCSS, and Framer Motion.",
   icons: {
     icon: [
       {

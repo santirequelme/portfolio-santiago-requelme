@@ -53,7 +53,7 @@ export function ContentSections() {
         </ScrollRevealSection>
         {sections.map((section, index) => (
           <ScrollRevealSection key={section.title} delay={index * 0.1}>
-            <article className="relative pl-8 border-l-2 border-border">
+            <article className="relative pl-8 border-l-2 border-primary/30 ">
               <AnimatePresence mode="wait">
                 <motion.h3
                   key={section.title}

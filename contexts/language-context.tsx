@@ -34,7 +34,7 @@ const translations = {
     "projects.wedding.title": "Wedding Planner",
     "projects.wedding.description":
       "Hotel chain app for instant wedding quotes based on venue, style, guests, and extras. Delivered an intuitive, responsive UI by translating complex requirements into clean, scalable frontend solutions.",
-    "projects.booking.title": "Hotel Booking",
+    "projects.booking.title": "Booking Room",
     "projects.booking.description":
       "Personalized getaway booking app with real-time pricing. Mastered complex challenges: dynamic pricing layouts, multi-device responsiveness, and seamless state management from prototypes to production.",
     "projects.experience.title": "Experiences Hotel",
@@ -109,16 +109,16 @@ const translations = {
         "Desarrollo plantillas de e-mail: campañas de email responsivas y de alta conversión a partir de prototipos en Figma, utilizando Litmus para control de calidad y resolver problemas de renderizado entre clientes, aumentando las tasas de engagement.",
   
     // About
-    "about.title": "¿Quién soy?",
+    "about.title": "Acerca de mí",
     "about.intro":
-      "🧑🏽‍💻 El diseño habla. Yo lo codifico. Creo interfaces hermosas y confiables que deleitan a los usuarios y resuelven problemas. Desarrollador Frontend & UI perfecto al píxel y de rápido movimiento, convirtiendo caos en código limpio y elegante desde diseños de Figma.",
+      "🧑🏽‍💻 El diseño habla. Yo lo codeo. Creo interfaces confiables que deleitan a los usuarios y resuelven problemas. Frontend & UI detallista y ágil, transformando el caos en código limpio y elegante a partir de diseños en Figma",
     "about.problemSolver.title": "Un solucionador de problemas",
     "about.problemSolver.content":
-      "Alguien que no deja cabos sueltos, probando, refinando e iterando hasta que las soluciones visuales y técnicas sean sólidas y consistentes.",
-    "about.changeMaker.title": "Un agente de cambio",
+      "Obsesión por el detalle, alguien que no deja cabos sueltos, probando, refinando e iterando hasta que las soluciones visuales, técnicas sean sólidas y consistentes.",
+    "about.changeMaker.title": "Impulsor de mejoras continuas",
     "about.changeMaker.content":
       "Capaz de traducir investigación, datos y procesos de diseño en decisiones técnicas claras, alineando objetivos de negocio con implementaciones frontend precisas y mantenibles.",
-    "about.designChampion.title": "Un defensor del diseño",
+    "about.designChampion.title": "Un defensor del usuario",
     "about.designChampion.content":
       "Un defensor del usuario que asegura que las necesidades y perspectivas del usuario sean respetadas durante todo el proceso de desarrollo, desde el diseño hasta el producto final.",
     "about.workWithMe": "¡Trabajemos juntos!",

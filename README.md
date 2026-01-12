@@ -1,30 +1,64 @@
-# Next.js 16 components
+# Santiago Requelme – Portfolio
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
-
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/santirequelmes-projects/v0-next-js-16-components)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/bQUhHFO8aZx)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+Welcome to my personal portfolio — a place where design, code, and motion come together to tell my story as a UI/Frontend Engineer. This project reflects my passion for building intuitive user interfaces and creating experiences that feel both functional and artistic.
 
-## Deployment
+Built with **Next.js 16**, **TailwindCSS**, and **Framer Motion**, it blends performance, minimalism, and interactivity in a cohesive way.
 
-Your project is live at:
+## 🚀 Live Demo
 
-**[https://vercel.com/santirequelmes-projects/v0-next-js-16-components](https://vercel.com/santirequelmes-projects/v0-next-js-16-components)**
+View the live portfolio:
+👉 **[https://santiago-requelme.vercel.app/](https://santiago-requelme.vercel.app/)**
 
-## Build your app
+---
 
-Continue building your app on:
+## ✨ Features
 
-**[https://v0.app/chat/bQUhHFO8aZx](https://v0.app/chat/bQUhHFO8aZx)**
+- ⚡ **Next.js 16:** Leveraging Server Actions, App Router, and partial prerendering.
+- 🎨 **TailwindCSS:** A utility-first CSS framework for rapid UI development.
+- 🌀 **Framer Motion:** Complex animations, page transitions, and gesture controls.
+- 📱 **Fully Responsive:** Mobile-first approach ensuring perfect rendering on all devices.
+- 🌑 **Dark/Light Mode:** System-aware theme switching.
+- 🌐 **Internationalization:** Bilingual support (English & Spanish) with seamless switching.
+- 📈 **SEO Optimized:** Meta tags, semantic HTML, and Open Graph configuration.
 
-## How It Works
+## 🛠️ Getting Started
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+To run this project locally, follow these steps:
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- pnpm
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone [https://github.com/santirequelme/portfolio-santiago-requelme.git](https://github.com/santirequelme/portfolio-santiago-requelme.git)
+   ```
+
+2. **Install dependencies**
+   ```bash
+   cd portfolio-santiago-requelme
+   pnpm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   pnpm dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+---
+
+## 📫 Contact
+
+Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/santiago-requelme/)
