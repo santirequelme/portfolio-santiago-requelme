@@ -8,6 +8,9 @@ import { useState } from "react"
 import Image from "next/image"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
+import { Sparkles } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
@@ -94,6 +97,25 @@ export function Hero() {
                   </Link>
                 </motion.div>
               </AnimatePresence>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Link href="/pixel-audit">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full font-semibold gap-2 relative bg-transparent"
+                >
+                  <Sparkles className="size-4" />
+                  Try Pixel Audit
+                  <Badge
+                    variant="secondary"
+                    className="ml-1 bg-primary/10 text-primary border-primary/20 text-[10px] px-1.5 py-0"
+                  >
+                    Beta
+                  </Badge>
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
