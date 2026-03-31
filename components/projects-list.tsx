@@ -44,7 +44,7 @@ export function ProjectsList() {
       title: t("projects.supply-chain-dashboard.title"),
       description: t("projects.supply-chain-dashboard.description"),
       image: "/images/dashboard.png",
-      url: "https://rocketx.group/",
+      url: "https://suply-chain-dashboard.vercel.app/",
     },
   ]
 
