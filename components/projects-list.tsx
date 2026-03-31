@@ -41,9 +41,9 @@ export function ProjectsList() {
       url: "https://rocketx.group/",
     },
     {
-      title: t("projects.email-campaigns.title"),
-      description: t("projects.email-campaigns.description"),
-      image: "/images/email-campaign.png",
+      title: t("projects.supply-chain-dashboard.title"),
+      description: t("projects.supply-chain-dashboard.description"),
+      image: "/images/dashboard.png",
       url: "https://rocketx.group/",
     },
   ]
