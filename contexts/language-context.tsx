@@ -46,9 +46,9 @@ const translations = {
     "projects.hubspot.title": "HubSpot Integrations",
     "projects.hubspot.description":
       "Spearheaded the componentization and modular construction of themes, templates, and components within the HubSpot CMS using a robust stack of HTML, CSS, JavaScript, and HubL, significantly enhancing development speed and code maintainability through high reusability.",
-    "projects.email-campaigns.title": "E-mail Campaigns",
-    "projects.email-campaigns.description":
-      "High-Performance Email Development: Developed high-conversion, responsive email campaigns from Figma prototypes, leveraging Litmus for QA to resolve cross-client rendering issues and boost engagement rates.",
+    "projects.supply-chain-dashboard.title": "Supply Chain Dashboard",
+    "projects.supply-chain-dashboard.description":
+      "Logistics dashboard with a custom Design System. Features KPI analytics, interactive maps, supplier/product management, and advanced global filters with dark mode and CSV export.",
 
     // About
     "about.title": "Who am I ?",
@@ -106,9 +106,9 @@ const translations = {
     "projects.hubspot.title": "Integraciones con Hubspot",
     "projects.hubspot.description":
       "Lideré la componentización y construcción modulos, plantillas y componentes dentro del CMS de HubSpot, utilizando una sólida combinación de HTML, CSS, JavaScript y HubL, mejorando significativamente la velocidad de desarrollo y la mantenibilidad del código gracias a una alta reutilización.",
-    "projects.email-campaigns.title": "Campañas de E-mail",
-    "projects.email-campaigns.description":
-      "Desarrollo plantillas de e-mail: campañas de email responsivas y de alta conversión a partir de prototipos en Figma, utilizando Litmus para control de calidad y resolver problemas de renderizado entre clientes, aumentando las tasas de engagement.",
+    "projects.supply-chain-dashboard.title": "Supply Chain Dashboard",
+    "projects.supply-chain-dashboard.description":
+      "Dashboard logístico con Design System propio. Ofrece analytics de KPIs, mapas interactivos, gestión de proveedores/productos y filtros globales avanzados con modo oscuro y exportación CSV.",
 
     // About
     "about.title": "Acerca de mí",
