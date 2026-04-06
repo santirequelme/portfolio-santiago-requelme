@@ -38,11 +38,11 @@ export function HamburgerMenu({ items }: HamburgerMenuProps) {
   const menuVariants = {
     closed: {
       x: "100%",
-      transition: { type: "spring", stiffness: 400, damping: 40 },
+      transition: { type: "spring" as const, stiffness: 400, damping: 40 },
     },
     open: {
       x: 0,
-      transition: { type: "spring", stiffness: 400, damping: 40 },
+      transition: { type: "spring" as const, stiffness: 400, damping: 40 },
     },
   }
 

@@ -24,15 +24,64 @@ export function Hero() {
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 80,
+        damping: 20,
+      },
+    },
+  }
+
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 md:pt-16">
-      <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-        <div className="flex-1 lg:w-[70%] text-center lg:text-left">
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16 overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Main radial gradient blob */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-br from-primary/8 via-accent/5 to-primary/5 rounded-full blur-3xl pointer-events-none"
+        />
+
+        {/* Secondary accent glow */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, delay: 0.2 }}
+          className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-accent/6 via-transparent to-primary/4 rounded-full blur-3xl pointer-events-none"
+        />
+      </div>
+
+      <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
+        {/* Left side: Text content */}
+        <motion.div
+          className="flex-1 lg:w-[70%] text-center lg:text-left z-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Heading + Subtitle inside h1 — same display size, contrasted by color */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-balance"
+            variants={itemVariants}
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10"
           >
             <TypingText />
             <AnimatePresence mode="wait">
@@ -41,40 +90,37 @@ export function Hero() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="text-muted block"
+                transition={{ duration: 0.4 }}
+                className="block text-muted text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2"
               >
                 {t("hero.subtitle")}
               </motion.span>
             </AnimatePresence>
           </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+          {/* Description with language animation */}
+          <motion.div variants={itemVariants}>
             <AnimatePresence mode="wait">
               <motion.p
                 key={t("hero.description")}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed text-pretty lg:mx-0 mx-auto"
+                transition={{ duration: 0.4 }}
+                className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-pretty mb-10 max-w-xl lg:mx-0 mx-auto"
               >
                 {t("hero.description")}
               </motion.p>
             </AnimatePresence>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4"
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+          {/* CTA Button with glass effect */}
+          <motion.div variants={itemVariants}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block"
+            >
               <AnimatePresence mode="wait">
                 <motion.div
                   key={t("hero.viewProjects")}
@@ -86,47 +132,110 @@ export function Hero() {
                   <Link
                     href="#projectList"
                     onClick={handleScrollToProjects}
-                    className="px-8 py-3 bg-[#af52de]/10 border border-[#af52de]/50 text-[#af52de] font-semibold rounded-full
-               hover:bg-[#af52de] hover:text-white hover:shadow-[0_0_20px_rgba(175,82,222,0.4)] 
-               transition-all duration-300"
+                    className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full
+                      bg-primary/10 backdrop-blur-xl border border-primary/40
+                      text-primary transition-all duration-300 ease-out
+                      hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(164,88,255,0.4)]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2
+                      focus-visible:ring-offset-background active:scale-95"
                   >
                     {t("hero.viewProjects")}
+                    <svg
+                      className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
                   </Link>
                 </motion.div>
               </AnimatePresence>
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
 
+        {/* Right side: Profile image with spatial treatment */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="lg:w-[30%] w-full max-w-md"
+          className="lg:w-[30%] w-full max-w-sm"
+          variants={itemVariants}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="relative aspect-square w-full overflow-hidden rounded-3xl ring-1 ring-border hover:ring-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/20">
+          <div className="relative">
+            {/* Glow backdrop behind image */}
             <motion.div
-              animate={{ opacity: isHovered ? 0 : 1 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0"
+              animate={{
+                opacity: isHovered ? 1 : 0.7,
+                scale: isHovered ? 1.1 : 1,
+              }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 blur-2xl -z-10"
+            />
+
+            {/* Image container with ring and hover glow */}
+            <div
+              className="relative aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-primary/30
+                transition-[box-shadow,ring-color] duration-150 ease-out
+                hover:ring-primary/60 hover:shadow-[0_0_40px_rgba(164,88,255,0.3)]"
             >
-              <Image src="/images/foto1.png" alt="Profile" fill className="object-cover" priority />
-            </motion.div>
+              {/* Primary image */}
+              <motion.div
+                animate={{ opacity: isHovered ? 0 : 1 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src="/images/foto1.png"
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </motion.div>
+
+              {/* Hover image — lazy loaded, only needed on interaction */}
+              <motion.div
+                animate={{ opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src="/images/foto2.png"
+                  alt="Profile alternate"
+                  fill
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </motion.div>
+
+              {/* Subtle overlay on hover for cinematic effect */}
+              <motion.div
+                animate={{
+                  opacity: isHovered ? 0.15 : 0,
+                }}
+                transition={{ duration: 0.18 }}
+                className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"
+              />
+            </div>
+
+            {/* Additional accent ring that pulses on hover */}
             <motion.div
-              animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0"
-            >
-              <Image src="/images/foto2.png" alt="Profile hover" fill className="object-cover" />
-            </motion.div>
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                scale: isHovered ? 1 : 0.97,
+              }}
+              transition={{ duration: 0.15 }}
+              className="absolute -inset-2 rounded-2xl ring-2 ring-accent/40 pointer-events-none"
+            />
           </div>
         </motion.div>
-      </div>
-
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 rounded-full blur-3xl" />
       </div>
     </section>
   )

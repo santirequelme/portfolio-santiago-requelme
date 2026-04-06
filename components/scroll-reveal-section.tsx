@@ -1,12 +1,12 @@
 "use client"
 
-import type React from "react"
-import { useRef } from "react"
+import { useRef, type ReactNode } from "react"
 import { motion, useInView } from "framer-motion"
 
 interface ScrollRevealSectionProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
+  delay?: number
 }
 
 const variants = {
@@ -25,6 +25,7 @@ const variants = {
 export function ScrollRevealSection({
   children,
   className = "",
+  delay = 0,
 }: ScrollRevealSectionProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(ref, {
@@ -43,6 +44,7 @@ export function ScrollRevealSection({
         stiffness: 90,
         damping: 20,
         mass: 0.6,
+        delay,
       }}
       className={className}
     >
