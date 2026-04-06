@@ -8,45 +8,79 @@ import { LanguageToggle } from "./language-toggle"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 
-// Extracted so that hover state changes don't re-render the entire Header
-function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) {
-  const [activeNavItem, setActiveNavItem] = useState(0)
+// Logo aislado para que el estado de click no re-renderice todo el Header
+function LogoButton() {
+  const [rotation, setRotation] = useState(0)
+  const [rippling, setRippling] = useState(false)
+
+  const handleClick = () => {
+    setRotation(r => r + 360)
+    setRippling(true)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    setTimeout(() => setRippling(false), 700)
+  }
 
   return (
-    <nav className="flex items-center gap-1 flex-shrink-0">
-      {navItems.map((item, index) => (
-        <motion.div key={item.href} layout="position" className="relative"
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    <button onClick={handleClick} className="flex items-center gap-2 group flex-shrink-0 focus:outline-none">
+      <div className="relative">
+        {/* Ripple rings — shockwave on click */}
+        {rippling && [0, 1, 2].map(i => (
+          <motion.div
+            key={i}
+            initial={{ scale: 1, opacity: 0.7 }}
+            animate={{ scale: 3.2, opacity: 0 }}
+            transition={{ duration: 0.55, delay: i * 0.1, ease: "easeOut" }}
+            className="absolute inset-0 rounded-lg border border-primary/50 pointer-events-none"
+          />
+        ))}
+
+        {/* Logo box */}
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: rotation }}
+          transition={{ type: "spring", stiffness: 180, damping: 12 }}
+          className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-shadow duration-150 cursor-pointer"
         >
+          <span className="text-sm font-bold text-primary-foreground select-none">SR</span>
+        </motion.div>
+      </div>
+    </button>
+  )
+}
+
+// Extracted so that hover state changes don't re-render the entire Header
+function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) {
+  const [activeNavItem, setActiveNavItem] = useState(-1)
+
+  return (
+    <nav
+      className="flex items-center gap-1 flex-shrink-0"
+      onMouseLeave={() => setActiveNavItem(-1)}
+    >
+      {navItems.map((item, index) => (
+        <div key={item.href} className="relative">
           <Link
             href={item.href}
             onMouseEnter={() => setActiveNavItem(index)}
             className="relative flex px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground z-10"
           >
-            <motion.span layout="size" transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-              {item.name}
-            </motion.span>
+            {item.name}
           </Link>
 
           <AnimatePresence>
             {activeNavItem === index && (
               <motion.div
-                layoutId="navIndicator"
+                key="navIndicator"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                transition={{ duration: 0.15 }}
                 className="absolute inset-0 rounded-lg bg-foreground/5 -z-10"
               />
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
       ))}
-
-      <div
-        onMouseLeave={() => setActiveNavItem(-1)}
-        className="absolute inset-0 -z-20"
-      />
     </nav>
   )
 }
@@ -97,24 +131,7 @@ export function Header() {
         >
           <div className="flex items-center justify-between px-6 py-3 gap-8">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                whileTap={{ scale: [1, 0.8, 1.15, 0.95, 1] }}
-                transition={{ duration: 0.3 }}
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300 cursor-pointer"
-              >
-                <motion.span 
-                  className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300"
-                  whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-                  transition={{ duration: 0.4 }}
-                >
-                  SR
-                </motion.span>
-              </motion.div>
-            </Link>
+            <LogoButton />
 
             {/* Nav Items with Hover Indicator */}
             <NavItems navItems={navItems} />
@@ -175,7 +192,9 @@ export function Header() {
 
               {/* Hire CTA Button */}
               <a
-                href="mailto:santireke37@gmail.com"
+                href="https://www.linkedin.com/in/santiago-requelme/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-9 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 relative overflow-hidden group"
               >
                 {/* Glow effect on hover */}
@@ -359,7 +378,9 @@ export function Header() {
                   className="mb-8"
                 >
                   <a
-                    href="mailto:santireke37@gmail.com"
+                    href="https://www.linkedin.com/in/santiago-requelme/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
                     className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 w-full text-center justify-center group relative overflow-hidden"
                   >

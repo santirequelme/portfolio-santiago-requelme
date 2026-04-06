@@ -176,7 +176,9 @@ export function HamburgerMenu({ items }: HamburgerMenuProps) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      href="mailto:santireke37@gmail.com"
+                      href="https://www.linkedin.com/in/santiago-requelme/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={toggleMenu}
                       className="w-full rounded-full bg-gradient-to-r from-primary to-accent py-3 text-center text-sm font-medium text-primary-foreground transition-all hover:opacity-90 hover:shadow-lg hover:shadow-primary/30"
                     >

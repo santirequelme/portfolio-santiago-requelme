@@ -24,22 +24,6 @@ export function Footer() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Center: Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="hidden sm:flex"
-        >
-          <Link
-            href="/"
-            className="w-8 h-8 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
-            aria-label="Home"
-          >
-            <span className="text-xs font-bold text-foreground">SR</span>
-          </Link>
-        </motion.div>
-
         {/* Right: Social Icons */}
         <div className="flex items-center gap-4">
           <a
