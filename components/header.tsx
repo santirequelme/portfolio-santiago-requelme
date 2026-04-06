@@ -15,13 +15,17 @@ function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) 
   return (
     <nav className="flex items-center gap-1 flex-shrink-0">
       {navItems.map((item, index) => (
-        <div key={item.name} className="relative">
+        <motion.div key={item.href} layout="position" className="relative"
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
           <Link
             href={item.href}
             onMouseEnter={() => setActiveNavItem(index)}
-            className="relative px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground z-10"
+            className="relative flex px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground z-10"
           >
-            {item.name}
+            <motion.span layout="size" transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+              {item.name}
+            </motion.span>
           </Link>
 
           <AnimatePresence>
@@ -36,7 +40,7 @@ function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) 
               />
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       ))}
 
       <div
@@ -78,13 +82,14 @@ export function Header() {
         className="hidden md:block fixed top-6 left-1/2 z-50 -translate-x-1/2 pointer-events-none"
       >
         <motion.div
+          layout
           animate={{
             scale: scrolled ? 0.92 : 1,
             y: scrolled ? 8 : 0,
           }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className={cn(
-            "pointer-events-auto rounded-full border backdrop-blur-xl transition-all duration-300",
+            "pointer-events-auto rounded-full border backdrop-blur-xl",
             scrolled
               ? "bg-background/80 border-border/60 shadow-xl shadow-primary/10"
               : "bg-background/60 border-border/50 shadow-lg shadow-primary/5"
@@ -180,99 +185,66 @@ export function Header() {
         </motion.div>
       </motion.header>
 
-      {/* Mobile Bottom Action Bar + Hamburger */}
+      {/* Mobile Navigation - Top Fixed */}
       <motion.header
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border/50 backdrop-blur-xl bg-background/60"
+        className="md:hidden fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/60"
       >
-        <div className="flex items-center justify-between px-4 py-4">
-          {/* Left Actions */}
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{
+                duration: 0.6,
+                ease: "easeOut",
+                delay: 0.2,
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300"
+            >
+              <span className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300">
+                SR
+              </span>
+            </motion.div>
+          </Link>
+
+          <div className="flex items-center gap-3">
             <ThemeToggle />
             <LanguageToggle />
-          </div>
 
-          {/* Center: Social Icons */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="https://www.linkedin.com/in/santiago-requelme/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
-              aria-label="LinkedIn Profile"
+            {/* Hamburger Menu — stepped lines icon */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="flex flex-col gap-[5px] items-start justify-center w-6 h-6"
+              aria-label="Menu"
+              aria-expanded={mobileMenuOpen}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                <rect width="4" height="12" x="2" y="9" />
-                <circle cx="4" cy="4" r="2" />
-              </svg>
-            </Link>
-
-            <Link
-              href="https://github.com/santirequelme/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
-              aria-label="GitHub Profile"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                <path d="M9 18c-4.51 2-5-2-7-2" />
-              </svg>
-            </Link>
+              {/* Line 1: full width */}
+              <motion.span
+                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 7 : 0, width: mobileMenuOpen ? 20 : 20 }}
+                transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                className="h-[2px] bg-foreground rounded-full"
+                style={{ width: 20 }}
+              />
+              {/* Line 2: medium — slides out on open */}
+              <motion.span
+                animate={{ opacity: mobileMenuOpen ? 0 : 1, x: mobileMenuOpen ? 8 : 0 }}
+                transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                className="h-[2px] bg-foreground rounded-full"
+                style={{ width: 14 }}
+              />
+              {/* Line 3: short — grows to full and crosses on open */}
+              <motion.span
+                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -7 : 0, width: mobileMenuOpen ? 20 : 8 }}
+                transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                className="h-[2px] bg-foreground rounded-full"
+                style={{ width: 8 }}
+              />
+            </button>
           </div>
-
-          {/* Right: Hamburger Menu */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex flex-col gap-1.5 w-8 h-8 items-center justify-center relative group"
-            aria-label="Menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            <motion.span
-              animate={{
-                rotate: mobileMenuOpen ? 45 : 0,
-                y: mobileMenuOpen ? 8 : 0,
-              }}
-              className="w-5 h-0.5 bg-foreground rounded-full"
-            />
-            <motion.span
-              animate={{
-                opacity: mobileMenuOpen ? 0 : 1,
-                scale: mobileMenuOpen ? 0.5 : 1,
-              }}
-              className="w-5 h-0.5 bg-foreground rounded-full"
-            />
-            <motion.span
-              animate={{
-                rotate: mobileMenuOpen ? -45 : 0,
-                y: mobileMenuOpen ? -8 : 0,
-              }}
-              className="w-5 h-0.5 bg-foreground rounded-full"
-            />
-          </button>
         </div>
       </motion.header>
 
@@ -334,12 +306,52 @@ export function Header() {
                   ))}
                 </nav>
 
+                {/* Social Icons */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.3, delay: 0.3 }}
+                  className="flex items-center gap-5 mb-10"
+                >
+                  <Link
+                    href="https://www.linkedin.com/in/santiago-requelme/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-150"
+                    aria-label="LinkedIn"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect width="4" height="12" x="2" y="9" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    <span className="text-sm font-medium">LinkedIn</span>
+                  </Link>
+
+                  <Link
+                    href="https://github.com/santirequelme/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-150"
+                    aria-label="GitHub"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                      <path d="M9 18c-4.51 2-5-2-7-2" />
+                    </svg>
+                    <span className="text-sm font-medium">GitHub</span>
+                  </Link>
+                </motion.div>
+
                 {/* CTA Button */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3, delay: 0.3 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
                   className="mb-8"
                 >
                   <a
@@ -357,7 +369,7 @@ export function Header() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
                   className="text-center text-sm text-muted-foreground border-t border-border/50 pt-8"
                 >
                   <p>Santiago Requelme - Full Stack Developer</p>

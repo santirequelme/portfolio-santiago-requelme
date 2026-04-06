@@ -75,13 +75,7 @@ export function ProjectsList() {
   }
 
   return (
-    <section ref={sectionRef} id="projectList" className="relative py-32 px-4 overflow-hidden">
-      {/* Ambient background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-96 h-96 rounded-full bg-violet-500/10 blur-3xl" />
-        <div className="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-blue-500/5 blur-3xl" />
-      </div>
-
+    <section ref={sectionRef} id="projectList" className="relative py-32 px-4">
       <div className="mx-auto max-w-7xl">
         {/* Section Header */}
         <div className="text-center mb-20">

@@ -50,26 +50,7 @@ export function Hero() {
 
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16 overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* Main radial gradient blob */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-br from-primary/8 via-accent/5 to-primary/5 rounded-full blur-3xl pointer-events-none"
-        />
-
-        {/* Secondary accent glow */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.2 }}
-          className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-accent/6 via-transparent to-primary/4 rounded-full blur-3xl pointer-events-none"
-        />
-      </div>
-
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16">
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
         {/* Left side: Text content */}
         <motion.div
@@ -225,15 +206,6 @@ export function Hero() {
               />
             </div>
 
-            {/* Additional accent ring that pulses on hover */}
-            <motion.div
-              animate={{
-                opacity: isHovered ? 1 : 0,
-                scale: isHovered ? 1 : 0.97,
-              }}
-              transition={{ duration: 0.15 }}
-              className="absolute -inset-2 rounded-2xl ring-2 ring-accent/40 pointer-events-none"
-            />
           </div>
         </motion.div>
       </div>
