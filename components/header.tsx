@@ -101,16 +101,18 @@ export function Header() {
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.2,
-                }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300"
+                whileTap={{ scale: [1, 0.8, 1.15, 0.95, 1] }}
+                transition={{ duration: 0.3 }}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300 cursor-pointer"
               >
-                <span className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300">
+                <motion.span 
+                  className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300"
+                  whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+                  transition={{ duration: 0.4 }}
+                >
                   SR
-                </span>
+                </motion.span>
               </motion.div>
             </Link>
 
@@ -198,16 +200,18 @@ export function Header() {
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
-              transition={{
-                duration: 0.6,
-                ease: "easeOut",
-                delay: 0.2,
-              }}
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300"
+              whileTap={{ scale: [1, 0.8, 1.15, 0.95, 1] }}
+              transition={{ duration: 0.3 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300 cursor-pointer"
             >
-              <span className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300">
+              <motion.span 
+                className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300"
+                whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+                transition={{ duration: 0.4 }}
+              >
                 SR
-              </span>
+              </motion.span>
             </motion.div>
           </Link>
 

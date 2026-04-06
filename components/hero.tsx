@@ -4,7 +4,7 @@ import type React from "react"
 
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
@@ -12,6 +12,12 @@ import { useLanguage } from "@/contexts/language-context"
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
   const { t } = useLanguage()
+
+  useEffect(() => {
+    setIsHovered(true)
+    const timer = setTimeout(() => setIsHovered(false), 3000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleScrollToProjects = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
