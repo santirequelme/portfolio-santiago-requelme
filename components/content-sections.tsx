@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import React, { useRef } from "react"
 import { motion, useInView, AnimatePresence } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
 

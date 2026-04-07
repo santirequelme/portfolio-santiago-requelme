@@ -224,7 +224,7 @@ export function Header() {
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300 cursor-pointer"
             >
-              <motion.span 
+              <motion.span
                 className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300"
                 whileHover={{ rotate: [0, -10, 10, -10, 0] }}
                 transition={{ duration: 0.4 }}
@@ -382,7 +382,7 @@ export function Header() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 w-full text-center justify-center group relative overflow-hidden"
+                    className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 w-full group relative overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg" />
                     <span className="relative">{t("header.hireMe")}</span>
@@ -397,8 +397,7 @@ export function Header() {
                   transition={{ duration: 0.3, delay: 0.5 }}
                   className="text-center text-sm text-muted-foreground border-t border-border/50 pt-8"
                 >
-                  <p>Santiago Requelme - Full Stack Developer</p>
-                  <p className="mt-2">Creating exceptional digital experiences since 2020</p>
+                  <p>Frontend Engineer - UI Specialist</p>
                 </motion.div>
               </div>
             </motion.div>

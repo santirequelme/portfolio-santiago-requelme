@@ -19,7 +19,7 @@ export function CursorEffect() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
-      if (!isVisible) setIsVisible(true)
+      setIsVisible(true)
     }
 
     const handleMouseLeave = () => {
@@ -33,7 +33,7 @@ export function CursorEffect() {
       window.removeEventListener("mousemove", handleMouseMove)
       document.body.removeEventListener("mouseleave", handleMouseLeave)
     }
-  }, [isVisible])
+  }, [])
 
   useEffect(() => {
     const colors = ["bg-orange-500/20", "bg-red-500/20", "bg-pink-500/20", "bg-fuchsia-500/20", "bg-magenta-500/20"]
