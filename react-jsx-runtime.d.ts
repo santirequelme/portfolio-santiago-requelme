@@ -1,5 +1,3 @@
-declare module "react/jsx-runtime" {
-  export const jsx: any
-  export const jsxs: any
-  export const Fragment: any
-}
+// This file intentionally left minimal.
+// The proper JSX types come from @types/react/jsx-runtime.d.ts
+export {}

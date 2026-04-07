@@ -1,3 +1,4 @@
+// JSX type augmentations
 declare global {
   namespace JSX {
     interface IntrinsicElements {

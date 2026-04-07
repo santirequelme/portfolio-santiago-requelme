@@ -12,7 +12,7 @@ interface LanguageContextType {
 }
 
 interface LanguageProviderProps {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
