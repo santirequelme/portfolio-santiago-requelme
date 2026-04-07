@@ -1,13 +1,16 @@
 "use client"
 
-import { ScrollRevealSection } from "./scroll-reveal-section"
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import { useLanguage } from "@/contexts/language-context"
-import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 
 export function ProjectsList() {
   const { t } = useLanguage()
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" })
 
   const projects = [
     {
@@ -48,87 +51,129 @@ export function ProjectsList() {
     },
   ]
 
-  return (
-    <section id="projectList" className="py-24 px-4">
-      <div className="mx-auto max-w-6xl">
-        <ScrollRevealSection className="text-center mb-16">
-          <AnimatePresence mode="wait">
-            <motion.h2
-              key={t("projects.title")}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
-            >
-              {t("projects.title")}
-            </motion.h2>
-          </AnimatePresence>
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={t("projects.subtitle")}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="mt-4 max-w-xl text-lg text-muted-foreground mx-auto"
-            >
-              {t("projects.subtitle")}
-            </motion.p>
-          </AnimatePresence>
-        </ScrollRevealSection>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
 
-        <div className="grid gap-8 md:grid-cols-3">
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  }
+
+  return (
+    <section ref={sectionRef} id="projectList" className="relative py-32 px-4">
+      <div className="mx-auto max-w-7xl">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-6">
+              <span className="inline-block bg-gradient-to-r from-violet-400 via-blue-400 to-violet-400 bg-clip-text text-transparent">
+                {t("projects.title")}
+              </span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-400 leading-relaxed">
+              {t("projects.subtitle")}
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Projects Grid */}
+        <motion.div
+          className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {projects.map((project, index) => (
-            <ScrollRevealSection key={`${project.title}-${index}`} className="h-full">
-              <Link href={project.url} target="_blank" rel="noopener noreferrer" className="block h-full">
-                <div className="h-full flex flex-col group relative rounded-2xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/5 before:to-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity overflow-hidden cursor-pointer">
-                  <div className="h-full flex flex-col relative z-10">
-                    <div className="relative overflow-hidden rounded-t-2xl">
-                      <div className="relative aspect-[4/3] w-full overflow-hidden">
+            <motion.div key={`project-${index}`} variants={cardVariants}>
+              <Link
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block h-full"
+              >
+                {/* Glass Card Container — CSS transform, no Framer Motion on hover */}
+                <div className="relative h-full flex flex-col rounded-2xl border border-slate-700/50 bg-slate-950/70 overflow-hidden transition-[transform,box-shadow,border-color] duration-150 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10 hover:scale-[1.02] will-change-transform">
+                  {/* Inner shadow for depth */}
+                  <div className="absolute inset-0 rounded-2xl shadow-inner shadow-slate-900/50 pointer-events-none z-10" />
+
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-0" />
+
+                  {/* Content wrapper */}
+                  <div className="relative h-full flex flex-col z-20">
+                    {/* Image Section */}
+                    <div className="relative overflow-hidden flex-shrink-0">
+                      <div className="relative aspect-video w-full overflow-hidden bg-slate-900">
                         <Image
                           src={project.image || "/placeholder.svg"}
                           alt={project.title}
                           fill
+                          loading={index < 3 ? "eager" : "lazy"}
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-200 group-hover:scale-105 will-change-transform"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                        {/* Gradient overlay on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-violet-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+
+                        {/* Corner accent */}
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                       </div>
                     </div>
 
-                    <div className="p-6 flex-grow">
-                      <AnimatePresence mode="wait">
-                        <motion.h3
-                          key={project.title}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="text-xl font-semibold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-                        >
-                          {project.title}
-                        </motion.h3>
-                      </AnimatePresence>
-                      <AnimatePresence mode="wait">
-                        <motion.p
-                          key={project.description}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="text-muted-foreground leading-relaxed text-sm"
-                        >
-                          {project.description}
-                        </motion.p>
-                      </AnimatePresence>
+                    {/* Content Section */}
+                    <div className="flex-grow p-6 flex flex-col justify-between">
+                      {/* Title with Arrow */}
+                      <div className="mb-4">
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <h3 className="text-lg font-semibold leading-snug flex-1 text-slate-200 group-hover:text-violet-300 transition-colors duration-150">
+                            {project.title}
+                          </h3>
+
+                          {/* Arrow Icon — CSS transition instead of whileHover */}
+                          <div className="flex-shrink-0 pt-1 transition-transform duration-150 group-hover:translate-x-1 group-hover:-translate-y-1">
+                            <ArrowUpRight className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors duration-150" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors duration-150">
+                        {project.description}
+                      </p>
                     </div>
                   </div>
                 </div>
               </Link>
-            </ScrollRevealSection>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
