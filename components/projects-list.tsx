@@ -14,6 +14,25 @@ export function ProjectsList() {
 
   const projects = [
     {
+      title: t("projects.design-system.title"),
+      description: t("projects.design-system.description"),
+      image: "/images/design-system.svg",
+      url: "/design-system",
+    },
+    {
+      title: t("projects.supply-chain-dashboard.title"),
+      description: t("projects.supply-chain-dashboard.description"),
+      image: "/images/dashboard.png",
+      url: "https://suply-chain-dashboard.vercel.app/",
+    },
+  
+    {
+      title: t("projects.pulse-app.title"),
+      description: t("projects.pulse-app.description"),
+      image: "/images/pulse-app.png",
+      url: "https://pulse-app-a.netlify.app/",
+    },
+    {
       title: t("projects.wedding.title"),
       description: t("projects.wedding.description"),
       image: "/images/Weddings.png",
@@ -42,13 +61,7 @@ export function ProjectsList() {
       description: t("projects.hubspot.description"),
       image: "/images/hubspot.png",
       url: "https://rocketx.group/",
-    },
-    {
-      title: t("projects.supply-chain-dashboard.title"),
-      description: t("projects.supply-chain-dashboard.description"),
-      image: "/images/dashboard.png",
-      url: "https://suply-chain-dashboard.vercel.app/",
-    },
+    }
   ]
 
   const containerVariants = {
@@ -109,12 +122,14 @@ export function ProjectsList() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {projects.map((project, index) => (
+          {projects.map((project, index) => {
+            const isInternal = project.url.startsWith("/")
+            return (
             <motion.div key={`project-${index}`} variants={cardVariants}>
               <Link
                 href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={isInternal ? undefined : "_blank"}
+                rel={isInternal ? undefined : "noopener noreferrer"}
                 className="group block h-full"
               >
                 {/* Glass Card Container — CSS transform, no Framer Motion on hover */}
@@ -172,7 +187,8 @@ export function ProjectsList() {
                 </div>
               </Link>
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
       </div>
     </section>
