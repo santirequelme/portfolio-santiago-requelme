@@ -45,7 +45,7 @@
     "settings.effects": "Effects",
     "settings.toggleCursor": "Toggle cursor effect",
     "projects.design-system.title": "Aura Design System",
-    "projects.design-system.description": "A production design system for Life & Beyond (Angular): semantic tokens, typography, elevation, motion and composable primitives — buttons, tags, cards. Explore the interactive showcase."
+   "projects.design-system.description": "A production design system semantic tokens, typography, elevation, motion and composable primitives — buttons, tags, cards. Explore the interactive showcase."
   },
   "es": {
     "nav.projects": "Proyectos",
