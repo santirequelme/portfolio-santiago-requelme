@@ -45,7 +45,7 @@
     "settings.effects": "Effects",
     "settings.toggleCursor": "Toggle cursor effect",
     "projects.design-system.title": "Aura Design System",
-    "projects.design-system.description": "A compact, composable design system: semantic tokens, type and spacing scales, light/dark theming, and accessible components — buttons, tooltips, switches, modals, toasts, drag & drop and a gallery. Fully interactive."
+    "projects.design-system.description": "A production design system for Life & Beyond (Angular): semantic tokens, typography, elevation, motion and composable primitives — buttons, tags, cards. Explore the interactive showcase."
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -92,7 +92,7 @@
     "footer.availability": "Disponible para freelance",
     "settings.effects": "Efectos",
     "settings.toggleCursor": "Activar efecto cursor",
-    "projects.design-system.title": "Aura Design System",
-    "projects.design-system.description": "Un design system compacto y componible: tokens semánticos, escalas de tipografía y espaciado, tema claro/oscuro y componentes accesibles — botones, tooltips, switches, modales, toasts, drag & drop y galería. Totalmente interactivo."
+    "projects.design-system.title": "Design System",
+    "projects.design-system.description": "Un design system de producción para Life & Beyond (Angular): tokens semánticos, tipografía, elevación, motion y primitivos componibles — botones, tags, cards. Explorá el showcase interactivo."
   }
 }
