@@ -5,7 +5,7 @@
     "nav.contact": "Contact",
     "header.hireMe": "Hire me!",
     "hero.role1": "Frontend engineer",
-    "hero.role2": "UI specialist",
+    "hero.role2": "Product Designer",
     "hero.role3": "Problem solver",
     "hero.subtitle": "not just screens.",
     "hero.description": "From design vision to robust, scalable, clean code that solves real problems.",
@@ -24,6 +24,8 @@
     "projects.hubspot.description": "Spearheaded the componentization and modular construction of themes, templates, and components within the HubSpot CMS using a robust stack of HTML, CSS, JavaScript, and HubL, significantly enhancing development speed and code maintainability through high reusability.",
     "projects.supply-chain-dashboard.title": "Supply Chain Dashboard",
     "projects.supply-chain-dashboard.description": "Logistics dashboard with a custom Design System. Features KPI analytics, interactive maps, supplier/product management, and advanced global filters with dark mode and CSV export.",
+    "projects.pulse-app.title": "Pulse App",
+    "projects.pulse-app.description": "Pulse App is a prototype mobile app that allows users to track their heart rate and sleep quality. It uses the Apple HealthKit API to access the user's health data and display it in a dashboard.",
     "about.title": "Who am I ?",
     "about.intro": "Design speaks. I code it. I craft beautiful, reliable interfaces that delight users and solve problems. Pixel-perfect, fast-moving Frontend & UI Developer turning chaos into clean, elegant code from Figma designs.",
     "about.problemSolver.title": "A problem solver",
@@ -41,7 +43,9 @@
     "footer.location": "Remote",
     "footer.availability": "Available for freelance",
     "settings.effects": "Effects",
-    "settings.toggleCursor": "Toggle cursor effect"
+    "settings.toggleCursor": "Toggle cursor effect",
+    "projects.design-system.title": "Aura Design System",
+    "projects.design-system.description": "A production design system for Life & Beyond (Angular): semantic tokens, typography, elevation, motion and composable primitives — buttons, tags, cards. Explore the interactive showcase."
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -66,6 +70,8 @@
     "projects.hotel.description": "Plataforma dinámica de cadena hotelera. Arreglando animaciones hero de alto impacto, secciones multilingües de carga rápida, layouts completamente responsive desde diseño a código, mejorando SEO y rendimiento general.",
     "projects.hubspot.title": "Integraciones con Hubspot",
     "projects.hubspot.description": "Lideré la componentización y construcción modulos, plantillas y componentes dentro del CMS de HubSpot, utilizando una sólida combinación de HTML, CSS, JavaScript y HubL, mejorando significativamente la velocidad de desarrollo y la mantenibilidad del código gracias a una alta reutilización.",
+    "projects.pulse-app.title": "Pulse App",
+    "projects.pulse-app.description": "Pulse es un prototipo básico que transforma el dashboard médico en un entrenador. Te dice cómo estás y qué hacer hoy, dejando los datos biométricos solo como respaldo.",
     "projects.supply-chain-dashboard.title": "Supply Chain Dashboard",
     "projects.supply-chain-dashboard.description": "Dashboard logístico con Design System propio. Ofrece analytics de KPIs, mapas interactivos, gestión de proveedores/productos y filtros globales avanzados con modo oscuro y exportación CSV.",
     "about.title": "Acerca de mí",
@@ -85,6 +91,8 @@
     "footer.location": "Remoto",
     "footer.availability": "Disponible para freelance",
     "settings.effects": "Efectos",
-    "settings.toggleCursor": "Activar efecto cursor"
+    "settings.toggleCursor": "Activar efecto cursor",
+    "projects.design-system.title": "Design System",
+    "projects.design-system.description": "Un design system de producción para Life & Beyond (Angular): tokens semánticos, tipografía, elevación, motion y primitivos componibles — botones, tags, cards. Explorá el showcase interactivo."
   }
 }
