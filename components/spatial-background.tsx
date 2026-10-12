@@ -25,16 +25,22 @@ export function SpatialBackground() {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (prefersReduced) return
 
-    const dpr = window.devicePixelRatio || 1
-    const w = window.innerWidth
-    const h = window.innerHeight
-
-    canvas.width = w * dpr
-    canvas.height = h * dpr
-
     const ctx = canvas.getContext("2d")
     if (!ctx) return
-    ctx.scale(dpr, dpr)
+
+    let w = 0
+    let h = 0
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    resize()
 
     const particles: Particle[] = Array.from({ length: 25 }, () => ({
       x: Math.random() * w,
@@ -68,43 +74,61 @@ export function SpatialBackground() {
     }
 
     animate()
+    window.addEventListener("resize", resize, { passive: true })
 
     return () => {
+      window.removeEventListener("resize", resize)
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
     }
   }, [])
 
-  // Cursor glow — direct DOM manipulation, zero React re-renders
+  // Cursor glow — direct DOM manipulation, zero React re-renders.
+  // Only follows a real mouse, and the loop stops once the glow catches up.
   useEffect(() => {
     const glow = glowRef.current
     if (!glow) return
 
-    let rafId: number
     let targetX = window.innerWidth / 2
     let targetY = window.innerHeight / 2
     let currentX = targetX
     let currentY = targetY
+    let rafId: number | null = null
 
-    const onMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX
-      targetY = e.clientY
+    const place = () => {
+      glow.style.transform = `translate3d(${currentX - 300}px, ${currentY - 300}px, 0)`
     }
+
+    place()
+
+    const finePointer = window.matchMedia("(pointer: fine)").matches
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (!finePointer || prefersReduced) return
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
     const update = () => {
       currentX = lerp(currentX, targetX, 0.08)
       currentY = lerp(currentY, targetY, 0.08)
-      glow.style.transform = `translate3d(${currentX - 300}px, ${currentY - 300}px, 0)`
+      place()
+
+      if (Math.abs(targetX - currentX) < 0.5 && Math.abs(targetY - currentY) < 0.5) {
+        rafId = null
+        return
+      }
       rafId = requestAnimationFrame(update)
     }
 
+    const onMouseMove = (e: MouseEvent) => {
+      targetX = e.clientX
+      targetY = e.clientY
+      if (rafId === null) rafId = requestAnimationFrame(update)
+    }
+
     window.addEventListener("mousemove", onMouseMove, { passive: true })
-    rafId = requestAnimationFrame(update)
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove)
-      cancelAnimationFrame(rafId)
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [])
 

@@ -6,7 +6,7 @@ import { useLanguage } from "@/contexts/language-context"
 export function TypingText() {
   const { t } = useLanguage()
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [currentText, setCurrentText] = useState("")
+  const [currentText, setCurrentText] = useState(() => t("hero.role1"))
   const [isDeleting, setIsDeleting] = useState(false)
   const [showCursor, setShowCursor] = useState(true)
 
@@ -21,33 +21,28 @@ export function TypingText() {
   }, [])
 
   useEffect(() => {
-    setCurrentText("")
+    setCurrentText(t("hero.role1"))
     setCurrentIndex(0)
     setIsDeleting(false)
   }, [t("hero.role1")]) // Reset when language changes
 
   useEffect(() => {
     const currentTitle = titles[currentIndex]
+    const isComplete = !isDeleting && currentText === currentTitle
+    const delay = isComplete ? 3000 : isDeleting ? 20 : 60
 
-    const handleTyping = () => {
-      if (!isDeleting) {
-        if (currentText.length < currentTitle.length) {
-          setCurrentText(currentTitle.slice(0, currentText.length + 1))
-        } else {
-          setTimeout(() => setIsDeleting(true), 3000)
-        }
+    const timeout = setTimeout(() => {
+      if (isComplete) {
+        setIsDeleting(true)
+      } else if (!isDeleting) {
+        setCurrentText(currentTitle.slice(0, currentText.length + 1))
+      } else if (currentText.length > 0) {
+        setCurrentText(currentText.slice(0, -1))
       } else {
-        if (currentText.length > 0) {
-          setCurrentText(currentText.slice(0, -1))
-        } else {
-          setIsDeleting(false)
-          setCurrentIndex((prev) => (prev + 1) % titles.length)
-        }
+        setIsDeleting(false)
+        setCurrentIndex((prev) => (prev + 1) % titles.length)
       }
-    }
-
-    const typingSpeed = isDeleting ? 20 : 60
-    const timeout = setTimeout(handleTyping, typingSpeed)
+    }, delay)
 
     return () => clearTimeout(timeout)
   }, [currentText, isDeleting, currentIndex]) // Removed titles from dependencies

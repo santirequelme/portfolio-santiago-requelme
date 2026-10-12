@@ -20,7 +20,7 @@ export function Footer() {
             transition={{ duration: 0.3 }}
             className="text-sm text-muted-foreground"
           >
-            © 2026 Santiago Requelme. {t("footer.rights")}
+            © {new Date().getFullYear()} Santiago Requelme. {t("footer.rights")}
           </motion.div>
         </AnimatePresence>
 

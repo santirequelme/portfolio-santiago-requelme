@@ -4,6 +4,7 @@ import { Inter, Geist_Mono, Syne } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
+import { SkipLink } from "@/components/skip-link"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,37 +22,34 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 })
 
+const siteUrl = "https://www.santirequelme.dev"
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   title: {
-    default: "Santiago Requelme - Frontend Engineer & UI Specialist",
+    default: "Santiago Requelme - Product Engineer",
     template: "%s | Santiago Requelme",
   },
-  description: "Frontend Engineer & UI Specialist crafting beautiful, reliable interfaces. From design vision to robust, scalable, clean code that solves real problems.",
-  keywords: ["Frontend Engineer", "UI Developer", "React", "Next.js", "TypeScript", "Santiago Requelme", "Portfolio", "Web Developer", "Frontend Developer"],
-  authors: [{ name: "Santiago Requelme", url: "https://santiagorequelme.dev" }],
+  description: "Product engineer with a frontend and design background. I design, prototype and build product features end to end, from the first idea to production code.",
+  keywords: ["Product Engineer", "Design Engineer", "Frontend Engineer", "UI Developer", "React", "Next.js", "TypeScript", "Santiago Requelme", "Portfolio", "Web Developer", "Frontend Developer"],
+  authors: [{ name: "Santiago Requelme", url: siteUrl }],
   creator: "Santiago Requelme",
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: "es_ES",
-    url: "https://santiagorequelme.dev",
+    url: siteUrl,
     siteName: "Santiago Requelme Portfolio",
-    title: "Santiago Requelme - Frontend Engineer & UI Specialist",
-    description: "Frontend Engineer & UI Specialist crafting beautiful, reliable interfaces.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Santiago Requelme Portfolio",
-      },
-    ],
+    title: "Santiago Requelme - Product Engineer",
+    description: "Product engineer with a frontend and design background, building product features end to end.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Santiago Requelme - Frontend Engineer & UI Specialist",
-    description: "Frontend Engineer & UI Specialist crafting beautiful, reliable interfaces.",
-    images: ["/og-image.png"],
+    title: "Santiago Requelme - Product Engineer",
+    description: "Product engineer with a frontend and design background, building product features end to end.",
     creator: "@santirequelme",
   },
   robots: {
@@ -82,7 +80,6 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
-  generator: "v0.app",
 }
 
 export const viewport: Viewport = {
@@ -114,13 +111,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className={`${inter.variable} ${syne.variable} ${geistMono.variable} font-sans antialiased`}>
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none"
-        >
-          Skip to main content
-        </a>
         <LanguageProvider>
+          <SkipLink />
           {children}
           <Analytics />
         </LanguageProvider>
