@@ -14,6 +14,12 @@ export function ProjectsList() {
 
   const projects = [
     {
+      title: t("projects.legacy.title"),
+      description: t("projects.legacy.description"),
+      image: "/images/legacy-platform.svg",
+      url: "/work/digital-legacy-platform",
+    },
+    {
       title: t("projects.design-system.title"),
       description: t("projects.design-system.description"),
       image: "/images/design-system.svg",
@@ -22,44 +28,44 @@ export function ProjectsList() {
     {
       title: t("projects.supply-chain-dashboard.title"),
       description: t("projects.supply-chain-dashboard.description"),
-      image: "/images/dashboard.png",
+      image: "/images/dashboard.webp",
       url: "https://suply-chain-dashboard.vercel.app/",
     },
   
     {
       title: t("projects.pulse-app.title"),
       description: t("projects.pulse-app.description"),
-      image: "/images/pulse-app.png",
+      image: "/images/pulse-app.webp",
       url: "https://pulse-app-a.netlify.app/",
     },
     {
       title: t("projects.wedding.title"),
       description: t("projects.wedding.description"),
-      image: "/images/Weddings.png",
+      image: "/images/weddings.webp",
       url: "https://www.riu.com/es/weddings",
     },
     {
       title: t("projects.booking.title"),
       description: t("projects.booking.description"),
-      image: "/images/booking.png",
+      image: "/images/booking.webp",
       url: "https://www.riu.com/en/booking",
     },
     {
       title: t("projects.experience.title"),
       description: t("projects.experience.description"),
-      image: "/images/experience.png",
+      image: "/images/experience.webp",
       url: "https://www.riu.com/en/riu-experience/",
     },
     {
       title: t("projects.hotel.title"),
       description: t("projects.hotel.description"),
-      image: "/images/homepage.png",
+      image: "/images/homepage.webp",
       url: "https://www.riu.com/en",
     },
     {
       title: t("projects.hubspot.title"),
       description: t("projects.hubspot.description"),
-      image: "/images/hubspot.png",
+      image: "/images/hubspot.webp",
       url: "https://rocketx.group/",
     }
   ]
@@ -109,7 +115,7 @@ export function ProjectsList() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-400 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
               {t("projects.subtitle")}
             </p>
           </motion.div>
@@ -133,9 +139,9 @@ export function ProjectsList() {
                 className="group block h-full"
               >
                 {/* Glass Card Container — CSS transform, no Framer Motion on hover */}
-                <div className="relative h-full flex flex-col rounded-2xl border border-slate-700/50 bg-slate-950/70 overflow-hidden transition-[transform,box-shadow,border-color] duration-150 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10 hover:scale-[1.02] will-change-transform">
+                <div className="relative h-full flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-white/80 dark:bg-slate-950/70 overflow-hidden transition-[transform,box-shadow,border-color] duration-150 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10 hover:scale-[1.02] will-change-transform">
                   {/* Inner shadow for depth */}
-                  <div className="absolute inset-0 rounded-2xl shadow-inner shadow-slate-900/50 pointer-events-none z-10" />
+                  <div className="absolute inset-0 rounded-2xl shadow-inner shadow-slate-900/5 dark:shadow-slate-900/50 pointer-events-none z-10" />
 
                   {/* Hover glow effect */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-0" />
@@ -144,9 +150,9 @@ export function ProjectsList() {
                   <div className="relative h-full flex flex-col z-20">
                     {/* Image Section */}
                     <div className="relative overflow-hidden flex-shrink-0">
-                      <div className="relative aspect-video w-full overflow-hidden bg-slate-900">
+                      <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
                         <Image
-                          src={project.image || "/placeholder.svg"}
+                          src={project.image}
                           alt={project.title}
                           fill
                           loading={index < 3 ? "eager" : "lazy"}
@@ -167,19 +173,19 @@ export function ProjectsList() {
                       {/* Title with Arrow */}
                       <div className="mb-4">
                         <div className="flex items-start justify-between gap-3 mb-3">
-                          <h3 className="text-lg font-semibold leading-snug flex-1 text-slate-200 group-hover:text-violet-300 transition-colors duration-150">
+                          <h3 className="text-lg font-semibold leading-snug flex-1 text-slate-900 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors duration-150">
                             {project.title}
                           </h3>
 
                           {/* Arrow Icon — CSS transition instead of whileHover */}
                           <div className="flex-shrink-0 pt-1 transition-transform duration-150 group-hover:translate-x-1 group-hover:-translate-y-1">
-                            <ArrowUpRight className="w-5 h-5 text-violet-400 group-hover:text-violet-300 transition-colors duration-150" />
+                            <ArrowUpRight className="w-5 h-5 text-violet-600 dark:text-violet-400 group-hover:text-violet-500 dark:group-hover:text-violet-300 transition-colors duration-150" />
                           </div>
                         </div>
                       </div>
 
                       {/* Description */}
-                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors duration-150">
+                      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150">
                         {project.description}
                       </p>
                     </div>

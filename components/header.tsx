@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ThemeToggle } from "./theme-toggle"
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 
 // Logo aislado para que el estado de click no re-renderice todo el Header
 function LogoButton() {
+  const { t } = useLanguage()
   const [rotation, setRotation] = useState(0)
   const [rippling, setRippling] = useState(false)
 
@@ -21,7 +22,11 @@ function LogoButton() {
   }
 
   return (
-    <button onClick={handleClick} className="flex items-center gap-2 group flex-shrink-0 focus:outline-none">
+    <button
+      onClick={handleClick}
+      aria-label={t("header.backToTop")}
+      className="flex items-center gap-2 group flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    >
       <div className="relative">
         {/* Ripple rings — shockwave on click */}
         {rippling && [0, 1, 2].map(i => (
@@ -88,11 +93,12 @@ function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   const { t } = useLanguage()
 
   const navItems = [
-    { name: t("nav.projects"), href: "#projectList" },
-    { name: t("nav.about"), href: "#about" },
+    { name: t("nav.projects"), href: "/#projectList" },
+    { name: t("nav.about"), href: "/#about" },
     { name: t("nav.contact"), href: "mailto:santireke37@gmail.com" },
   ]
 
@@ -105,15 +111,36 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // While the mobile menu is open: lock page scroll, keep keyboard focus out of the page behind it, close on Escape
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+
+    const background = [document.getElementById("main-content"), document.querySelector("footer")].filter(
+      (el): el is HTMLElement => el !== null,
+    )
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    background.forEach((el) => (el.inert = true))
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      background.forEach((el) => (el.inert = false))
+      window.removeEventListener("keydown", onKeyDown)
+      menuButtonRef.current?.focus()
+    }
+  }, [mobileMenuOpen])
+
   // Desktop Floating Command Bar
   return (
     <>
       {/* Desktop Navigation */}
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="hidden md:block fixed top-6 left-1/2 z-50 -translate-x-1/2 pointer-events-none"
+      <header
+        className="animate-in fade-in slide-in-from-top-10 duration-500 ease-out fill-mode-both motion-reduce:animate-none hidden md:block fixed top-6 left-1/2 z-50 -translate-x-1/2 pointer-events-none"
       >
         <motion.div
           layout
@@ -204,18 +231,15 @@ export function Header() {
             </div>
           </div>
         </motion.div>
-      </motion.header>
+      </header>
 
       {/* Mobile Navigation - Top Fixed */}
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="md:hidden fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/60"
+      <header
+        className="animate-in fade-in slide-in-from-top-10 duration-500 ease-out fill-mode-both motion-reduce:animate-none md:hidden fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/60"
       >
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
+          <Link href="/" aria-label={t("header.backToTop")} className="flex items-center gap-2 group flex-shrink-0">
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -240,6 +264,7 @@ export function Header() {
 
             {/* Hamburger Menu — stepped lines icon */}
             <button
+              ref={menuButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="flex flex-col gap-[5px] items-start justify-center w-6 h-6"
               aria-label="Menu"
@@ -269,7 +294,7 @@ export function Header() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Full-Screen Menu Overlay */}
       <AnimatePresence>
@@ -288,6 +313,9 @@ export function Header() {
               exit={{ opacity: 0, y: 100 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu"
               className="fixed inset-0 top-0 z-40 backdrop-blur-xl bg-gradient-to-b from-background/95 via-background/90 to-background/85"
             >
               <div className="flex flex-col h-full px-6 py-24">
@@ -397,7 +425,7 @@ export function Header() {
                   transition={{ duration: 0.3, delay: 0.5 }}
                   className="text-center text-sm text-muted-foreground border-t border-border/50 pt-8"
                 >
-                  <p>Frontend Engineer - UI Specialist</p>
+                  <p>Product Engineer · Frontend & Design</p>
                 </motion.div>
               </div>
             </motion.div>

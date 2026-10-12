@@ -5,12 +5,12 @@ import { createPortal } from "react-dom"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
 const PHOTOS = [
-  "/images/dashboard.png",
-  "/images/experience.png",
-  "/images/booking.png",
-  "/images/homepage.png",
-  "/images/foto1.png",
-  "/images/foto2.png",
+  "/images/dashboard.webp",
+  "/images/experience.webp",
+  "/images/booking.webp",
+  "/images/homepage.webp",
+  "/images/foto1.webp",
+  "/images/foto2.webp",
 ]
 
 export function GalleryDemo() {

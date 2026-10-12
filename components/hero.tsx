@@ -30,48 +30,20 @@ export function Hero() {
     }
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 80,
-        damping: 20,
-      },
-    },
-  }
-
+  const enter =
+    "animate-in fade-in slide-in-from-bottom-10 duration-700 ease-out fill-mode-both motion-reduce:animate-none"
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16">
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
         {/* Left side: Text content */}
-        <motion.div
-          className="flex-1 lg:w-[70%] text-center lg:text-left z-10"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
           {/* Heading + Subtitle inside h1 — same display size, contrasted by color */}
-          <motion.h1
-            variants={itemVariants}
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10"
+          <h1
+            className={`${enter} delay-100 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10`}
           >
             <TypingText />
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={t("hero.subtitle")}
                 initial={{ opacity: 0, y: 10 }}
@@ -83,11 +55,11 @@ export function Hero() {
                 {t("hero.subtitle")}
               </motion.span>
             </AnimatePresence>
-          </motion.h1>
+          </h1>
 
           {/* Description with language animation */}
-          <motion.div variants={itemVariants}>
-            <AnimatePresence mode="wait">
+          <div className={`${enter} delay-200`}>
+            <AnimatePresence mode="wait" initial={false}>
               <motion.p
                 key={t("hero.description")}
                 initial={{ opacity: 0, y: 10 }}
@@ -99,16 +71,16 @@ export function Hero() {
                 {t("hero.description")}
               </motion.p>
             </AnimatePresence>
-          </motion.div>
+          </div>
 
           {/* CTA Button with glass effect */}
-          <motion.div variants={itemVariants}>
+          <div className={`${enter} delay-300`}>
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-block"
             >
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={t("hero.viewProjects")}
                   initial={{ opacity: 0 }}
@@ -145,13 +117,12 @@ export function Hero() {
                 </motion.div>
               </AnimatePresence>
             </motion.div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Right side: Profile image with spatial treatment */}
-        <motion.div
-          className="lg:w-[30%] w-full max-w-sm"
-          variants={itemVariants}
+        <div
+          className={`${enter} delay-300 lg:w-[30%] w-full max-w-sm`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -179,8 +150,8 @@ export function Hero() {
                 className="absolute inset-0"
               >
                 <Image
-                  src="/images/foto1.png"
-                  alt="Profile"
+                  src="/images/foto1.webp"
+                  alt="Santiago Requelme"
                   fill
                   className="object-cover"
                   priority
@@ -194,8 +165,8 @@ export function Hero() {
                 className="absolute inset-0"
               >
                 <Image
-                  src="/images/foto2.png"
-                  alt="Profile alternate"
+                  src="/images/foto2.webp"
+                  alt=""
                   fill
                   loading="lazy"
                   className="object-cover"
@@ -213,7 +184,7 @@ export function Hero() {
             </div>
 
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
