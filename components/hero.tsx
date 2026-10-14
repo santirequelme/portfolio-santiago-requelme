@@ -4,14 +4,49 @@ import type React from "react"
 
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
+import { Magnetic } from "./motion/magnetic"
+import { attachTilt } from "./motion/tilt"
+import { gsap, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
   const { t } = useLanguage()
+  const sectionRef = useRef<HTMLElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const shineRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+
+      // Scroll-out parallax: text and photo leave at different speeds.
+      mm.add(MOTION_OK, () => {
+        const scrollTrigger = {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        }
+        gsap.to(textRef.current, { yPercent: -18, opacity: 0.2, ease: "none", scrollTrigger })
+        gsap.to(imageRef.current, { yPercent: 12, ease: "none", scrollTrigger })
+      })
+
+      // 3D tilt + light reflection on the profile photo.
+      mm.add(FINE_POINTER, () => {
+        if (!frameRef.current) return
+        return attachTilt(frameRef.current, { max: 10, spotlight: shineRef.current })
+      })
+
+      return () => mm.revert()
+    },
+    { scope: sectionRef },
+  )
 
   useEffect(() => {
     setIsHovered(true)
@@ -34,10 +69,10 @@ export function Hero() {
     "animate-in fade-in slide-in-from-bottom-10 duration-700 ease-out fill-mode-both motion-reduce:animate-none"
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16">
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
         {/* Left side: Text content */}
-        <div className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
+        <div ref={textRef} className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
           {/* Heading + Subtitle inside h1 — same display size, contrasted by color */}
           <h1
             className={`${enter} delay-100 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10`}
@@ -75,8 +110,8 @@ export function Hero() {
 
           {/* CTA Button with glass effect */}
           <div className={`${enter} delay-300`}>
+            <Magnetic>
             <motion.div
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-block"
             >
@@ -117,6 +152,7 @@ export function Hero() {
                 </motion.div>
               </AnimatePresence>
             </motion.div>
+            </Magnetic>
           </div>
         </div>
 
@@ -126,7 +162,7 @@ export function Hero() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="relative">
+          <div ref={imageRef} className="relative">
             {/* Glow backdrop behind image */}
             <motion.div
               animate={{
@@ -139,7 +175,8 @@ export function Hero() {
 
             {/* Image container with ring and hover glow */}
             <div
-              className="relative aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-primary/30
+              ref={frameRef}
+              className="relative aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-primary/30 group/photo
                 transition-[box-shadow,ring-color] duration-150 ease-out
                 hover:ring-primary/60 hover:shadow-[0_0_40px_rgba(164,88,255,0.3)]"
             >
@@ -180,6 +217,17 @@ export function Hero() {
                 }}
                 transition={{ duration: 0.18 }}
                 className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"
+              />
+
+              {/* Light reflection that follows the cursor (driven by the tilt) */}
+              <div
+                ref={shineRef}
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 mix-blend-soft-light"
+                style={{
+                  background:
+                    "radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.55), transparent 55%)",
+                }}
               />
             </div>
 

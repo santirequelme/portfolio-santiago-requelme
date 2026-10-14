@@ -1,16 +1,76 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
+import { attachTilt } from "./motion/tilt"
 
 export function ProjectsList() {
   const { t } = useLanguage()
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-80px" })
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+
+      mm.add(MOTION_OK, () => {
+        // Header: title wipes up from a mask, subtitle follows.
+        gsap
+          .timeline({ scrollTrigger: { trigger: ".projects-header", start: "top 80%" } })
+          .from(".projects-title", {
+            yPercent: 40,
+            clipPath: "inset(0% 0% 100% 0%)",
+            duration: 0.9,
+            ease: "power4.out",
+          })
+          .from(".projects-subtitle", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.5")
+
+        // Cards: revealed row by row as they enter the viewport.
+        gsap.set(".project-card", { opacity: 0, y: 60, scale: 0.96 })
+        ScrollTrigger.batch(".project-card", {
+          start: "top 88%",
+          once: true,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+              stagger: 0.12,
+              clearProps: "transform",
+            }),
+        })
+
+        // Images drift inside their frame while scrolling.
+        gsap.utils.toArray<HTMLElement>(".project-image").forEach((img) => {
+          gsap.fromTo(
+            img,
+            { yPercent: -6 },
+            {
+              yPercent: 6,
+              ease: "none",
+              scrollTrigger: { trigger: img, start: "top bottom", end: "bottom top", scrub: true },
+            },
+          )
+        })
+      })
+
+      // 3D tilt with a spotlight that follows the cursor.
+      mm.add(FINE_POINTER, () => {
+        const cleanups = gsap.utils.toArray<HTMLElement>(".project-link").map((link) =>
+          attachTilt(link, { max: 6, spotlight: link.querySelector<HTMLElement>(".project-spotlight") }),
+        )
+        return () => cleanups.forEach((cleanup) => cleanup())
+      })
+
+      return () => mm.revert()
+    },
+    { scope: sectionRef },
+  )
 
   const projects = [
     {
@@ -70,73 +130,37 @@ export function ProjectsList() {
     }
   ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const,
-      },
-    },
-  }
-
   return (
     <section ref={sectionRef} id="projectList" className="relative py-32 px-4">
       <div className="mx-auto max-w-7xl">
         {/* Section Header */}
-        <div className="text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-6">
+        <div className="projects-header text-center mb-20">
+          <div>
+            <h2 className="projects-title font-display text-5xl md:text-6xl font-bold tracking-tight mb-6">
               <span className="inline-block bg-gradient-to-r from-violet-400 via-blue-400 to-violet-400 bg-clip-text text-transparent">
                 {t("projects.title")}
               </span>
             </h2>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+          <div className="projects-subtitle">
             <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
               {t("projects.subtitle")}
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Projects Grid */}
-        <motion.div
-          className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
+        <div className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10">
           {projects.map((project, index) => {
             const isInternal = project.url.startsWith("/")
             return (
-            <motion.div key={`project-${index}`} variants={cardVariants}>
+            <div key={`project-${index}`} className="project-card">
               <Link
                 href={project.url}
                 target={isInternal ? undefined : "_blank"}
                 rel={isInternal ? undefined : "noopener noreferrer"}
-                className="group block h-full"
+                className="project-link group block h-full rounded-2xl"
               >
                 {/* Glass Card Container — CSS transform, no Framer Motion on hover */}
                 <div className="relative h-full flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-white/80 dark:bg-slate-950/70 overflow-hidden transition-[transform,box-shadow,border-color] duration-150 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10 hover:scale-[1.02] will-change-transform">
@@ -146,19 +170,31 @@ export function ProjectsList() {
                   {/* Hover glow effect */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-0" />
 
+                  {/* Cursor spotlight — position set by the tilt handler */}
+                  <div
+                    aria-hidden="true"
+                    className="project-spotlight absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30"
+                    style={{
+                      background:
+                        "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), oklch(0.65 0.28 295 / 0.14), transparent 60%)",
+                    }}
+                  />
+
                   {/* Content wrapper */}
                   <div className="relative h-full flex flex-col z-20">
                     {/* Image Section */}
                     <div className="relative overflow-hidden flex-shrink-0">
                       <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
+                        <div className="project-image absolute -inset-y-[8%] inset-x-0">
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
                           loading={index < 3 ? "eager" : "lazy"}
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                          className="object-cover transition-transform duration-200 group-hover:scale-105 will-change-transform"
+                          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                         />
+                        </div>
 
                         {/* Gradient overlay on hover */}
                         <div className="absolute inset-0 bg-gradient-to-t from-violet-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
@@ -192,10 +228,10 @@ export function ProjectsList() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
             )
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

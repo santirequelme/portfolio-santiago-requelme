@@ -1,15 +1,16 @@
 "use client"
 
 import React, { useRef } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
+import { Magnetic } from "./motion/magnetic"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface StoryCardProps {
   title: string
   content: string
-  index: number
 }
 
 interface SkillItem {
@@ -91,19 +92,11 @@ function SkillIcon({ type }: { type: string }) {
 
 // ─── Sub-components at module level — never recreated on parent render ─────────
 
-function StoryCard({ title, content, index }: StoryCardProps) {
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
+function StoryCard({ title, content }: StoryCardProps) {
   return (
-    <motion.article
-      ref={ref}
-      initial={{ opacity: 0, x: -32 }}
-      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -32 }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
-      className="relative rounded-2xl bg-card/40 border border-border/40 overflow-hidden group"
-    >
-      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <article className="story-card relative rounded-2xl bg-card/40 border border-border/40 overflow-hidden group transition-colors duration-300 hover:border-primary/30">
+      {/* Progress rail — grows with scroll, highlighted on hover */}
+      <div className="story-rail absolute left-0 top-0 bottom-0 w-[2px] origin-top bg-gradient-to-b from-primary to-accent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="px-6 md:px-8 py-8">
         <AnimatePresence mode="wait">
@@ -132,43 +125,33 @@ function StoryCard({ title, content, index }: StoryCardProps) {
           </motion.p>
         </AnimatePresence>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
 function TechStack({ coreStrengthLabel }: { coreStrengthLabel: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="space-y-8"
-    >
-      <h2 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+    <div className="tech-stack space-y-8">
+      <h2 className="tech-title font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
         {coreStrengthLabel}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {SKILLS.map((skill, index) => (
-          <motion.div
+        {SKILLS.map((skill) => (
+          <div
             key={skill.name}
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ duration: 0.35, delay: index * 0.04, ease: "easeOut" }}
-            className="flex items-center gap-3 px-4 py-4 rounded-xl bg-card/50 border border-border/40 transition-colors duration-200 hover:border-primary/40 group cursor-default"
+            className="skill-item flex items-center gap-3 px-4 py-4 rounded-xl bg-card/50 border border-border/40 transition-[border-color,transform,box-shadow] duration-300 hover:border-primary/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 group cursor-default"
           >
-            <SkillIcon type={skill.icon} />
+            <span className="skill-icon inline-flex transition-transform duration-500 group-hover:rotate-[360deg]">
+              <SkillIcon type={skill.icon} />
+            </span>
             <span className="text-sm md:text-base font-medium text-foreground">
               {skill.name}
             </span>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -181,31 +164,58 @@ function AboutMe({
   intro: string
   sections: { title: string; content: string }[]
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
+  const introRef = useRef<HTMLParagraphElement>(null)
+
+  // Intro words light up one by one as the paragraph scrolls through the
+  // viewport. Rebuilt when the language (and therefore the words) changes.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+      mm.add(MOTION_OK, () => {
+        gsap.fromTo(
+          ".intro-word",
+          { opacity: 0.18 },
+          {
+            opacity: 1,
+            ease: "none",
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: introRef.current,
+              start: "top 85%",
+              end: "bottom 45%",
+              scrub: true,
+            },
+          },
+        )
+      })
+      return () => mm.revert()
+    },
+    { scope: introRef, dependencies: [intro], revertOnUpdate: true },
+  )
 
   return (
     <div className="space-y-12">
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 24 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">{title}</h2>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-          {intro}
+      <div>
+        <h2 className="about-title font-display text-4xl md:text-5xl font-bold mb-6" aria-label={title}>
+          {title.split(" ").map((word, i) => (
+            <span key={`${word}-${i}`} aria-hidden="true" className="inline-block overflow-hidden align-bottom pb-1 -mb-1">
+              <span className="about-word inline-block">{word}</span>
+              {"\u00A0"}
+            </span>
+          ))}
+        </h2>
+        <p ref={introRef} className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
+          {intro.split(" ").map((word, i) => (
+            <span key={`${word}-${i}`} className="intro-word">
+              {word}{" "}
+            </span>
+          ))}
         </p>
-      </motion.div>
+      </div>
 
       <div className="space-y-6">
-        {sections.map((section, index) => (
-          <StoryCard
-            key={section.title}
-            title={section.title}
-            content={section.content}
-            index={index}
-          />
+        {sections.map((section) => (
+          <StoryCard key={section.title} title={section.title} content={section.content} />
         ))}
       </div>
     </div>
@@ -213,38 +223,30 @@ function AboutMe({
 }
 
 function CTAButton({ label }: { label: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      className="flex justify-center pt-8"
-    >
-      <motion.a
-        href="https://www.linkedin.com/in/santiago-requelme/"
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent py-4 px-12 text-sm font-semibold text-primary-foreground transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/30"
-      >
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={label}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {label}
-          </motion.span>
-        </AnimatePresence>
-      </motion.a>
-    </motion.div>
+    <div className="cta-wrap flex justify-center pt-8">
+      <Magnetic strength={0.4}>
+        <motion.a
+          href="https://www.linkedin.com/in/santiago-requelme/"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileTap={{ scale: 0.95 }}
+          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent py-4 px-12 text-sm font-semibold text-primary-foreground transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/30"
+        >
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={label}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {label}
+            </motion.span>
+          </AnimatePresence>
+        </motion.a>
+      </Magnetic>
+    </div>
   )
 }
 
@@ -252,6 +254,72 @@ function CTAButton({ label }: { label: string }) {
 
 export function ContentSections() {
   const { t } = useLanguage()
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+      mm.add(MOTION_OK, () => {
+        // Core strengths: title wipes in, skills pop in as a grid wave.
+        gsap
+          .timeline({ scrollTrigger: { trigger: ".tech-stack", start: "top 80%" } })
+          .from(".tech-title", { clipPath: "inset(0% 100% 0% 0%)", duration: 1, ease: "power4.inOut" })
+          .from(
+            ".skill-item",
+            {
+              opacity: 0,
+              y: 30,
+              scale: 0.9,
+              duration: 0.6,
+              ease: "back.out(1.7)",
+              stagger: { each: 0.06, grid: "auto", from: "start" },
+              clearProps: "transform",
+            },
+            "-=0.5",
+          )
+
+        // About: title words rise out of their masks.
+        gsap.from(".about-word", {
+          yPercent: 110,
+          duration: 0.9,
+          ease: "power4.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: ".about-title", start: "top 85%" },
+        })
+
+        // Story cards slide in, and their rail fills while scrolling past.
+        gsap.utils.toArray<HTMLElement>(".story-card").forEach((card) => {
+          gsap.from(card, {
+            opacity: 0,
+            x: -60,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 85%" },
+          })
+          gsap.fromTo(
+            card.querySelector(".story-rail"),
+            { scaleY: 0 },
+            {
+              scaleY: 1,
+              ease: "none",
+              scrollTrigger: { trigger: card, start: "top 80%", end: "bottom 50%", scrub: true },
+            },
+          )
+        })
+
+        gsap.from(".cta-wrap", {
+          opacity: 0,
+          y: 40,
+          scale: 0.9,
+          duration: 0.8,
+          ease: "back.out(1.6)",
+          scrollTrigger: { trigger: ".cta-wrap", start: "top 90%" },
+        })
+      })
+      return () => mm.revert()
+    },
+    { scope: sectionRef },
+  )
 
   const sections = [
     { title: t("about.problemSolver.title"), content: t("about.problemSolver.content") },
@@ -260,7 +328,7 @@ export function ContentSections() {
   ]
 
   return (
-    <section id="about" className="relative py-24 px-4">
+    <section ref={sectionRef} id="about" className="relative py-24 px-4">
       {/* Static ambient — no animation */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
         <div className="absolute top-32 left-1/4 w-96 h-96 rounded-full bg-primary/4 blur-3xl" />
