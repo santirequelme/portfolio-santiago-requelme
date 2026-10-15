@@ -1,12 +1,13 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { GeistPixelSquare } from "geist/font/pixel"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
 import { SkipLink } from "@/components/skip-link"
 
-// Titles: Geist (variable, every weight from 100 to 900).
+// Geist (variable, 100–900): fallback for titles and body. Titles use Geist Pixel.
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
@@ -107,7 +108,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preload" href="/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${GeistPixelSquare.variable} font-sans antialiased`}>
         <LanguageProvider>
           <SkipLink />
           {children}

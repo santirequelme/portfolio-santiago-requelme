@@ -46,8 +46,8 @@
 @theme inline {
   /* Body: Satoshi (falls back to Geist until the font files are in public/fonts) */
   --font-sans: "Satoshi", var(--font-geist), "Geist", system-ui, sans-serif;
-  /* Titles: Geist */
-  --font-display: var(--font-geist), "Geist", system-ui, sans-serif;
+  /* Titles: Geist Pixel (Square) */
+  --font-display: var(--font-geist-pixel-square), var(--font-geist), "Geist", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "Geist Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -230,7 +230,9 @@ html {
   }
 
   .font-display {
-    font-family: var(--font-geist), "Geist", system-ui, sans-serif;
+    font-family: var(--font-geist-pixel-square), var(--font-geist), "Geist", system-ui, sans-serif;
+    /* Geist Pixel ships a single weight: never fake bold on a pixel grid */
+    font-synthesis-weight: none;
   }
 
   .bg-noise {
@@ -276,7 +278,8 @@ html {
   h4,
   h5,
   h6 {
-    font-family: var(--font-geist), "Geist", system-ui, sans-serif;
+    font-family: var(--font-geist-pixel-square), var(--font-geist), "Geist", system-ui, sans-serif;
+    font-synthesis-weight: none;
   }
 }
 
