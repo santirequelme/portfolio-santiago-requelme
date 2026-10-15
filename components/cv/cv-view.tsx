@@ -7,14 +7,7 @@ import { ArrowUpRight, Download, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "@/components/motion/magnetic"
-import { ROLES, WORK, SKILLS, EDUCATION, LANGUAGES } from "@/lib/cv"
-
-const STATS = [
-  { value: WORK.length + 2, suffix: "+", key: "cv.stats.projects" },
-  { value: ROLES.length, suffix: "", key: "cv.stats.companies" },
-  { value: SKILLS.length, suffix: "+", key: "cv.stats.tech" },
-  { value: LANGUAGES.length, suffix: "", key: "cv.stats.languages" },
-]
+import { ACHIEVEMENTS, ROLES, WORK, SKILLS, EDUCATION, LANGUAGES } from "@/lib/cv"
 
 function SectionTitle({ index, children }: { index: string; children: React.ReactNode }) {
   return (
@@ -43,28 +36,31 @@ export function CvView() {
           .from(".cv-char", { yPercent: 120, rotate: 8, duration: 1, stagger: 0.035 })
           .from(".cv-intro-fade", { y: 24, opacity: 0, duration: 0.8, stagger: 0.1 }, "-=0.6")
 
-        // ── Stats: count up when they enter.
-        gsap.utils.toArray<HTMLElement>(".cv-stat-value").forEach((el) => {
-          const target = Number(el.dataset.value)
-          const counter = { v: 0 }
-          el.textContent = "0"
-          gsap.to(counter, {
-            v: target,
-            duration: 1.6,
-            ease: "power2.out",
-            onUpdate: () => {
-              el.textContent = String(Math.round(counter.v))
-            },
-            scrollTrigger: { trigger: el, start: "top 90%" },
-          })
-        })
-        gsap.from(".cv-stat", {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".cv-stats", start: "top 85%" },
+        // ── Achievements: cards rise in and each number counts from its
+        // "before" value to its "after" value. The final value is what's in
+        // the markup, so print and no-JS still show the real figure.
+        gsap.utils.toArray<HTMLElement>(".cv-stat").forEach((card, i) => {
+          const el = card.querySelector<HTMLElement>(".cv-stat-value")!
+          const counter = { v: Number(el.dataset.from) }
+          gsap
+            .timeline({ scrollTrigger: { trigger: card, start: "top 88%" }, delay: (i % 3) * 0.12 })
+            .from(card, { y: 50, opacity: 0, duration: 0.8, ease: "power3.out" })
+            .to(
+              counter,
+              {
+                v: Number(el.dataset.to),
+                duration: 1.8,
+                ease: "power2.out",
+                onStart: () => {
+                  el.textContent = String(counter.v)
+                },
+                onUpdate: () => {
+                  el.textContent = String(Math.round(counter.v))
+                },
+              },
+              0,
+            )
+            .from(card.querySelector(".cv-stat-bar"), { scaleX: 0, duration: 1.8, ease: "power2.out" }, 0)
         })
 
         // ── Section titles: text rises from its mask, rule draws across.
@@ -256,25 +252,44 @@ export function CvView() {
           </Magnetic>
         </div>
 
-        {/* Stats */}
-        <dl className="cv-stats print:hidden mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {STATS.map((s) => (
-            <div key={s.key} className="cv-stat rounded-2xl border border-border/40 bg-card/40 p-6">
-              <dd className="font-display text-4xl md:text-5xl font-bold text-foreground">
-                <span className="cv-stat-value" data-value={s.value}>
-                  {s.value}
-                </span>
-                <span className="text-primary">{s.suffix}</span>
-              </dd>
-              <dt className="mt-2 text-sm text-muted-foreground">{t(s.key)}</dt>
-            </div>
-          ))}
-        </dl>
       </header>
+
+      {/* ── Key achievements ──────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 py-24" aria-labelledby="cv-achievements">
+        <SectionTitle index="01">
+          <span id="cv-achievements">{t("cv.achievements")}</span>
+        </SectionTitle>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {ACHIEVEMENTS.map((a) => (
+            <li
+              key={a.label.en}
+              className="cv-stat group relative overflow-hidden rounded-3xl border border-border/40 bg-card/40 p-8 transition-colors duration-300 hover:border-primary/40"
+            >
+              <p className="font-display text-5xl md:text-6xl font-bold tracking-tight text-foreground">
+                {a.from > 0 && (
+                  <span className="mr-3 text-2xl md:text-3xl font-semibold text-muted-foreground line-through decoration-primary/60">
+                    {a.from}
+                  </span>
+                )}
+                <span className="text-primary">{a.prefix}</span>
+                <span className="cv-stat-value tabular-nums" data-from={a.from} data-to={a.to}>
+                  {a.to}
+                </span>
+                <span className="text-primary">{a.suffix}</span>
+              </p>
+              <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">{a.label[language]}</p>
+              <span
+                aria-hidden="true"
+                className="cv-stat-bar absolute bottom-0 left-0 h-1 w-full origin-left bg-gradient-to-r from-primary to-accent"
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {/* ── Experience timeline ───────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 py-24 overflow-x-clip" aria-labelledby="cv-experience">
-        <SectionTitle index="01">
+        <SectionTitle index="02">
           <span id="cv-experience">{t("cv.experience")}</span>
         </SectionTitle>
 
@@ -308,7 +323,7 @@ export function CvView() {
                     role.company
                   )}
                 </p>
-                <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">{role.summary[language]}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{role.meta[language]}</p>
                 <ul className="mt-6 space-y-3">
                   {role.highlights[language].map((h) => (
                     <li key={h} className="cv-highlight flex gap-3 text-foreground/90">
@@ -336,7 +351,7 @@ export function CvView() {
       {/* ── Selected work: horizontal pinned scroll ───────────── */}
       <section className="cv-work relative overflow-hidden py-24 md:py-0 md:h-screen md:flex md:flex-col md:justify-center print:hidden">
         <div className="mx-auto w-full max-w-6xl px-4">
-          <SectionTitle index="02">{t("cv.work")}</SectionTitle>
+          <SectionTitle index="03">{t("cv.work")}</SectionTitle>
         </div>
         <div className="cv-work-track flex gap-6 md:gap-10 px-4 md:px-[max(1rem,calc((100vw-72rem)/2+1rem))] overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none pb-4 [perspective:1200px]">
           {WORK.map((w) => {
@@ -384,7 +399,7 @@ export function CvView() {
       {/* ── Skills marquee ────────────────────────────────────── */}
       <section className="cv-marquee py-24 overflow-hidden" aria-labelledby="cv-skills">
         <div className="mx-auto max-w-6xl px-4">
-          <SectionTitle index="03">
+          <SectionTitle index="04">
             <span id="cv-skills">{t("cv.skills")}</span>
           </SectionTitle>
         </div>
@@ -395,7 +410,7 @@ export function CvView() {
           ))}
         </ul>
         <div aria-hidden="true" className="space-y-4 print:hidden">
-          {[SKILLS.slice(0, 10), SKILLS.slice(10)].map((row, i) => (
+          {[SKILLS.slice(0, 13), SKILLS.slice(13)].map((row, i) => (
             <div key={i} className="flex w-max cv-marquee-track will-change-transform">
               {[...row, ...row].map((s, j) => (
                 <span
@@ -415,15 +430,24 @@ export function CvView() {
       </section>
 
       {/* ── Education & languages ─────────────────────────────── */}
-      <section className="cv-edu mx-auto max-w-6xl px-4 py-24 grid gap-6 md:grid-cols-2" aria-label={t("cv.education")}>
-        <div className="cv-edu-card rounded-3xl border border-border/40 bg-card/40 p-8 md:p-10">
-          <p className="font-mono text-sm text-primary">04</p>
-          <h2 className="mt-2 font-display text-3xl md:text-4xl font-bold">{t("cv.education")}</h2>
-          <p className="mt-6 text-lg font-semibold text-foreground">{EDUCATION.degree[language]}</p>
-          <p className="mt-1 text-muted-foreground">{EDUCATION.school}</p>
-        </div>
+      <section className="cv-edu mx-auto max-w-6xl px-4 py-24 grid gap-6 md:grid-cols-2 overflow-x-clip" aria-label={t("cv.education")}>
         <div className="cv-edu-card rounded-3xl border border-border/40 bg-card/40 p-8 md:p-10">
           <p className="font-mono text-sm text-primary">05</p>
+          <h2 className="mt-2 font-display text-3xl md:text-4xl font-bold">{t("cv.education")}</h2>
+          <ul className="mt-6 space-y-5">
+            {EDUCATION.map((e) => (
+              <li key={e.school} className="border-b border-border/40 pb-4 last:border-0">
+                <div className="flex items-baseline justify-between gap-4">
+                  <p className="min-w-0 text-lg font-semibold text-foreground">{e.title[language]}</p>
+                  <span className="flex-shrink-0 font-mono text-sm text-muted-foreground">{e.period}</span>
+                </div>
+                <p className="mt-1 text-muted-foreground">{e.school}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="cv-edu-card rounded-3xl border border-border/40 bg-card/40 p-8 md:p-10">
+          <p className="font-mono text-sm text-primary">06</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl font-bold">{t("cv.languages")}</h2>
           <ul className="mt-6 space-y-4">
             {LANGUAGES.map((l) => (
