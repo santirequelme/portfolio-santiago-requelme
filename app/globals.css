@@ -266,3 +266,31 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* Printable CV: show everything in its final state on a light page */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  main * {
+    opacity: 1 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  .pin-spacer {
+    padding: 0 !important;
+    height: auto !important;
+  }
+  section,
+  article {
+    break-inside: avoid;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+}
