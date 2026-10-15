@@ -1,183 +1,133 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { gsap } from "@/lib/gsap"
 
-interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  radius: number
-  hue: number
-  opacity: number
-}
+// Technical backdrop: a fine drafting grid, a ruler on the left edge and, on
+// pointer devices, snapped crosshair guides with live coordinates plus a
+// "loupe" that reveals grid intersections around the cursor.
+// Everything is driven by CSS custom properties from one rAF loop that only
+// runs while something changes — no React re-renders, no canvas.
+
+const MINOR = 24 // px, minor grid step (crosshair snaps to it)
+const MAJOR = 120 // px, major grid step and ruler label step
 
 export function SpatialBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const glowRef = useRef<HTMLDivElement>(null)
-  const animationFrameRef = useRef<number | null>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const coordRef = useRef<HTMLSpanElement>(null)
+  const rulerRef = useRef<HTMLDivElement>(null)
 
-  // Canvas particle animation — no mouse physics, just drift
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const root = rootRef.current
+    if (!root) return
 
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (prefersReduced) return
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    let w = 0
-    let h = 0
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1
-      w = window.innerWidth
-      h = window.innerHeight
-      canvas.width = w * dpr
-      canvas.height = h * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-
-    resize()
-
-    const particles: Particle[] = Array.from({ length: 25 }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 1.2 + 0.4,
-      hue: Math.random() > 0.5 ? 38 : 27,
-      opacity: Math.random() * 0.4 + 0.2,
-    }))
-
-    const animate = () => {
-      ctx.clearRect(0, 0, w, h)
-
-      for (const p of particles) {
-        p.x += p.vx
-        p.y += p.vy
-
-        if (p.x < 0) p.x = w
-        if (p.x > w) p.x = 0
-        if (p.y < 0) p.y = h
-        if (p.y > h) p.y = 0
-
-        ctx.fillStyle = `oklch(0.6 0.2 ${p.hue} / ${p.opacity})`
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate)
-    }
-
-    animate()
-    window.addEventListener("resize", resize, { passive: true })
-
-    return () => {
-      window.removeEventListener("resize", resize)
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
-    }
-  }, [])
-
-  // Cursor glow — direct DOM manipulation, zero React re-renders.
-  // Only follows a real mouse, and the loop stops once the glow catches up.
-  useEffect(() => {
-    const glow = glowRef.current
-    if (!glow) return
-
-    let targetX = window.innerWidth / 2
-    let targetY = window.innerHeight / 2
-    let currentX = targetX
-    let currentY = targetY
-    let rafId: number | null = null
-
-    const place = () => {
-      glow.style.transform = `translate3d(${currentX - 300}px, ${currentY - 300}px, 0)`
-    }
-
-    place()
-
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const finePointer = window.matchMedia("(pointer: fine)").matches
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (!finePointer || prefersReduced) return
 
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+    let raf: number | null = null
+    let mouseX = -1
+    let mouseY = -1
+    let idleTimer: ReturnType<typeof setTimeout> | null = null
 
-    const update = () => {
-      currentX = lerp(currentX, targetX, 0.08)
-      currentY = lerp(currentY, targetY, 0.08)
-      place()
+    const render = () => {
+      raf = null
+      const scroll = window.scrollY
 
-      if (Math.abs(targetX - currentX) < 0.5 && Math.abs(targetY - currentY) < 0.5) {
-        rafId = null
-        return
+      // Major grid drifts slower than the page for a hint of depth.
+      root.style.setProperty("--major-y", `${(-scroll * 0.08) % MAJOR}px`)
+
+      // Ruler: ticks slide with the page, labels show page-space Y.
+      root.style.setProperty("--ruler-y", `${-(scroll % MAJOR)}px`)
+      const base = Math.floor(scroll / MAJOR) * MAJOR
+      rulerRef.current?.querySelectorAll<HTMLSpanElement>("[data-ruler-label]").forEach((label, i) => {
+        label.textContent = String(base + i * MAJOR).padStart(4, "0")
+      })
+
+      if (mouseX >= 0) {
+        const sx = Math.round(mouseX / MINOR) * MINOR
+        const sy = Math.round(mouseY / MINOR) * MINOR
+        root.style.setProperty("--cx", `${mouseX}px`)
+        root.style.setProperty("--cy", `${mouseY}px`)
+        root.style.setProperty("--sx", `${sx}px`)
+        root.style.setProperty("--sy", `${sy}px`)
+        if (coordRef.current) {
+          coordRef.current.textContent = `X ${String(sx).padStart(4, "0")}  Y ${String(Math.round(sy + scroll)).padStart(4, "0")}`
+        }
       }
-      rafId = requestAnimationFrame(update)
+    }
+    const schedule = () => {
+      if (raf === null) raf = requestAnimationFrame(render)
     }
 
-    const onMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX
-      targetY = e.clientY
-      if (rafId === null) rafId = requestAnimationFrame(update)
+    render()
+    window.addEventListener("scroll", schedule, { passive: true })
+
+    // Grid "boots" from the centre on first load.
+    let intro: gsap.core.Tween | null = null
+    if (!reduced && gridRef.current) {
+      intro = gsap.fromTo(
+        gridRef.current,
+        { clipPath: "circle(0% at 50% 40%)" },
+        { clipPath: "circle(150% at 50% 40%)", duration: 1.8, ease: "power2.inOut", clearProps: "clipPath" },
+      )
     }
 
-    window.addEventListener("mousemove", onMouseMove, { passive: true })
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return
+      mouseX = e.clientX
+      mouseY = e.clientY
+      root.dataset.cursor = "on"
+      if (idleTimer) clearTimeout(idleTimer)
+      idleTimer = setTimeout(() => (root.dataset.cursor = "idle"), 1600)
+      schedule()
+    }
+    const onLeave = () => (root.dataset.cursor = "off")
+
+    const pointerFx = finePointer && !reduced
+    if (pointerFx) {
+      window.addEventListener("pointermove", onMove, { passive: true })
+      document.documentElement.addEventListener("pointerleave", onLeave)
+    }
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove)
-      if (rafId !== null) cancelAnimationFrame(rafId)
+      window.removeEventListener("scroll", schedule)
+      if (pointerFx) {
+        window.removeEventListener("pointermove", onMove)
+        document.documentElement.removeEventListener("pointerleave", onLeave)
+      }
+      if (raf !== null) cancelAnimationFrame(raf)
+      if (idleTimer) clearTimeout(idleTimer)
+      intro?.kill()
     }
   }, [])
 
   return (
-    <>
-      {/* Static ambient gradient orbs — no animation, pure CSS */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-50"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 50% at 20% 20%, oklch(0.68 0.2 38 / 0.18), transparent)," +
-              "radial-gradient(ellipse 50% 60% at 80% 80%, oklch(0.62 0.21 27 / 0.14), transparent)",
-          }}
-        />
+    <div ref={rootRef} aria-hidden="true" data-cursor="off" className="tech-bg pointer-events-none fixed inset-0 z-0 print:hidden">
+      {/* Drafting grid: minor + major lines, faded towards the edges */}
+      <div ref={gridRef} className="tech-grid absolute inset-0" />
+
+      {/* Loupe: intersection points revealed around the cursor */}
+      <div className="tech-loupe absolute inset-0" />
+
+      {/* Crosshair guides snapped to the minor grid */}
+      <div className="tech-cross-x absolute left-0 right-0 top-0 h-px" />
+      <div className="tech-cross-y absolute bottom-0 top-0 left-0 w-px" />
+      <span ref={coordRef} className="tech-coord absolute left-0 top-0 font-mono text-[10px] tracking-[0.08em]" />
+
+      {/* Left ruler (desktop) */}
+      <div ref={rulerRef} className="tech-ruler absolute bottom-0 left-0 top-0 hidden w-5 overflow-hidden lg:block">
+        <div className="tech-ruler-ticks absolute inset-x-0 -bottom-[120px] top-0" />
+        {Array.from({ length: 14 }, (_, i) => (
+          <span
+            key={i}
+            data-ruler-label
+            className="tech-ruler-label absolute left-[5px] rotate-180 font-mono text-[8px] leading-none [writing-mode:vertical-rl]"
+            style={{ top: `calc(${i * MAJOR}px + var(--ruler-y, 0px) + 5px)` }}
+          />
+        ))}
+        <span className="tech-ruler-marker absolute left-0 h-px w-5" />
       </div>
-
-      {/* Subtle grid — only top portion, no mask animation */}
-      <div
-        className="fixed inset-0 pointer-events-none z-0 opacity-30"
-        style={{
-          backgroundImage:
-            "linear-gradient(oklch(0.3 0.02 50 / 0.12) 1px, transparent 1px)," +
-            "linear-gradient(90deg, oklch(0.3 0.02 50 / 0.12) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-          maskImage: "linear-gradient(to bottom, black 0%, transparent 40%)",
-        }}
-      />
-
-      {/* Canvas for particles */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{ width: "100%", height: "100%" }}
-      />
-
-      {/* Cursor glow — single element, GPU transform, no React state */}
-      <div
-        ref={glowRef}
-        className="fixed top-0 left-0 pointer-events-none z-0"
-        style={{
-          width: 600,
-          height: 600,
-          willChange: "transform",
-          background:
-            "radial-gradient(circle at center, oklch(0.68 0.2 38 / 0.12) 0%, oklch(0.62 0.21 27 / 0.06) 40%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-    </>
+    </div>
   )
 }
