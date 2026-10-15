@@ -105,6 +105,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <link rel="preload" href="/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <LanguageProvider>
