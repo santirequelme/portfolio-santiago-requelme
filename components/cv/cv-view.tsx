@@ -210,7 +210,7 @@ export function CvView() {
         <p className="cv-intro-fade text-xs font-semibold uppercase tracking-[0.25em] text-primary">{t("cv.eyebrow")}</p>
         <h1
           aria-label={name}
-          className="mt-6 font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.95]"
+          className="mt-6 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1]"
         >
           {name.split(" ").map((word) => (
             <span key={word} aria-hidden="true" className="block overflow-hidden pb-2">
