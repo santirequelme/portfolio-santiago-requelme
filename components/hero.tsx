@@ -101,7 +101,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
-                className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-pretty mb-10 max-w-xl lg:mx-0 mx-auto"
+                className="text-lg sm:text-xl text-muted-foreground dark:text-foreground/85 leading-relaxed text-pretty mb-10 max-w-xl lg:mx-0 mx-auto"
               >
                 {t("hero.description")}
               </motion.p>
