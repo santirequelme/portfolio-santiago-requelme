@@ -6,14 +6,14 @@
  * `[data-theme="dark"]`) so the Aura palette never collides with the
  * portfolio's own theme.
  *
- * Fonts are inherited from the root layout (--font-inter / --font-syne /
+ * Fonts are inherited from the root layout (--font-geist / Satoshi /
  * --font-geist-mono) — no extra web-font requests.
  * ========================================================================== */
 
 .ds-root {
   /* ---- Fonts (inherited from portfolio layout) ------------------------- */
-  --ds-font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
-  --ds-font-display: var(--font-syne), var(--font-inter), system-ui, sans-serif;
+  --ds-font-sans: "Satoshi", var(--font-geist), system-ui, -apple-system, sans-serif;
+  --ds-font-display: var(--font-geist), system-ui, sans-serif;
   --ds-font-mono: var(--font-geist-mono), "SF Mono", ui-monospace, monospace;
 
   /* ---- Neutral ramp ---------------------------------------------------- */

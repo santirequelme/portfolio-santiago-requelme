@@ -1,20 +1,17 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter, Geist_Mono, Syne } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google"
+import { GeistPixelSquare } from "geist/font/pixel"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
 import { SkipLink } from "@/components/skip-link"
 
-const inter = Inter({
+// Geist (variable, 100–900): fallback for titles and body. Titles use Geist Pixel.
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
-})
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-geist",
+  weight: "variable",
 })
 
 const geistMono = Geist_Mono({
@@ -109,8 +106,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <link rel="preload" href="/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.variable} ${syne.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${GeistPixelSquare.variable} font-sans antialiased`}>
         <LanguageProvider>
           <SkipLink />
           {children}
