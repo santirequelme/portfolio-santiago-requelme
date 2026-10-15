@@ -24,8 +24,14 @@ export function Footer() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Right: Social Icons */}
+        {/* Right: system link + social icons */}
         <div className="flex items-center gap-4">
+          <Link
+            href="/system"
+            className="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
+          >
+            {t("footer.system")}
+          </Link>
           <a
             href="https://github.com/santirequelme/"
             target="_blank"

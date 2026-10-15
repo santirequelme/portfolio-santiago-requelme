@@ -3,7 +3,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
+:root,
+.light {
   /* Warm paper + ink, red-orange signal */
   --background: oklch(0.985 0.004 75);
   --foreground: oklch(0.17 0.01 50);
@@ -25,6 +26,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: oklch(0.14 0.008 50);
   --foreground: oklch(0.96 0.006 75);
   --card: oklch(0.18 0.01 50);
