@@ -6,7 +6,6 @@ import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
-import { attachTilt } from "./motion/tilt"
 
 export function ProjectsList() {
   const { t } = useLanguage()
@@ -59,11 +58,40 @@ export function ProjectsList() {
         })
       })
 
-      // 3D tilt with a spotlight that follows the cursor.
+      // "View project" pill that trails the cursor over each image.
       mm.add(FINE_POINTER, () => {
-        const cleanups = gsap.utils.toArray<HTMLElement>(".project-link").map((link) =>
-          attachTilt(link, { max: 6, spotlight: link.querySelector<HTMLElement>(".project-spotlight") }),
-        )
+        const cleanups = gsap.utils.toArray<HTMLElement>(".project-media").map((media) => {
+          const pill = media.querySelector<HTMLElement>(".project-pill")!
+          gsap.set(pill, { xPercent: -50, yPercent: -50, scale: 0, opacity: 0 })
+          const xTo = gsap.quickTo(pill, "x", { duration: 0.45, ease: "power3.out" })
+          const yTo = gsap.quickTo(pill, "y", { duration: 0.45, ease: "power3.out" })
+
+          const place = (e: PointerEvent, instant = false) => {
+            const rect = media.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+            if (instant) gsap.set(pill, { x, y })
+            else {
+              xTo(x)
+              yTo(y)
+            }
+          }
+          const onEnter = (e: PointerEvent) => {
+            place(e, true)
+            gsap.to(pill, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)", overwrite: "auto" })
+          }
+          const onMove = (e: PointerEvent) => place(e)
+          const onLeave = () => gsap.to(pill, { scale: 0, opacity: 0, duration: 0.25, ease: "power2.in", overwrite: "auto" })
+
+          media.addEventListener("pointerenter", onEnter)
+          media.addEventListener("pointermove", onMove)
+          media.addEventListener("pointerleave", onLeave)
+          return () => {
+            media.removeEventListener("pointerenter", onEnter)
+            media.removeEventListener("pointermove", onMove)
+            media.removeEventListener("pointerleave", onLeave)
+          }
+        })
         return () => cleanups.forEach((cleanup) => cleanup())
       })
 
@@ -166,72 +194,49 @@ export function ProjectsList() {
                 href={project.url}
                 target={isInternal ? undefined : "_blank"}
                 rel={isInternal ? undefined : "noopener noreferrer"}
-                className="project-link group block h-full rounded-2xl"
+                className="project-link group flex h-full flex-col rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-950/60 p-2 backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_48px_-24px_oklch(0.5_0.25_295/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
               >
-                {/* Glass Card Container — CSS transform, no Framer Motion on hover */}
-                <div className="relative h-full flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-white/80 dark:bg-slate-950/70 overflow-hidden transition-[transform,box-shadow,border-color] duration-150 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-500/10 hover:scale-[1.02] will-change-transform">
-                  {/* Inner shadow for depth */}
-                  <div className="absolute inset-0 rounded-2xl shadow-inner shadow-slate-900/5 dark:shadow-slate-900/50 pointer-events-none z-10" />
-
-                  {/* Hover glow effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-0" />
-
-                  {/* Cursor spotlight — position set by the tilt handler */}
-                  <div
-                    aria-hidden="true"
-                    className="project-spotlight absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30"
-                    style={{
-                      background:
-                        "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), oklch(0.65 0.28 295 / 0.14), transparent 60%)",
-                    }}
-                  />
-
-                  {/* Content wrapper */}
-                  <div className="relative h-full flex flex-col z-20">
-                    {/* Image Section */}
-                    <div className="relative overflow-hidden flex-shrink-0">
-                      <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
-                        <div className="project-image absolute -inset-y-[8%] inset-x-0">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          loading={index < 3 ? "eager" : "lazy"}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
-                        />
-                        </div>
-
-                        {/* Gradient overlay on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-violet-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-
-                        {/* Corner accent */}
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                      </div>
-                    </div>
-
-                    {/* Content Section */}
-                    <div className="flex-grow p-6 flex flex-col justify-between">
-                      {/* Title with Arrow */}
-                      <div className="mb-4">
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                          <h3 className="text-lg font-semibold leading-snug flex-1 text-slate-900 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors duration-150">
-                            {project.title}
-                          </h3>
-
-                          {/* Arrow Icon — CSS transition instead of whileHover */}
-                          <div className="flex-shrink-0 pt-1 transition-transform duration-150 group-hover:translate-x-1 group-hover:-translate-y-1">
-                            <ArrowUpRight className="w-5 h-5 text-violet-600 dark:text-violet-400 group-hover:text-violet-500 dark:group-hover:text-violet-300 transition-colors duration-150" />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150">
-                        {project.description}
-                      </p>
-                    </div>
+                {/* Image, inset inside the card */}
+                <div className="project-media relative aspect-video overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900 md:cursor-none">
+                  <div className="project-image absolute -inset-y-[8%] inset-x-0">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      loading={index < 3 ? "eager" : "lazy"}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                    />
                   </div>
+
+                  {/* Cursor-following label (pointer devices only) */}
+                  <span
+                    aria-hidden="true"
+                    className="project-pill pointer-events-none absolute left-0 top-0 hidden md:inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-950/85 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-lg backdrop-blur-md dark:bg-white/90 dark:text-slate-950"
+                  >
+                    {t("projects.view")}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+
+                {/* Text */}
+                <div className="flex flex-grow flex-col px-4 pb-4 pt-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="flex-1 text-lg font-semibold leading-snug text-slate-900 dark:text-slate-100">
+                      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[length:100%_1.5px]">
+                        {project.title}
+                      </span>
+                    </h3>
+
+                    <span className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 transition-colors duration-500 group-hover:border-primary group-hover:text-primary-foreground">
+                      <span className="absolute inset-0 scale-0 rounded-full bg-primary transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+                      <ArrowUpRight className="relative h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
+                    </span>
+                  </div>
+
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 line-clamp-3">
+                    {project.description}
+                  </p>
                 </div>
               </Link>
             </div>
