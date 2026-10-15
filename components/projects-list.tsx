@@ -74,6 +74,12 @@ export function ProjectsList() {
 
   const projects = [
     {
+      title: t("projects.wellbeinn-band.title"),
+      description: t("projects.wellbeinn-band.description"),
+      image: "/images/wellbeinn-band.svg",
+      url: "https://wellbeinn.com/products/wellbeinn-band",
+    },
+    {
       title: t("projects.legacy.title"),
       description: t("projects.legacy.description"),
       image: "/images/legacy-platform.svg",
