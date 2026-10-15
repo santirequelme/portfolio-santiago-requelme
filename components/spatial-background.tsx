@@ -48,7 +48,7 @@ export function SpatialBackground() {
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
       radius: Math.random() * 1.2 + 0.4,
-      hue: Math.random() > 0.5 ? 295 : 265,
+      hue: Math.random() > 0.5 ? 38 : 27,
       opacity: Math.random() * 0.4 + 0.2,
     }))
 
@@ -140,8 +140,8 @@ export function SpatialBackground() {
           className="absolute inset-0 opacity-50"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 20% 20%, oklch(0.65 0.28 295 / 0.18), transparent)," +
-              "radial-gradient(ellipse 50% 60% at 80% 80%, oklch(0.62 0.25 265 / 0.14), transparent)",
+              "radial-gradient(ellipse 60% 50% at 20% 20%, oklch(0.68 0.2 38 / 0.18), transparent)," +
+              "radial-gradient(ellipse 50% 60% at 80% 80%, oklch(0.62 0.21 27 / 0.14), transparent)",
           }}
         />
       </div>
@@ -151,8 +151,8 @@ export function SpatialBackground() {
         className="fixed inset-0 pointer-events-none z-0 opacity-30"
         style={{
           backgroundImage:
-            "linear-gradient(oklch(0.18 0.03 275 / 0.15) 1px, transparent 1px)," +
-            "linear-gradient(90deg, oklch(0.18 0.03 275 / 0.15) 1px, transparent 1px)",
+            "linear-gradient(oklch(0.3 0.02 50 / 0.12) 1px, transparent 1px)," +
+            "linear-gradient(90deg, oklch(0.3 0.02 50 / 0.12) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
           maskImage: "linear-gradient(to bottom, black 0%, transparent 40%)",
         }}
@@ -174,7 +174,7 @@ export function SpatialBackground() {
           height: 600,
           willChange: "transform",
           background:
-            "radial-gradient(circle at center, oklch(0.65 0.28 295 / 0.12) 0%, oklch(0.62 0.25 265 / 0.06) 40%, transparent 70%)",
+            "radial-gradient(circle at center, oklch(0.68 0.2 38 / 0.12) 0%, oklch(0.62 0.21 27 / 0.06) 40%, transparent 70%)",
           filter: "blur(40px)",
         }}
       />

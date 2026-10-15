@@ -305,7 +305,7 @@ export function CvView() {
             <li key={role.company} className="cv-role group relative">
               <span
                 aria-hidden="true"
-                className="absolute -left-10 md:-left-16 top-2 ml-[5px] md:ml-[13px] h-4 w-4 rounded-full border-2 border-border bg-background transition-all duration-500 group-[.is-active]:border-primary group-[.is-active]:bg-primary group-[.is-active]:shadow-[0_0_0_6px_oklch(0.65_0.28_295/0.2),0_0_24px_oklch(0.65_0.28_295/0.6)]"
+                className="absolute -left-10 md:-left-16 top-2 ml-[5px] md:ml-[13px] h-4 w-4 rounded-full border-2 border-border bg-background transition-all duration-500 group-[.is-active]:border-primary group-[.is-active]:bg-primary group-[.is-active]:shadow-[0_0_0_6px_oklch(0.68_0.2_38/0.2),0_0_24px_oklch(0.68_0.2_38/0.6)]"
               />
               <article className="cv-role-card rounded-3xl border border-border/40 bg-card/40 p-6 md:p-10 backdrop-blur-sm transition-colors duration-500 group-[.is-active]:border-primary/30">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
@@ -364,7 +364,7 @@ export function CvView() {
                 rel={internal ? undefined : "noopener noreferrer"}
                 className="cv-work-card group relative flex-shrink-0 w-[80vw] md:w-[38vw] lg:w-[30vw] snap-center rounded-3xl border border-border/40 bg-card/60 overflow-hidden"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900">
+                <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
                   <Image
                     src={w.image}
                     alt={w.title}

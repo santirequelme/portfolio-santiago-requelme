@@ -129,7 +129,7 @@ export function Hero() {
                     className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full
                       bg-primary/10 backdrop-blur-xl border border-primary/40
                       text-primary transition-all duration-300 ease-out
-                      hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(164,88,255,0.4)]
+                      hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(240,78,35,0.4)]
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2
                       focus-visible:ring-offset-background active:scale-95"
                   >
@@ -178,7 +178,7 @@ export function Hero() {
               ref={frameRef}
               className="relative aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-primary/30 group/photo
                 transition-[box-shadow,ring-color] duration-150 ease-out
-                hover:ring-primary/60 hover:shadow-[0_0_40px_rgba(164,88,255,0.3)]"
+                hover:ring-primary/60 hover:shadow-[0_0_40px_rgba(240,78,35,0.3)]"
             >
               {/* Primary image */}
               <motion.div
