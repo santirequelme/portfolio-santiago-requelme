@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import { SectionMarker, SelectionOverlay } from "./tech/annotations"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
 
 export function ProjectsList() {
@@ -167,6 +168,13 @@ export function ProjectsList() {
   return (
     <section ref={sectionRef} id="projectList" className="relative py-32 px-4">
       <div className="mx-auto max-w-7xl">
+        <SectionMarker
+          index="01"
+          label={t("projects.title")}
+          meta={`${String(projects.length).padStart(2, "0")} · 2020 — 2026`}
+          className="mb-16"
+        />
+
         {/* Section Header */}
         <div className="projects-header text-center mb-20">
           <div>
@@ -194,8 +202,10 @@ export function ProjectsList() {
                 href={project.url}
                 target={isInternal ? undefined : "_blank"}
                 rel={isInternal ? undefined : "noopener noreferrer"}
-                className="project-link group relative flex h-full flex-col rounded-card border border-border bg-card/80 p-1.5 backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                className="project-link group relative flex h-full flex-col rounded-card border border-border bg-card/80 p-1.5 backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-transparent hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
               >
+                <SelectionOverlay />
+
                 {/* Image, inset inside the card */}
                 <div className="project-media relative aspect-video overflow-hidden rounded-inner bg-secondary md:cursor-none">
                   <div className="project-image absolute -inset-y-[8%] inset-x-0">

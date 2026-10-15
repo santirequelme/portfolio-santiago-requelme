@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "./motion/magnetic"
 import { buttonClass } from "@/lib/ui"
+import { SectionMarker } from "./tech/annotations"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -34,7 +35,7 @@ const SKILLS: SkillItem[] = [
 ]
 
 function SkillIcon({ type }: { type: string }) {
-  const iconClasses = "w-5 h-5 text-primary flex-shrink-0 group-hover:text-accent transition-colors duration-200"
+  const iconClasses = "w-5 h-5 text-foreground/55 flex-shrink-0 group-hover:text-primary transition-colors duration-200"
 
   const icons: Record<string, React.ReactElement> = {
     code: (
@@ -133,6 +134,7 @@ function StoryCard({ title, content }: StoryCardProps) {
 function TechStack({ coreStrengthLabel }: { coreStrengthLabel: string }) {
   return (
     <div className="tech-stack space-y-8">
+      <SectionMarker index="02" label={coreStrengthLabel} meta={`${String(SKILLS.length).padStart(2, "0")} skills`} />
       <h2 className="tech-title font-display text-4xl md:text-5xl font-bold">
         {coreStrengthLabel}
       </h2>
@@ -196,6 +198,7 @@ function AboutMe({
 
   return (
     <div className="space-y-12">
+      <SectionMarker index="03" label={title} />
       <div>
         <h2 className="about-title font-display text-4xl md:text-5xl font-bold mb-6" aria-label={title}>
           {title.split(" ").map((word, i) => (
