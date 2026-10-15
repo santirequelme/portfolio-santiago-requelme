@@ -81,7 +81,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
           {c.decisions.items.map((item, i) => (
             <li
               key={item.title}
-              className="grid gap-6 rounded-card border border-border bg-card/70 p-6 md:p-8 lg:grid-cols-2 lg:items-start"
+              className="grid grid-cols-1 gap-6 rounded-card border border-border bg-card/70 p-6 md:p-8 lg:grid-cols-2 lg:items-start [&>*]:min-w-0"
             >
               <div>
                 <p className="font-mono text-xs text-primary">{String(i + 1).padStart(2, "0")}</p>

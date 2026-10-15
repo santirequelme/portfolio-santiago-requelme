@@ -72,7 +72,8 @@
     "projects.wellbeinn-band.description": "Latest project: designed and developed the product landing for the Wellbeinn Band, a wearable with ECG and an AI coach. Scroll-driven storytelling with GSAP and Lenis, from UX to a responsive front end.",
     "projects.view": "View project",
     "footer.system": "Design system",
-    "hero.viewCv": "Read CV"
+    "hero.viewCv": "Read CV",
+    "footer.colophon": "designed & built by hand"
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -147,6 +148,7 @@
     "projects.wellbeinn-band.description": "Último proyecto: diseño y desarrollo de la landing de producto de la Wellbeinn Band, una pulsera con ECG y coach IA. Narrativa guiada por el scroll con GSAP y Lenis, de la UX al frontend responsive.",
     "projects.view": "Ver proyecto",
     "footer.system": "Design system",
-    "hero.viewCv": "Ver CV"
+    "hero.viewCv": "Ver CV",
+    "footer.colophon": "diseñado y construido a mano"
   }
 }

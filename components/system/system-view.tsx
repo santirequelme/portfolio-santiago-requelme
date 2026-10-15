@@ -5,6 +5,7 @@ import { ArrowUpRight, Download, Play } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "@/components/motion/magnetic"
+import { CornerMarks, Dimension, SelectionOverlay } from "@/components/tech/annotations"
 import { buttonClass, chipAccentClass, chipClass, type ButtonSize, type ButtonVariant } from "@/lib/ui"
 
 // ─── Content ──────────────────────────────────────────────────────────────────
@@ -39,6 +40,10 @@ const COPY = {
     motionNote: "Easing curves used across the site. Press play to watch each one.",
     play: "Play",
     duration: "Durations",
+    annotations: "Annotations",
+    annotationsNote:
+      "Design-tool marks that frame content: registration corners, live dimension lines and a selection box on hover. Decorative only, hidden from assistive tech.",
+    hover: "Hover me",
   },
   es: {
     eyebrow: "Sistema del portfolio · v1.0",
@@ -69,6 +74,10 @@ const COPY = {
     motionNote: "Curvas de easing usadas en el sitio. Dale play para ver cada una.",
     play: "Play",
     duration: "Duraciones",
+    annotations: "Anotaciones",
+    annotationsNote:
+      "Marcas de herramienta de diseño que enmarcan el contenido: esquinas de registro, cotas con la medida real y una selección al hacer hover. Solo decorativas, ocultas para tecnologías de asistencia.",
+    hover: "Pasa el cursor",
   },
 }
 
@@ -252,7 +261,7 @@ export function SystemView() {
           if (bars.length) tl.from(bars, { scaleX: 0, duration: 0.8, stagger: 0.05, ease: "power3.out" }, "-=0.4")
           const items = section.querySelectorAll(".sys-item")
           if (items.length)
-            tl.from(items, { y: 24, opacity: 0, duration: 0.6, stagger: 0.06, ease: "power3.out" }, "-=0.4")
+            tl.from(items, { y: 24, opacity: 0, duration: 0.6, stagger: 0.06, ease: "power3.out" }, "<0.15")
           const curves = section.querySelectorAll(".sys-curve-path")
           if (curves.length)
             tl.fromTo(curves, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.2, stagger: 0.1, ease: "power2.inOut" }, "-=0.2")
@@ -500,6 +509,23 @@ export function SystemView() {
             </li>
           ))}
         </ul>
+      </Section>
+      {/* ── 06 Annotations ── */}
+      <Section index="06" title={c.annotations} note={c.annotationsNote}>
+        <div className="grid gap-16 px-8 pb-10 pt-6 md:grid-cols-2">
+          <div className="sys-item relative h-40 rounded-card border border-border bg-card">
+            <CornerMarks offset={10} />
+            <Dimension axis="x" offset={28} />
+            <Dimension axis="y" offset={28} />
+            <span className="absolute inset-0 flex items-center justify-center font-mono text-xs text-muted-foreground">
+              CornerMarks · Dimension
+            </span>
+          </div>
+          <div className="sys-item group relative flex h-40 items-center justify-center rounded-card border border-border bg-card">
+            <SelectionOverlay />
+            <span className="font-mono text-xs text-muted-foreground">SelectionOverlay — {c.hover}</span>
+          </div>
+        </div>
       </Section>
     </div>
   )

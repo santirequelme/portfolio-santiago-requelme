@@ -21,6 +21,9 @@ export function Footer() {
             className="text-sm text-muted-foreground"
           >
             © {new Date().getFullYear()} Santiago Requelme. {t("footer.rights")}
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/70">
+              Next.js · GSAP · Geist Pixel / Satoshi — {t("footer.colophon")}
+            </span>
           </motion.div>
         </AnimatePresence>
 
