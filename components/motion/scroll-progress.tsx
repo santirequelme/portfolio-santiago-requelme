@@ -27,7 +27,7 @@ export function ScrollProgress() {
     <div
       ref={barRef}
       aria-hidden="true"
-      className="fixed top-0 left-0 right-0 h-[3px] z-[60] origin-left scale-x-0 bg-gradient-to-r from-primary via-accent to-primary pointer-events-none motion-reduce:hidden"
+      className="fixed top-0 left-0 right-0 h-[3px] z-[60] origin-left scale-x-0 bg-primary pointer-events-none motion-reduce:hidden"
     />
   )
 }

@@ -171,7 +171,7 @@ export function ProjectsList() {
         <div className="projects-header text-center mb-20">
           <div>
             <h2 className="projects-title font-display text-5xl md:text-6xl font-bold tracking-tight mb-6">
-              <span className="inline-block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              <span className="inline-block">
                 {t("projects.title")}
               </span>
             </h2>
@@ -194,10 +194,10 @@ export function ProjectsList() {
                 href={project.url}
                 target={isInternal ? undefined : "_blank"}
                 rel={isInternal ? undefined : "noopener noreferrer"}
-                className="project-link group flex h-full flex-col rounded-3xl border border-border bg-card/80 p-2 backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_48px_-24px_oklch(0.6_0.21_34/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                className="project-link group relative flex h-full flex-col rounded-card border border-border bg-card/80 p-1.5 backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
               >
                 {/* Image, inset inside the card */}
-                <div className="project-media relative aspect-video overflow-hidden rounded-2xl bg-secondary md:cursor-none">
+                <div className="project-media relative aspect-video overflow-hidden rounded-inner bg-secondary md:cursor-none">
                   <div className="project-image absolute -inset-y-[8%] inset-x-0">
                     <Image
                       src={project.image}
@@ -212,7 +212,7 @@ export function ProjectsList() {
                   {/* Cursor-following label (pointer devices only) */}
                   <span
                     aria-hidden="true"
-                    className="project-pill pointer-events-none absolute left-0 top-0 hidden md:inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-foreground/90 px-4 py-2 text-xs font-medium text-background opacity-0 shadow-lg backdrop-blur-md"
+                    className="project-pill pointer-events-none absolute left-0 top-0 hidden md:inline-flex items-center gap-1.5 whitespace-nowrap rounded-control bg-foreground/90 px-3 py-1.5 text-xs font-medium text-background opacity-0 shadow-lg backdrop-blur-md"
                   >
                     {t("projects.view")}
                     <ArrowUpRight className="h-3.5 w-3.5" />
@@ -228,8 +228,8 @@ export function ProjectsList() {
                       </span>
                     </h3>
 
-                    <span className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-border text-foreground/80 transition-colors duration-500 group-hover:border-primary group-hover:text-primary-foreground">
-                      <span className="absolute inset-0 scale-0 rounded-full bg-primary transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+                    <span className="relative flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-control border border-border text-foreground/80 transition-colors duration-500 group-hover:border-primary group-hover:text-primary-foreground">
+                      <span className="absolute inset-0 scale-0 bg-primary transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
                       <ArrowUpRight className="relative h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
                     </span>
                   </div>

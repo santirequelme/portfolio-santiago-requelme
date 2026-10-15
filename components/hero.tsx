@@ -9,6 +9,8 @@ import Image from "next/image"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
 import { Magnetic } from "./motion/magnetic"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { buttonClass } from "@/lib/ui"
 import { attachTilt } from "./motion/tilt"
 import { gsap, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
 
@@ -108,51 +110,21 @@ export function Hero() {
             </AnimatePresence>
           </div>
 
-          {/* CTA Button with glass effect */}
-          <div className={`${enter} delay-300`}>
-            <Magnetic>
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={t("hero.viewProjects")}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Link
-                    href="#projectList"
-                    onClick={handleScrollToProjects}
-                    className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full
-                      bg-primary/10 backdrop-blur-xl border border-primary/40
-                      text-primary transition-all duration-300 ease-out
-                      hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(240,78,35,0.4)]
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2
-                      focus-visible:ring-offset-background active:scale-95"
-                  >
-                    {t("hero.viewProjects")}
-                    <svg
-                      className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
+          {/* Actions: primary + secondary */}
+          <div className={`${enter} delay-300 flex flex-wrap items-center justify-center gap-3 lg:justify-start`}>
+            <Magnetic strength={0.2}>
+              <Link href="#projectList" onClick={handleScrollToProjects} className={buttonClass("primary", "lg", "group")}>
+                {t("hero.viewProjects")}
+                <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
+              </Link>
             </Magnetic>
+            <Link href="/cv" className={buttonClass("secondary", "lg", "group")}>
+              {t("hero.viewCv")}
+              <ArrowUpRight
+                className="h-4 w-4 text-muted-foreground transition-[transform,color] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                aria-hidden="true"
+              />
+            </Link>
           </div>
         </div>
 

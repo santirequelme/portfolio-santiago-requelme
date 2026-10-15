@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "./motion/magnetic"
+import { buttonClass } from "@/lib/ui"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,7 +34,7 @@ const SKILLS: SkillItem[] = [
 ]
 
 function SkillIcon({ type }: { type: string }) {
-  const iconClasses = "w-5 h-5 text-primary flex-shrink-0 group-hover:text-accent transition-colors duration-200 rounded"
+  const iconClasses = "w-5 h-5 text-primary flex-shrink-0 group-hover:text-accent transition-colors duration-200"
 
   const icons: Record<string, React.ReactElement> = {
     code: (
@@ -94,9 +95,9 @@ function SkillIcon({ type }: { type: string }) {
 
 function StoryCard({ title, content }: StoryCardProps) {
   return (
-    <article className="story-card relative rounded-2xl bg-card/40 border border-border/40 overflow-hidden group transition-colors duration-300 hover:border-primary/30">
+    <article className="story-card relative rounded-card bg-card/60 border border-border overflow-hidden group transition-colors duration-300 hover:border-primary/30">
       {/* Progress rail — grows with scroll, highlighted on hover */}
-      <div className="story-rail absolute left-0 top-0 bottom-0 w-[2px] origin-top bg-gradient-to-b from-primary to-accent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="story-rail absolute left-0 top-0 bottom-0 w-[2px] origin-top bg-primary opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="px-6 md:px-8 py-8">
         <AnimatePresence mode="wait">
@@ -132,7 +133,7 @@ function StoryCard({ title, content }: StoryCardProps) {
 function TechStack({ coreStrengthLabel }: { coreStrengthLabel: string }) {
   return (
     <div className="tech-stack space-y-8">
-      <h2 className="tech-title font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <h2 className="tech-title font-display text-4xl md:text-5xl font-bold">
         {coreStrengthLabel}
       </h2>
 
@@ -140,9 +141,9 @@ function TechStack({ coreStrengthLabel }: { coreStrengthLabel: string }) {
         {SKILLS.map((skill) => (
           <div
             key={skill.name}
-            className="skill-item flex items-center gap-3 px-4 py-4 rounded-xl bg-card/50 border border-border/40 transition-[border-color,transform,box-shadow] duration-300 hover:border-primary/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 group cursor-default"
+            className="skill-item flex items-center gap-3 px-4 py-4 rounded-control bg-card/70 border border-border transition-[border-color,background-color] duration-300 hover:border-foreground/25 hover:bg-card group cursor-default"
           >
-            <span className="skill-icon inline-flex transition-transform duration-500 group-hover:rotate-[360deg]">
+            <span className="skill-icon inline-flex">
               <SkillIcon type={skill.icon} />
             </span>
             <span className="text-sm md:text-base font-medium text-foreground">
@@ -230,8 +231,7 @@ function CTAButton({ label }: { label: string }) {
           href="https://www.linkedin.com/in/santiago-requelme/"
           target="_blank"
           rel="noopener noreferrer"
-          whileTap={{ scale: 0.95 }}
-          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent py-4 px-12 text-sm font-semibold text-primary-foreground transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/30"
+          className={buttonClass("primary", "lg", "px-8")}
         >
           <AnimatePresence mode="wait">
             <motion.span
@@ -329,11 +329,7 @@ export function ContentSections() {
 
   return (
     <section ref={sectionRef} id="about" className="relative py-24 px-4">
-      {/* Static ambient — no animation */}
-      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-32 left-1/4 w-96 h-96 rounded-full bg-primary/4 blur-3xl" />
-        <div className="absolute bottom-32 right-1/4 w-80 h-80 rounded-full bg-accent/4 blur-3xl" />
-      </div>
+
 
       <div className="mx-auto max-w-6xl space-y-24">
         <TechStack coreStrengthLabel={t("about.coreStrength")} />

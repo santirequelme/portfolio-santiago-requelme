@@ -5,6 +5,7 @@ import { ArrowUpRight, Download, Play } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "@/components/motion/magnetic"
+import { buttonClass, chipAccentClass, chipClass, type ButtonSize, type ButtonVariant } from "@/lib/ui"
 
 // ─── Content ──────────────────────────────────────────────────────────────────
 
@@ -27,7 +28,7 @@ const COPY = {
     spaceNote: "A 4px base. Radii stay soft so the pixel type can be the sharp element.",
     components: "Components",
     primary: "Primary",
-    outline: "Outline",
+    outline: "Secondary",
     magnetic: "Magnetic",
     view: "View project",
     chips: "Chips",
@@ -57,7 +58,7 @@ const COPY = {
     spaceNote: "Base de 4px. Los radios son suaves para que la tipografía pixel sea el elemento filoso.",
     components: "Componentes",
     primary: "Primario",
-    outline: "Contorno",
+    outline: "Secundario",
     magnetic: "Magnético",
     view: "Ver proyecto",
     chips: "Chips",
@@ -90,13 +91,17 @@ const DISPLAY_SIZES = [
 ]
 
 const SPACING = [4, 8, 12, 16, 24, 32, 48, 64, 96]
+// Mirrors the --radius-* tokens in globals.css.
 const RADII = [
-  { label: "lg", value: "0.5rem" },
-  { label: "xl", value: "0.75rem" },
-  { label: "2xl", value: "1rem" },
-  { label: "3xl", value: "1.5rem" },
-  { label: "full", value: "9999px" },
+  { token: "tag", px: 4, cls: "rounded-tag", role: { en: "Chips, labels", es: "Chips, etiquetas" } },
+  { token: "control", px: 8, cls: "rounded-control", role: { en: "Buttons, inputs", es: "Botones, inputs" } },
+  { token: "inner", px: 10, cls: "rounded-inner", role: { en: "Media in cards", es: "Media en tarjetas" } },
+  { token: "card", px: 16, cls: "rounded-card", role: { en: "Cards", es: "Tarjetas" } },
+  { token: "panel", px: 20, cls: "rounded-panel", role: { en: "Panels, nav", es: "Paneles, nav" } },
 ]
+
+const BUTTON_VARIANTS: ButtonVariant[] = ["primary", "ink", "secondary", "ghost"]
+const BUTTON_SIZES: ButtonSize[] = ["sm", "md", "lg"]
 
 const EASES = ["power3.out", "power4.out", "back.out(1.7)", "expo.inOut", "elastic.out(1, 0.4)"]
 const DURATIONS = [
@@ -148,11 +153,11 @@ function SwatchColumn({ theme, label }: { theme: "light" | "dark"; label: string
   }, [])
 
   return (
-    <div ref={ref} className={`${theme} rounded-3xl border border-border bg-background p-4 text-foreground`}>
+    <div ref={ref} className={`${theme} rounded-panel border border-border bg-background p-4 text-foreground`}>
       <p className="mb-3 px-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
       <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {COLOR_TOKENS.map((c) => (
-          <li key={c.token} className="sys-swatch overflow-hidden rounded-2xl border border-border bg-card">
+          <li key={c.token} className="sys-swatch overflow-hidden rounded-control border border-border bg-card">
             <div className="h-20" style={{ background: `var(--${c.token})` }} />
             <div className="p-3">
               <p className="text-sm font-semibold">{c.name}</p>
@@ -200,7 +205,7 @@ function EaseCurve({ ease, play }: { ease: string; play: number }) {
   }, [play, fn])
 
   return (
-    <figure className="sys-curve rounded-2xl border border-border bg-card p-4">
+    <figure className="sys-curve rounded-card border border-border bg-card p-4">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full overflow-visible" aria-hidden="true">
         <rect x={pad} y={pad} width={W - pad * 2} height={H - pad * 2} fill="none" className="stroke-border" strokeDasharray="3 4" />
         <path d={points} fill="none" className="sys-curve-path stroke-primary" strokeWidth={2.5} strokeLinecap="round" pathLength={1} />
@@ -341,7 +346,7 @@ export function SystemView() {
           </p>
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-7">
             {[300, 400, 500, 600, 700, 800, 900].map((w) => (
-              <li key={w} className="sys-item rounded-2xl border border-border bg-card p-4">
+              <li key={w} className="sys-item rounded-control border border-border bg-card p-4">
                 <span className="block text-3xl" style={{ fontWeight: w }}>
                   Aa
                 </span>
@@ -359,18 +364,24 @@ export function SystemView() {
             <li key={s} className="flex items-center gap-4">
               
               <span className="w-10 flex-shrink-0 font-mono text-xs text-muted-foreground">{s}</span>
-              <span className="sys-bar block h-3 min-w-0 origin-left rounded-full bg-primary" style={{ width: `min(${s * 4}px, 100%)` }} />
+              <span className="sys-bar block h-3 min-w-0 origin-left rounded-[2px] bg-primary" style={{ width: `min(${s * 4}px, 100%)` }} />
             </li>
           ))}
         </ul>
-        <ul className="mt-12 flex flex-wrap gap-4">
+        <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {RADII.map((r) => (
-            <li key={r.label} className="sys-item text-center">
-              <span
-                className="block h-20 w-20 border-2 border-foreground bg-secondary"
-                style={{ borderRadius: r.value }}
-              />
-              <span className="mt-2 block font-mono text-[10px] text-muted-foreground">{r.label}</span>
+            <li key={r.token} className="sys-item">
+              <span className={`relative block h-24 border border-foreground/70 bg-secondary ${r.cls}`}>
+                <span
+                  className="absolute left-0 top-0 border-l border-t border-primary"
+                  style={{ width: r.px, height: r.px }}
+                  aria-hidden="true"
+                />
+              </span>
+              <span className="mt-3 block font-mono text-[11px] text-foreground">
+                --radius-{r.token} · {r.px}px
+              </span>
+              <span className="block text-xs text-muted-foreground">{r.role[language]}</span>
             </li>
           ))}
         </ul>
@@ -379,36 +390,63 @@ export function SystemView() {
       {/* ── 04 Components ── */}
       <Section index="04" title={c.components}>
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="sys-item flex flex-wrap items-center gap-4 rounded-3xl border border-border bg-card p-6">
-            <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-6 py-3 text-sm font-semibold text-primary-foreground transition-shadow hover:shadow-lg hover:shadow-primary/30">
-              <Download className="h-4 w-4" aria-hidden="true" />
-              {c.primary}
-            </button>
-            <button className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/20">
-              {c.outline}
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </button>
+          <div className="sys-item overflow-x-auto rounded-card border border-border bg-card p-6 md:col-span-2">
+            <table className="w-full border-separate border-spacing-y-3 text-left">
+              <thead>
+                <tr>
+                  <th className="w-24" />
+                  {BUTTON_SIZES.map((size) => (
+                    <th key={size} className="font-mono text-[11px] font-normal uppercase tracking-widest text-muted-foreground">
+                      {size}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {BUTTON_VARIANTS.map((variant) => (
+                  <tr key={variant}>
+                    <td className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">{variant}</td>
+                    {BUTTON_SIZES.map((size) => (
+                      <td key={size} className="pr-4">
+                        <button type="button" className={buttonClass(variant, size)}>
+                          {variant === "primary" && <Download className="h-4 w-4" aria-hidden="true" />}
+                          {variant === "primary" ? c.primary : variant === "secondary" ? c.outline : variant === "ink" ? "Ink" : "Ghost"}
+                        </button>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="sys-item flex flex-wrap items-center gap-4 rounded-card border border-border bg-card p-6">
             <Magnetic>
-              <button className="rounded-full border border-foreground px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-foreground hover:text-background">
+              <button type="button" className={buttonClass("secondary", "md")}>
                 {c.magnetic}
               </button>
             </Magnetic>
-          </div>
-
-          <div className="sys-item flex flex-wrap items-center gap-2 rounded-3xl border border-border bg-card p-6">
-            {["React", "TypeScript", "GSAP", "Figma", "WCAG"].map((chip) => (
-              <span key={chip} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                {chip}
-              </span>
-            ))}
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/90 px-4 py-2 text-xs font-medium text-background">
+            <span className="inline-flex items-center gap-1.5 rounded-control bg-foreground/90 px-3 py-1.5 text-xs font-medium text-background">
               {c.view}
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </span>
           </div>
 
-          <a href="#" onClick={(e) => e.preventDefault()} className="sys-item group flex flex-col rounded-3xl border border-border bg-card p-2 transition-[transform,border-color] duration-500 hover:-translate-y-1 hover:border-primary/30 md:col-span-2 md:flex-row">
-            <div className="relative aspect-video overflow-hidden rounded-2xl bg-secondary md:w-1/2">
+          <div className="sys-item flex flex-wrap items-center gap-2 rounded-card border border-border bg-card p-6">
+            {["React", "TypeScript", "GSAP"].map((chip) => (
+              <span key={chip} className={chipAccentClass}>
+                {chip}
+              </span>
+            ))}
+            {["Figma", "WCAG"].map((chip) => (
+              <span key={chip} className={chipClass}>
+                {chip}
+              </span>
+            ))}
+          </div>
+
+          <a href="#" onClick={(e) => e.preventDefault()} className="sys-item group flex flex-col rounded-card border border-border bg-card p-1.5 transition-[transform,border-color] duration-500 hover:-translate-y-1 hover:border-primary/30 md:col-span-2 md:flex-row">
+            <div className="relative aspect-video overflow-hidden rounded-inner bg-secondary md:w-1/2">
               <svg viewBox="0 0 320 180" className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" aria-hidden="true">
                 <rect width="320" height="180" className="fill-secondary" />
                 <g className="stroke-foreground/30" strokeWidth="1">
@@ -429,8 +467,8 @@ export function SystemView() {
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">{c.cardBody}</p>
               </div>
-              <span className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-border transition-colors duration-500 group-hover:border-primary group-hover:text-primary-foreground">
-                <span className="absolute inset-0 scale-0 rounded-full bg-primary transition-transform duration-500 group-hover:scale-100" />
+              <span className="relative flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-control border border-border transition-colors duration-500 group-hover:border-primary group-hover:text-primary-foreground">
+                <span className="absolute inset-0 scale-0 bg-primary transition-transform duration-500 group-hover:scale-100" />
                 <ArrowUpRight className="relative h-4 w-4 transition-transform duration-500 group-hover:rotate-45" />
               </span>
             </div>
@@ -443,7 +481,7 @@ export function SystemView() {
         <button
           type="button"
           onClick={() => setPlay((n) => n + 1)}
-          className="mb-6 inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-transform active:scale-95"
+          className={buttonClass("ink", "md", "mb-6")}
         >
           <Play className="h-4 w-4" aria-hidden="true" />
           {c.play}
@@ -456,7 +494,7 @@ export function SystemView() {
         <p className="mt-10 mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">{c.duration}</p>
         <ul className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {DURATIONS.map((d) => (
-            <li key={d.label} className="sys-item rounded-2xl border border-border bg-card p-4">
+            <li key={d.label} className="sys-item rounded-control border border-border bg-card p-4">
               <p className="font-display text-2xl">{d.s}s</p>
               <p className="font-mono text-xs text-muted-foreground">{d.label}</p>
             </li>

@@ -73,7 +73,45 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.625rem;
   --radius-xl: 1rem;
+
+  /* Radius scale, by role. Nested surfaces follow outer − padding so corners
+     stay concentric (card 16 with 6px padding → inner media 10). */
+  --radius-tag: 4px; /* chips, labels, keycaps */
+  --radius-control: 8px; /* buttons, inputs, toggles */
+  --radius-inner: 10px; /* media inside cards */
+  --radius-card: 16px; /* cards, list items */
+  --radius-panel: 20px; /* large panels, floating nav */
 }
+
+/* Continuous, Apple-like corners where supported. A superellipse eases the
+   curve into the straight edge; radii grow ~1.3× so the corner reads at the
+   same visual size as the plain arc. */
+@supports (corner-shape: superellipse(1.35)) {
+  .rounded-tag,
+  .rounded-control,
+  .rounded-inner,
+  .rounded-card,
+  .rounded-panel {
+    corner-shape: superellipse(1.35);
+  }
+  .rounded-tag {
+    border-radius: 5px;
+  }
+  .rounded-control {
+    border-radius: 10px;
+  }
+  .rounded-inner {
+    border-radius: 13px;
+  }
+  .rounded-card {
+    border-radius: 21px;
+  }
+  .rounded-panel {
+    border-radius: 26px;
+  }
+}
+
+
 
 html {
   scroll-behavior: smooth;

@@ -23,13 +23,13 @@ export function ThemeToggle() {
   }
 
   if (!mounted) {
-    return <div className="h-9 w-9 rounded-full bg-muted/20" />
+    return <div className="h-8 w-8 rounded-control" />
   }
 
   return (
     <button
       onClick={toggleTheme}
-      className="relative h-9 w-9 rounded-full bg-muted/20 hover:bg-muted/30 transition-colors flex items-center justify-center"
+      className="relative h-8 w-8 rounded-control text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       aria-label="Toggle theme"
     >
       <motion.div
