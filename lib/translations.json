@@ -69,7 +69,7 @@
     "cv.ctaButton": "Get in touch",
     "cv.achievements": "Key achievements",
     "projects.wellbeinn-band.title": "Wellbeinn Band Landing",
-    "projects.wellbeinn-band.description": "Latest project: designed and developed the product landing page for the Wellbeinn Band wearable, from UX and visual direction to a responsive, animated front end."
+    "projects.wellbeinn-band.description": "Latest project: designed and developed the product landing for the Wellbeinn Band, a wearable with ECG and an AI coach. Scroll-driven storytelling with GSAP and Lenis, from UX to a responsive front end."
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -141,6 +141,6 @@
     "cv.ctaButton": "Hablemos",
     "cv.achievements": "Logros clave",
     "projects.wellbeinn-band.title": "Landing Wellbeinn Band",
-    "projects.wellbeinn-band.description": "Último proyecto: diseño y desarrollo de la landing de producto de la pulsera Wellbeinn Band, desde la UX y la dirección visual hasta un frontend responsive y animado."
+    "projects.wellbeinn-band.description": "Último proyecto: diseño y desarrollo de la landing de producto de la Wellbeinn Band, una pulsera con ECG y coach IA. Narrativa guiada por el scroll con GSAP y Lenis, de la UX al frontend responsive."
   }
 }

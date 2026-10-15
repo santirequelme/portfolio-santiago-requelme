@@ -158,7 +158,7 @@ export const ROLES: Role[] = [
 ]
 
 export const WORK: Work[] = [
-  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.svg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Latest · Wellbeinn", es: "Último · Wellbeinn" } },
+  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Latest · Wellbeinn", es: "Último · Wellbeinn" } },
   { title: "Digital Legacy Platform", image: "/images/legacy-platform.svg", url: "/work/digital-legacy-platform", tag: { en: "Case study", es: "Caso de estudio" } },
   { title: "Aura Design System", image: "/images/design-system.svg", url: "/design-system", tag: { en: "Design system", es: "Design system" } },
   { title: "Supply Chain Dashboard", image: "/images/dashboard.webp", url: "https://suply-chain-dashboard.vercel.app/", tag: { en: "Dashboard", es: "Dashboard" } },

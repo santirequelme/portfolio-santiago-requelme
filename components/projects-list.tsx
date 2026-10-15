@@ -76,7 +76,7 @@ export function ProjectsList() {
     {
       title: t("projects.wellbeinn-band.title"),
       description: t("projects.wellbeinn-band.description"),
-      image: "/images/wellbeinn-band.svg",
+      image: "/images/wellbeinn-band.jpg",
       url: "https://wellbeinn.com/products/wellbeinn-band",
     },
     {
