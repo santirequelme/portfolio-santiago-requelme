@@ -68,10 +68,12 @@ function TechStack({ coreStrengthLabel }: { coreStrengthLabel: string }) {
 }
 
 function AboutMe({
+  marker,
   title,
   intro,
   sections,
 }: {
+  marker: string
   title: string
   intro: string
   sections: { title: string; content: string }[]
@@ -86,7 +88,7 @@ function AboutMe({
       mm.add(MOTION_OK, () => {
         gsap.fromTo(
           ".intro-word",
-          { opacity: 0.18 },
+          { opacity: 0.35 },
           {
             opacity: 1,
             ease: "none",
@@ -107,7 +109,7 @@ function AboutMe({
 
   return (
     <div className="space-y-12">
-      <SectionMarker index="03" label={title} />
+      <SectionMarker index="03" label={marker} />
       <div>
         <h2 className="about-title font-display text-4xl md:text-5xl font-bold mb-6" aria-label={title}>
           {title.split(" ").map((word, i) => (
@@ -236,6 +238,7 @@ export function ContentSections() {
       <div className="mx-auto max-w-6xl space-y-24">
         <TechStack coreStrengthLabel={t("about.coreStrength")} />
         <AboutMe
+          marker={t("nav.about")}
           title={t("about.title")}
           intro={t("about.intro")}
           sections={sections}
