@@ -7,6 +7,7 @@ import { ArrowUpRight, Download, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "@/components/motion/magnetic"
+import { SkillsMarquee } from "@/components/skills-marquee"
 import { buttonClass, chipAccentClass } from "@/lib/ui"
 import { ACHIEVEMENTS, ROLES, WORK, SKILLS, EDUCATION, LANGUAGES } from "@/lib/cv"
 
@@ -97,34 +98,6 @@ export function CvView() {
             .from(role.querySelectorAll(".cv-chip"), { scale: 0, opacity: 0, duration: 0.4, stagger: 0.04, ease: "back.out(2)" }, "-=0.3")
         })
 
-        // ── Skills marquee: two rows drifting in opposite directions,
-        // nudged faster and skewed by scroll velocity.
-        const rows = gsap.utils.toArray<HTMLElement>(".cv-marquee-track")
-        const loops = rows.map((row, i) =>
-          gsap.fromTo(
-            row,
-            { xPercent: i % 2 ? -50 : 0 },
-            { xPercent: i % 2 ? 0 : -50, duration: 40, ease: "none", repeat: -1 },
-          ),
-        )
-        const skewTo = gsap.quickTo(".cv-marquee-track", "skewX", { duration: 0.4, ease: "power3.out" })
-        ScrollTrigger.create({
-          trigger: ".cv-marquee",
-          start: "top bottom",
-          end: "bottom top",
-          onUpdate: (self) => {
-            const v = self.getVelocity()
-            loops.forEach((loop) => loop.timeScale(1 + Math.min(Math.abs(v) / 300, 4)))
-            skewTo(gsap.utils.clamp(-8, 8, v / -200))
-          },
-          onLeave: () => loops.forEach((loop) => loop.timeScale(1)),
-        })
-        const settle = () => {
-          loops.forEach((loop) => gsap.to(loop, { timeScale: 1, duration: 0.8, overwrite: true }))
-          skewTo(0)
-        }
-        ScrollTrigger.addEventListener("scrollEnd", settle)
-
         // ── Education / languages / CTA.
         gsap.from(".cv-edu-card", {
           y: 60,
@@ -144,7 +117,6 @@ export function CvView() {
           scrollTrigger: { trigger: ".cv-cta", start: "top 80%" },
         })
 
-        return () => ScrollTrigger.removeEventListener("scrollEnd", settle)
       })
 
       // ── Selected work: pinned section that scrolls horizontally (desktop only).
@@ -396,36 +368,13 @@ export function CvView() {
       </section>
 
       {/* ── Skills marquee ────────────────────────────────────── */}
-      <section className="cv-marquee py-24 overflow-hidden" aria-labelledby="cv-skills">
+      <section className="py-24 overflow-hidden" aria-labelledby="cv-skills">
         <div className="mx-auto max-w-6xl px-4">
           <SectionTitle index="04">
             <span id="cv-skills">{t("cv.skills")}</span>
           </SectionTitle>
         </div>
-        {/* Screen readers and print get a plain list; the marquee is decorative. */}
-        <ul className="sr-only print:not-sr-only print:flex print:flex-wrap print:gap-2 print:px-4">
-          {SKILLS.map((s) => (
-            <li key={s}>{s}</li>
-          ))}
-        </ul>
-        <div aria-hidden="true" className="space-y-4 print:hidden">
-          {[SKILLS.slice(0, 13), SKILLS.slice(13)].map((row, i) => (
-            <div key={i} className="flex w-max cv-marquee-track will-change-transform">
-              {[...row, ...row].map((s, j) => (
-                <span
-                  key={`${s}-${j}`}
-                  className={`mx-2 whitespace-nowrap rounded-control border px-6 py-3 font-display text-2xl md:text-4xl font-bold transition-colors ${
-                    (j + i) % 3 === 0
-                      ? "border-primary/40 bg-primary/10 text-primary"
-                      : "border-border bg-card/70 text-foreground/80 hover:text-primary"
-                  }`}
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
+        <SkillsMarquee skills={SKILLS} />
       </section>
 
       {/* ── Education & languages ─────────────────────────────── */}
