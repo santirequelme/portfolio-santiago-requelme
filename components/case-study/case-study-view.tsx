@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { getCaseStudy } from "@/lib/case-studies"
 import { CaseStudyDemo } from "./demos"
+import { buttonClass, chipClass } from "@/lib/ui"
 
 const enter = "animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out fill-mode-both motion-reduce:animate-none"
 
@@ -45,7 +46,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
           <p className="sr-only">{t("case.stack")}</p>
           <ul className="flex flex-wrap gap-2">
             {study.stack.map((s) => (
-              <li key={s} className="rounded-full border border-border/50 bg-card/50 px-3 py-1 text-xs text-muted-foreground">
+              <li key={s} className={chipClass}>
                 {s}
               </li>
             ))}
@@ -53,7 +54,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
         </div>
       </header>
 
-      <div className={`${enter} delay-150 mt-14 overflow-hidden rounded-2xl border border-border/40`}>
+      <div className={`${enter} delay-150 mt-14 overflow-hidden rounded-card border border-border`}>
         <Image src={study.cover} alt="" width={1200} height={675} priority className="h-auto w-full" />
       </div>
 
@@ -66,7 +67,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
         <h2 className="font-display text-2xl md:text-3xl font-bold">{c.built.title}</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {c.built.items.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-border/40 bg-card/40 p-6">
+            <div key={item.title} className="rounded-card border border-border bg-card/70 p-6">
               <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
               <p className="mt-2 text-sm md:text-base text-muted-foreground leading-relaxed">{item.body}</p>
             </div>
@@ -80,7 +81,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
           {c.decisions.items.map((item, i) => (
             <li
               key={item.title}
-              className="grid gap-6 rounded-2xl border border-border/40 bg-card/40 p-6 md:p-8 lg:grid-cols-2 lg:items-start"
+              className="grid grid-cols-1 gap-6 rounded-card border border-border bg-card/70 p-6 md:p-8 lg:grid-cols-2 lg:items-start [&>*]:min-w-0"
             >
               <div>
                 <p className="font-mono text-xs text-primary">{String(i + 1).padStart(2, "0")}</p>
@@ -93,7 +94,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
         </ol>
       </section>
 
-      <section className="mt-20 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 p-6 md:p-10">
+      <section className="mt-20 rounded-panel border border-border bg-card/70 p-6 md:p-10">
         <h2 className="font-display text-2xl md:text-3xl font-bold">{c.outcome.title}</h2>
         <p className="mt-4 max-w-3xl text-base md:text-lg text-muted-foreground leading-relaxed">{c.outcome.body}</p>
       </section>
@@ -101,7 +102,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
       <nav className="mt-16 flex flex-col gap-4 border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <Link
           href="/design-system"
-          className="group inline-flex flex-col rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+          className="group inline-flex flex-col rounded-control focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
         >
           <span className="text-xs uppercase tracking-wider text-muted-foreground">{t("case.next")}</span>
           <span className="mt-1 inline-flex items-center gap-1 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
@@ -113,7 +114,7 @@ export function CaseStudyView({ slug }: { slug: string }) {
           href="https://www.linkedin.com/in/santiago-requelme/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 py-3 text-sm font-semibold text-primary-foreground transition-shadow hover:shadow-lg hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className={buttonClass("primary", "lg")}
         >
           {t("about.workWithMe")}
         </a>

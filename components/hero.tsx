@@ -9,8 +9,10 @@ import Image from "next/image"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
 import { Magnetic } from "./motion/magnetic"
-import { attachTilt } from "./motion/tilt"
-import { gsap, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { buttonClass } from "@/lib/ui"
+import { CornerMarks, Dimension } from "./tech/annotations"
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
@@ -18,8 +20,6 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
-  const frameRef = useRef<HTMLDivElement>(null)
-  const shineRef = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
@@ -35,12 +35,10 @@ export function Hero() {
         }
         gsap.to(textRef.current, { yPercent: -18, opacity: 0.2, ease: "none", scrollTrigger })
         gsap.to(imageRef.current, { yPercent: 12, ease: "none", scrollTrigger })
-      })
 
-      // 3D tilt + light reflection on the profile photo.
-      mm.add(FINE_POINTER, () => {
-        if (!frameRef.current) return
-        return attachTilt(frameRef.current, { max: 10, spotlight: shineRef.current })
+        // Type metric guides draw in under the headline.
+        gsap.from(".hero-guide", { scaleX: 0, duration: 1.4, ease: "power3.inOut", stagger: 0.15, delay: 0.4 })
+        gsap.from(".hero-guide-label", { opacity: 0, duration: 0.6, stagger: 0.15, delay: 1.2 })
       })
 
       return () => mm.revert()
@@ -73,7 +71,28 @@ export function Hero() {
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
         {/* Left side: Text content */}
         <div ref={textRef} className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
-          {/* Heading + Subtitle inside h1 — same display size, contrasted by color */}
+          <p className={`${enter} font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground mb-8`}>
+            <span className="mr-2 inline-block h-1.5 w-1.5 translate-y-[-1px] bg-primary align-middle" aria-hidden="true" />
+            {t("cv.role")}
+          </p>
+
+          {/* Heading + Subtitle inside h1 — same display size, contrasted by color.
+              Cap-height and baseline guides sit behind the first line. */}
+          <div className="relative">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 hidden md:block text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+            >
+              {[
+                { top: "0.2em", label: "cap" },
+                { top: "0.9em", label: "base" },
+              ].map((g) => (
+                <span key={g.label} className="absolute -left-4 -right-4 flex items-center" style={{ top: g.top }}>
+                  <span className="hero-guide h-px flex-1 origin-left bg-[repeating-linear-gradient(90deg,var(--primary)_0_3px,transparent_3px_6px)] opacity-40" />
+                  <span className="hero-guide-label ml-2 font-mono text-[10px] uppercase tracking-widest text-primary/70">{g.label}</span>
+                </span>
+              ))}
+            </div>
           <h1
             className={`${enter} delay-100 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10`}
           >
@@ -85,12 +104,13 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
-                className="block text-muted text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2"
+                className="block text-foreground/25 dark:text-foreground/40 text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2"
               >
                 {t("hero.subtitle")}
               </motion.span>
             </AnimatePresence>
           </h1>
+          </div>
 
           {/* Description with language animation */}
           <div className={`${enter} delay-200`}>
@@ -108,129 +128,60 @@ export function Hero() {
             </AnimatePresence>
           </div>
 
-          {/* CTA Button with glass effect */}
-          <div className={`${enter} delay-300`}>
-            <Magnetic>
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={t("hero.viewProjects")}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Link
-                    href="#projectList"
-                    onClick={handleScrollToProjects}
-                    className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full
-                      bg-primary/10 backdrop-blur-xl border border-primary/40
-                      text-primary transition-all duration-300 ease-out
-                      hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(164,88,255,0.4)]
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2
-                      focus-visible:ring-offset-background active:scale-95"
-                  >
-                    {t("hero.viewProjects")}
-                    <svg
-                      className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
+          {/* Actions: primary + secondary */}
+          <div className={`${enter} delay-300 flex flex-wrap items-center justify-center gap-3 lg:justify-start`}>
+            <Magnetic strength={0.2}>
+              <Link href="#projectList" onClick={handleScrollToProjects} className={buttonClass("primary", "lg", "group")}>
+                {t("hero.viewProjects")}
+                <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
+              </Link>
             </Magnetic>
+            <Link href="/cv" className={buttonClass("secondary", "lg", "group")}>
+              {t("hero.viewCv")}
+              <ArrowUpRight
+                className="h-4 w-4 text-muted-foreground transition-[transform,color] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                aria-hidden="true"
+              />
+            </Link>
           </div>
         </div>
 
-        {/* Right side: Profile image with spatial treatment */}
+        {/* Right side: profile photo presented as a design-tool frame */}
         <div
-          className={`${enter} delay-300 lg:w-[30%] w-full max-w-sm`}
+          className={`${enter} delay-300 lg:w-[30%] w-full max-w-sm pr-8 pb-10`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
           <div ref={imageRef} className="relative">
-            {/* Glow backdrop behind image */}
-            <motion.div
-              animate={{
-                opacity: isHovered ? 1 : 0.7,
-                scale: isHovered ? 1.1 : 1,
-              }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 blur-2xl -z-10"
-            />
+            <p className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+              <span>
+                <span className="text-primary">#</span> Frame 01 — Portrait
+              </span>
+              <span>1:1</span>
+            </p>
 
-            {/* Image container with ring and hover glow */}
-            <div
-              ref={frameRef}
-              className="relative aspect-square w-full overflow-hidden rounded-2xl ring-1 ring-primary/30 group/photo
-                transition-[box-shadow,ring-color] duration-150 ease-out
-                hover:ring-primary/60 hover:shadow-[0_0_40px_rgba(164,88,255,0.3)]"
-            >
-              {/* Primary image */}
-              <motion.div
-                animate={{ opacity: isHovered ? 0 : 1 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src="/images/foto1.webp"
-                  alt="Santiago Requelme"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </motion.div>
+            <div className="relative rounded-card border border-border bg-card p-1.5 shadow-[0_30px_60px_-40px_rgb(0_0_0/0.35)]">
+              <CornerMarks offset={10} />
+              <Dimension axis="x" offset={26} />
+              <Dimension axis="y" offset={26} />
 
-              {/* Hover image — lazy loaded, only needed on interaction */}
-              <motion.div
-                animate={{ opacity: isHovered ? 1 : 0 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src="/images/foto2.webp"
-                  alt=""
-                  fill
-                  loading="lazy"
-                  className="object-cover"
-                />
-              </motion.div>
-
-              {/* Subtle overlay on hover for cinematic effect */}
-              <motion.div
-                animate={{
-                  opacity: isHovered ? 0.15 : 0,
-                }}
-                transition={{ duration: 0.18 }}
-                className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"
-              />
-
-              {/* Light reflection that follows the cursor (driven by the tilt) */}
-              <div
-                ref={shineRef}
-                aria-hidden="true"
-                className="absolute inset-0 pointer-events-none opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 mix-blend-soft-light"
-                style={{
-                  background:
-                    "radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.55), transparent 55%)",
-                }}
-              />
+              <div className="relative aspect-square w-full overflow-hidden rounded-inner bg-secondary">
+                <motion.div
+                  animate={{ opacity: isHovered ? 0 : 1 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="absolute inset-0"
+                >
+                  <Image src="/images/foto1.webp" alt="Santiago Requelme" fill className="object-cover" priority />
+                </motion.div>
+                <motion.div
+                  animate={{ opacity: isHovered ? 1 : 0 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="absolute inset-0"
+                >
+                  <Image src="/images/foto2.webp" alt="" fill loading="lazy" className="object-cover" />
+                </motion.div>
+              </div>
             </div>
-
           </div>
         </div>
       </div>

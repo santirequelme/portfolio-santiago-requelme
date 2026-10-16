@@ -87,7 +87,7 @@ function DisclosureDemo({ lang }: { lang: Lang }) {
   const musicId = useId()
 
   return (
-    <div className="rounded-xl border border-primary/30 bg-background/60 p-5 ring-4 ring-primary/5">
+    <div className="rounded-card border border-primary/30 bg-background/60 p-5">
       <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-4">{t.card}</p>
 
       <div className="flex items-center justify-between gap-4">
@@ -124,7 +124,7 @@ function DisclosureDemo({ lang }: { lang: Lang }) {
                 aria-pressed={type === i}
                 onClick={() => setType(i)}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
+                  "rounded-control border px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
                   type === i
                     ? "border-primary/60 bg-primary/10 text-primary"
                     : "border-border/60 text-muted-foreground hover:text-foreground",
@@ -145,7 +145,7 @@ function DisclosureDemo({ lang }: { lang: Lang }) {
             value={music}
             onChange={(e) => setMusic(e.target.value)}
             placeholder={t.musicPlaceholder}
-            className="w-full rounded-lg border border-border/60 bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="w-full rounded-control border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
         </div>
       </div>
@@ -202,7 +202,7 @@ function ValidationDemo({ lang }: { lang: Lang }) {
   }
 
   return (
-    <div className="rounded-xl border border-border/50 bg-background/60 p-5">
+    <div className="rounded-card border border-border bg-background/60 p-5">
       <label htmlFor={inputId} className="block text-sm font-medium text-foreground mb-2">
         {t.label}
       </label>
@@ -219,7 +219,7 @@ function ValidationDemo({ lang }: { lang: Lang }) {
         onBlur={() => setTouched(true)}
         placeholder="ES00 0000 0000 0000 0000 0000"
         className={cn(
-          "w-full rounded-lg border bg-background px-3 py-2.5 font-mono text-sm tracking-wide text-foreground placeholder:text-muted-foreground/50 transition-colors focus:outline-none focus:ring-2",
+          "w-full rounded-control border bg-background px-3 py-2.5 font-mono text-sm tracking-wide text-foreground placeholder:text-muted-foreground/50 transition-colors focus:outline-none focus:ring-2",
           showError
             ? "border-destructive/70 focus:ring-destructive/40"
             : status === "valid"
@@ -255,8 +255,8 @@ function ResponsiveDemo({ lang }: { lang: Lang }) {
   const [view, setView] = useState<"desktop" | "mobile">("desktop")
 
   return (
-    <div className="rounded-xl border border-border/50 bg-background/60 p-5">
-      <div className="mb-5 inline-flex rounded-full border border-border/50 bg-muted/30 p-1">
+    <div className="rounded-card border border-border bg-background/60 p-5">
+      <div className="mb-5 inline-flex rounded-control border border-border bg-secondary p-0.5">
         {(
           [
             { id: "desktop", label: t.desktop, Icon: Monitor },
@@ -269,7 +269,7 @@ function ResponsiveDemo({ lang }: { lang: Lang }) {
             aria-pressed={view === id}
             onClick={() => setView(id)}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
+              "inline-flex items-center gap-1.5 rounded-[6px] px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
               view === id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -297,7 +297,7 @@ function ResponsiveDemo({ lang }: { lang: Lang }) {
                   <td className="py-2.5 pr-4 text-muted-foreground">{c.relation}</td>
                   <td className="py-2.5 pr-4 text-muted-foreground">{c.email}</td>
                   <td className="py-2.5">
-                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">{c.role}</span>
+                    <span className="rounded-tag bg-primary/10 px-2 py-0.5 text-xs text-primary">{c.role}</span>
                   </td>
                 </tr>
               ))}
@@ -307,10 +307,10 @@ function ResponsiveDemo({ lang }: { lang: Lang }) {
       ) : (
         <div className="mx-auto w-full max-w-[300px] space-y-2 rounded-[1.75rem] border border-border/60 bg-background p-3">
           {contacts.map((c) => (
-            <div key={c.email} className="rounded-xl border border-border/40 bg-card/60 p-3">
+            <div key={c.email} className="rounded-control border border-border bg-card/60 p-3">
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-medium text-foreground">{c.name}</p>
-                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] text-primary">{c.role}</span>
+                <span className="rounded-tag bg-primary/10 px-2 py-0.5 text-[11px] text-primary">{c.role}</span>
               </div>
               <p className="mt-0.5 text-xs text-muted-foreground">{c.relation}</p>
               <p className="mt-1 text-xs text-muted-foreground">{c.email}</p>

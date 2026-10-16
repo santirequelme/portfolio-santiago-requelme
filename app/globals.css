@@ -3,44 +3,47 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
-  --background: oklch(0.98 0.005 270);
-  --foreground: oklch(0.12 0.02 275);
-  --card: oklch(0.97 0.008 270);
-  --card-foreground: oklch(0.12 0.02 275);
-  --primary: oklch(0.50 0.25 295);
-  --primary-foreground: oklch(0.98 0.005 270);
-  --secondary: oklch(0.94 0.01 270);
-  --secondary-foreground: oklch(0.12 0.02 275);
-  --accent: oklch(0.48 0.22 265);
-  --accent-foreground: oklch(0.98 0.005 270);
-  --muted: oklch(0.88 0.01 270);
-  --muted-foreground: oklch(0.45 0.03 270);
-  --destructive: oklch(0.60 0.20 25);
-  --destructive-foreground: oklch(0.98 0.005 270);
-  --border: oklch(0.92 0.01 270);
-  --input: oklch(0.97 0.008 270);
-  --ring: oklch(0.50 0.25 295);
+:root,
+.light {
+  /* Warm paper + ink, red-orange signal */
+  --background: oklch(0.985 0.004 75);
+  --foreground: oklch(0.17 0.01 50);
+  --card: oklch(0.995 0.002 75);
+  --card-foreground: oklch(0.17 0.01 50);
+  --primary: oklch(0.6 0.21 34);
+  --primary-foreground: oklch(0.99 0.003 75);
+  --secondary: oklch(0.95 0.008 70);
+  --secondary-foreground: oklch(0.17 0.01 50);
+  --accent: oklch(0.53 0.2 27);
+  --accent-foreground: oklch(0.99 0.003 75);
+  --muted: oklch(0.86 0.01 65);
+  --muted-foreground: oklch(0.45 0.015 55);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0.003 75);
+  --border: oklch(0.9 0.008 65);
+  --input: oklch(0.97 0.005 70);
+  --ring: oklch(0.6 0.21 34);
 }
 
 .dark {
-  --background: oklch(0.06 0.015 270);
-  --foreground: oklch(0.95 0.01 270);
-  --card: oklch(0.10 0.02 270);
-  --card-foreground: oklch(0.95 0.01 270);
-  --primary: oklch(0.65 0.28 295);
-  --primary-foreground: oklch(0.06 0.015 270);
-  --secondary: oklch(0.14 0.025 270);
-  --secondary-foreground: oklch(0.95 0.01 270);
-  --accent: oklch(0.62 0.25 265);
-  --accent-foreground: oklch(0.06 0.015 270);
-  --muted: oklch(0.25 0.02 270);
-  --muted-foreground: oklch(0.55 0.03 270);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.06 0.015 270);
-  --border: oklch(0.18 0.03 275);
-  --input: oklch(0.10 0.02 270);
-  --ring: oklch(0.65 0.28 295);
+  color-scheme: dark;
+  --background: oklch(0.14 0.008 50);
+  --foreground: oklch(0.96 0.006 75);
+  --card: oklch(0.18 0.01 50);
+  --card-foreground: oklch(0.96 0.006 75);
+  --primary: oklch(0.69 0.2 38);
+  --primary-foreground: oklch(0.14 0.008 50);
+  --secondary: oklch(0.21 0.01 50);
+  --secondary-foreground: oklch(0.96 0.006 75);
+  --accent: oklch(0.63 0.21 28);
+  --accent-foreground: oklch(0.14 0.008 50);
+  --muted: oklch(0.32 0.01 55);
+  --muted-foreground: oklch(0.7 0.012 65);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.14 0.008 50);
+  --border: oklch(0.27 0.01 50);
+  --input: oklch(0.18 0.01 50);
+  --ring: oklch(0.69 0.2 38);
 }
 
 @theme inline {
@@ -70,7 +73,45 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.625rem;
   --radius-xl: 1rem;
+
+  /* Radius scale, by role. Nested surfaces follow outer − padding so corners
+     stay concentric (card 16 with 6px padding → inner media 10). */
+  --radius-tag: 4px; /* chips, labels, keycaps */
+  --radius-control: 8px; /* buttons, inputs, toggles */
+  --radius-inner: 10px; /* media inside cards */
+  --radius-card: 16px; /* cards, list items */
+  --radius-panel: 20px; /* large panels, floating nav */
 }
+
+/* Continuous, Apple-like corners where supported. A superellipse eases the
+   curve into the straight edge; radii grow ~1.3× so the corner reads at the
+   same visual size as the plain arc. */
+@supports (corner-shape: superellipse(1.35)) {
+  .rounded-tag,
+  .rounded-control,
+  .rounded-inner,
+  .rounded-card,
+  .rounded-panel {
+    corner-shape: superellipse(1.35);
+  }
+  .rounded-tag {
+    border-radius: 5px;
+  }
+  .rounded-control {
+    border-radius: 10px;
+  }
+  .rounded-inner {
+    border-radius: 13px;
+  }
+  .rounded-card {
+    border-radius: 21px;
+  }
+  .rounded-panel {
+    border-radius: 26px;
+  }
+}
+
+
 
 html {
   scroll-behavior: smooth;
@@ -213,7 +254,7 @@ html {
   .glass {
     background: oklch(0.12 0.02 270 / 0.6);
     backdrop-filter: blur(20px) saturate(1.5);
-    border: 1px solid oklch(0.25 0.04 275 / 0.3);
+    border: 1px solid oklch(0.3 0.02 50 / 0.3);
   }
 
   .glass-light {
@@ -319,5 +360,118 @@ html {
     break-inside: avoid;
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
+  }
+}
+
+/* ─── Technical backdrop (components/spatial-background.tsx) ─────────────── */
+.tech-bg {
+  --tech-line: color-mix(in oklch, var(--foreground) 4.5%, transparent);
+  --tech-mark: color-mix(in oklch, var(--foreground) 22%, transparent);
+  --tech-guide: color-mix(in oklch, var(--foreground) 16%, transparent);
+}
+
+/* Fade the whole drafting surface towards the edges */
+.tech-grid {
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, #000 35%, transparent 100%);
+}
+
+/* Minor lines every 24px */
+.tech-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--tech-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--tech-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Registration crosses at every major intersection, drifting with scroll */
+.tech-grid::after {
+  content: "";
+  position: absolute;
+  inset: -120px 0;
+  background-color: var(--tech-mark);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M0 -5V5M-5 0H5M120 -5V5M115 0H125M0 115V125M-5 120H5M120 115V125M115 120H125' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+  mask-size: 120px 120px;
+  mask-position: 0 var(--major-y, 0px);
+}
+
+/* Loupe: intersection dots revealed in a soft circle around the cursor */
+.tech-loupe {
+  background-image: radial-gradient(circle, var(--primary) 1.25px, transparent 1.75px);
+  background-size: 24px 24px;
+  background-position: -12px -12px;
+  mask-image: radial-gradient(circle 150px at var(--cx, -999px) var(--cy, -999px), #000 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Snapped crosshair guides + coordinate readout */
+.tech-cross-x,
+.tech-cross-y,
+.tech-coord {
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tech-cross-x {
+  transform: translateY(var(--sy, 0px));
+  background-image: repeating-linear-gradient(90deg, var(--tech-guide) 0 4px, transparent 4px 8px);
+}
+.tech-cross-y {
+  transform: translateX(var(--sx, 0px));
+  background-image: repeating-linear-gradient(180deg, var(--tech-guide) 0 4px, transparent 4px 8px);
+}
+.tech-coord {
+  transform: translate(calc(var(--sx, 0px) + 10px), calc(var(--sy, 0px) + 8px));
+  color: var(--primary);
+  white-space: pre;
+}
+
+.tech-bg[data-cursor="on"] .tech-loupe {
+  opacity: 0.55;
+}
+.tech-bg[data-cursor="on"] .tech-cross-x,
+.tech-bg[data-cursor="on"] .tech-cross-y,
+.tech-bg[data-cursor="on"] .tech-coord {
+  opacity: 1;
+}
+.tech-bg[data-cursor="idle"] .tech-loupe {
+  opacity: 0.25;
+}
+
+/* Left ruler */
+.tech-ruler {
+  border-right: 1px solid var(--border);
+  background: color-mix(in oklch, var(--background) 70%, transparent);
+  color: var(--muted-foreground);
+}
+.tech-ruler-ticks {
+  transform: translateY(var(--ruler-y, 0px));
+  background-image:
+    linear-gradient(var(--tech-mark) 1px, transparent 1px),
+    linear-gradient(var(--tech-mark) 1px, transparent 1px),
+    linear-gradient(var(--tech-guide) 1px, transparent 1px);
+  background-size:
+    100% 120px,
+    9px 40px,
+    5px 8px;
+  background-position: right top;
+  background-repeat: repeat-y;
+}
+.tech-ruler-marker {
+  top: 0;
+  transform: translateY(var(--cy, -10px));
+  background: var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-loupe,
+  .tech-cross-x,
+  .tech-cross-y,
+  .tech-coord {
+    display: none;
   }
 }

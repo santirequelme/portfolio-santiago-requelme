@@ -81,16 +81,15 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1714" },
   ],
 }
 
 const themeScript = `
   (function() {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    // Light mode is the default; dark only when the visitor picked it.
+    const theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     }

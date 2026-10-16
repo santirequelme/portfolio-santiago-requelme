@@ -7,6 +7,8 @@ import { ArrowUpRight, Download, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { Magnetic } from "@/components/motion/magnetic"
+import { SkillsMarquee } from "@/components/skills-marquee"
+import { buttonClass, chipAccentClass } from "@/lib/ui"
 import { ACHIEVEMENTS, ROLES, WORK, SKILLS, EDUCATION, LANGUAGES } from "@/lib/cv"
 
 function SectionTitle({ index, children }: { index: string; children: React.ReactNode }) {
@@ -16,7 +18,7 @@ function SectionTitle({ index, children }: { index: string; children: React.Reac
       <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight overflow-hidden">
         <span className="cv-title-inner inline-block">{children}</span>
       </h2>
-      <span className="cv-title-line hidden md:block flex-1 h-px bg-gradient-to-r from-primary/60 to-transparent origin-left" />
+      <span className="cv-title-line hidden md:block flex-1 h-px bg-border origin-left" />
     </div>
   )
 }
@@ -96,34 +98,6 @@ export function CvView() {
             .from(role.querySelectorAll(".cv-chip"), { scale: 0, opacity: 0, duration: 0.4, stagger: 0.04, ease: "back.out(2)" }, "-=0.3")
         })
 
-        // ── Skills marquee: two rows drifting in opposite directions,
-        // nudged faster and skewed by scroll velocity.
-        const rows = gsap.utils.toArray<HTMLElement>(".cv-marquee-track")
-        const loops = rows.map((row, i) =>
-          gsap.fromTo(
-            row,
-            { xPercent: i % 2 ? -50 : 0 },
-            { xPercent: i % 2 ? 0 : -50, duration: 40, ease: "none", repeat: -1 },
-          ),
-        )
-        const skewTo = gsap.quickTo(".cv-marquee-track", "skewX", { duration: 0.4, ease: "power3.out" })
-        ScrollTrigger.create({
-          trigger: ".cv-marquee",
-          start: "top bottom",
-          end: "bottom top",
-          onUpdate: (self) => {
-            const v = self.getVelocity()
-            loops.forEach((loop) => loop.timeScale(1 + Math.min(Math.abs(v) / 300, 4)))
-            skewTo(gsap.utils.clamp(-8, 8, v / -200))
-          },
-          onLeave: () => loops.forEach((loop) => loop.timeScale(1)),
-        })
-        const settle = () => {
-          loops.forEach((loop) => gsap.to(loop, { timeScale: 1, duration: 0.8, overwrite: true }))
-          skewTo(0)
-        }
-        ScrollTrigger.addEventListener("scrollEnd", settle)
-
         // ── Education / languages / CTA.
         gsap.from(".cv-edu-card", {
           y: 60,
@@ -143,7 +117,6 @@ export function CvView() {
           scrollTrigger: { trigger: ".cv-cta", start: "top 80%" },
         })
 
-        return () => ScrollTrigger.removeEventListener("scrollEnd", settle)
       })
 
       // ── Selected work: pinned section that scrolls horizontally (desktop only).
@@ -222,7 +195,7 @@ export function CvView() {
             </span>
           ))}
         </h1>
-        <p className="cv-intro-fade mt-8 text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent print:bg-none print:text-primary">
+        <p className="cv-intro-fade mt-8 text-2xl md:text-3xl font-semibold text-primary">
           {t("cv.role")}
         </p>
         <p className="cv-intro-fade mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty">
@@ -233,23 +206,21 @@ export function CvView() {
             <button
               type="button"
               onClick={() => window.print()}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-8 py-4 text-sm font-semibold text-primary-foreground transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className={buttonClass("primary", "lg")}
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               {t("cv.download")}
             </button>
           </Magnetic>
-          <Magnetic>
-            <a
-              href="https://www.linkedin.com/in/santiago-requelme/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-8 py-4 text-sm font-semibold text-primary backdrop-blur-xl transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
-            >
-              LinkedIn
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </Magnetic>
+          <a
+            href="https://www.linkedin.com/in/santiago-requelme/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("secondary", "lg")}
+          >
+            LinkedIn
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+          </a>
         </div>
 
       </header>
@@ -263,7 +234,7 @@ export function CvView() {
           {ACHIEVEMENTS.map((a) => (
             <li
               key={a.label.en}
-              className="cv-stat group relative overflow-hidden rounded-3xl border border-border/40 bg-card/40 p-8 transition-colors duration-300 hover:border-primary/40"
+              className="cv-stat group relative overflow-hidden rounded-card border border-border bg-card/70 p-8 transition-colors duration-300 hover:border-foreground/25"
             >
               <p className="font-display text-5xl md:text-6xl font-bold tracking-tight text-foreground">
                 {a.from > 0 && (
@@ -280,7 +251,7 @@ export function CvView() {
               <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">{a.label[language]}</p>
               <span
                 aria-hidden="true"
-                className="cv-stat-bar absolute bottom-0 left-0 h-1 w-full origin-left bg-gradient-to-r from-primary to-accent"
+                className="cv-stat-bar absolute bottom-0 left-0 h-[2px] w-full origin-left bg-primary"
               />
             </li>
           ))}
@@ -298,16 +269,16 @@ export function CvView() {
           <span aria-hidden="true" className="absolute left-3 md:left-5 top-2 bottom-2 w-px bg-border/60" />
           <span
             aria-hidden="true"
-            className="cv-rail-fill absolute left-3 md:left-5 top-2 bottom-2 w-px origin-top bg-gradient-to-b from-primary via-accent to-primary"
+            className="cv-rail-fill absolute left-3 md:left-5 top-2 bottom-2 w-px origin-top bg-primary"
           />
 
           {ROLES.map((role) => (
             <li key={role.company} className="cv-role group relative">
               <span
                 aria-hidden="true"
-                className="absolute -left-10 md:-left-16 top-2 ml-[5px] md:ml-[13px] h-4 w-4 rounded-full border-2 border-border bg-background transition-all duration-500 group-[.is-active]:border-primary group-[.is-active]:bg-primary group-[.is-active]:shadow-[0_0_0_6px_oklch(0.65_0.28_295/0.2),0_0_24px_oklch(0.65_0.28_295/0.6)]"
+                className="absolute -left-10 md:-left-16 top-2 ml-[5px] md:ml-[13px] h-3.5 w-3.5 rotate-45 rounded-[2px] border-2 border-border bg-background transition-all duration-500 group-[.is-active]:border-primary group-[.is-active]:bg-primary group-[.is-active]:shadow-[0_0_0_6px_oklch(0.68_0.2_38/0.2),0_0_24px_oklch(0.68_0.2_38/0.6)]"
               />
-              <article className="cv-role-card rounded-3xl border border-border/40 bg-card/40 p-6 md:p-10 backdrop-blur-sm transition-colors duration-500 group-[.is-active]:border-primary/30">
+              <article className="cv-role-card rounded-card border border-border bg-card/70 p-6 md:p-10 backdrop-blur-sm transition-colors duration-500 group-[.is-active]:border-primary/30">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                   <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">{role.title[language]}</h3>
                   {role.period[language] && (
@@ -327,7 +298,7 @@ export function CvView() {
                 <ul className="mt-6 space-y-3">
                   {role.highlights[language].map((h) => (
                     <li key={h} className="cv-highlight flex gap-3 text-foreground/90">
-                      <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                      <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-[1px] bg-primary" />
                       <span className="leading-relaxed">{h}</span>
                     </li>
                   ))}
@@ -336,7 +307,7 @@ export function CvView() {
                   {role.stack.map((s) => (
                     <li
                       key={s}
-                      className="cv-chip rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                      className={`cv-chip ${chipAccentClass}`}
                     >
                       {s}
                     </li>
@@ -362,9 +333,9 @@ export function CvView() {
                 href={w.url}
                 target={internal ? undefined : "_blank"}
                 rel={internal ? undefined : "noopener noreferrer"}
-                className="cv-work-card group relative flex-shrink-0 w-[80vw] md:w-[38vw] lg:w-[30vw] snap-center rounded-3xl border border-border/40 bg-card/60 overflow-hidden"
+                className="cv-work-card group relative flex-shrink-0 w-[80vw] md:w-[38vw] lg:w-[30vw] snap-center rounded-card border border-border bg-card/80 p-1.5"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-inner bg-secondary">
                   <Image
                     src={w.image}
                     alt={w.title}
@@ -372,8 +343,8 @@ export function CvView() {
                     sizes="(max-width: 768px) 80vw, 38vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-black/40 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <span className="absolute left-3 top-3 rounded-tag bg-black/50 px-2 py-1 font-mono text-[11px] uppercase tracking-wide text-white backdrop-blur">
                     {w.tag[language]}
                   </span>
                 </div>
@@ -391,47 +362,24 @@ export function CvView() {
         <div className="mx-auto mt-10 hidden md:flex w-full max-w-6xl items-center gap-4 px-4">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t("cv.workHint")}</span>
           <span className="relative h-px flex-1 bg-border/60">
-            <span className="cv-work-progress absolute inset-0 origin-left scale-x-0 bg-gradient-to-r from-primary to-accent" />
+            <span className="cv-work-progress absolute inset-0 origin-left scale-x-0 bg-primary" />
           </span>
         </div>
       </section>
 
       {/* ── Skills marquee ────────────────────────────────────── */}
-      <section className="cv-marquee py-24 overflow-hidden" aria-labelledby="cv-skills">
+      <section className="py-24 overflow-hidden" aria-labelledby="cv-skills">
         <div className="mx-auto max-w-6xl px-4">
           <SectionTitle index="04">
             <span id="cv-skills">{t("cv.skills")}</span>
           </SectionTitle>
         </div>
-        {/* Screen readers and print get a plain list; the marquee is decorative. */}
-        <ul className="sr-only print:not-sr-only print:flex print:flex-wrap print:gap-2 print:px-4">
-          {SKILLS.map((s) => (
-            <li key={s}>{s}</li>
-          ))}
-        </ul>
-        <div aria-hidden="true" className="space-y-4 print:hidden">
-          {[SKILLS.slice(0, 13), SKILLS.slice(13)].map((row, i) => (
-            <div key={i} className="flex w-max cv-marquee-track will-change-transform">
-              {[...row, ...row].map((s, j) => (
-                <span
-                  key={`${s}-${j}`}
-                  className={`mx-2 whitespace-nowrap rounded-full border px-6 py-3 font-display text-2xl md:text-4xl font-bold transition-colors ${
-                    (j + i) % 3 === 0
-                      ? "border-primary/40 bg-primary/10 text-primary"
-                      : "border-border/40 bg-card/40 text-foreground/80 hover:text-primary"
-                  }`}
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
+        <SkillsMarquee skills={SKILLS} />
       </section>
 
       {/* ── Education & languages ─────────────────────────────── */}
       <section className="cv-edu mx-auto max-w-6xl px-4 py-24 grid gap-6 md:grid-cols-2 overflow-x-clip" aria-label={t("cv.education")}>
-        <div className="cv-edu-card rounded-3xl border border-border/40 bg-card/40 p-8 md:p-10">
+        <div className="cv-edu-card rounded-card border border-border bg-card/70 p-8 md:p-10">
           <p className="font-mono text-sm text-primary">05</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl font-bold">{t("cv.education")}</h2>
           <ul className="mt-6 space-y-5">
@@ -446,7 +394,7 @@ export function CvView() {
             ))}
           </ul>
         </div>
-        <div className="cv-edu-card rounded-3xl border border-border/40 bg-card/40 p-8 md:p-10">
+        <div className="cv-edu-card rounded-card border border-border bg-card/70 p-8 md:p-10">
           <p className="font-mono text-sm text-primary">06</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl font-bold">{t("cv.languages")}</h2>
           <ul className="mt-6 space-y-4">
@@ -478,7 +426,7 @@ export function CvView() {
           <Magnetic strength={0.4}>
             <a
               href="mailto:santireke37@gmail.com"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-12 py-5 text-base font-semibold text-primary-foreground transition-shadow duration-300 hover:shadow-xl hover:shadow-primary/30"
+              className={buttonClass("primary", "lg", "px-8")}
             >
               <Mail className="h-5 w-5" aria-hidden="true" />
               {t("cv.ctaButton")}

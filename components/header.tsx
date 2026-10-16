@@ -7,6 +7,7 @@ import { ThemeToggle } from "./theme-toggle"
 import { LanguageToggle } from "./language-toggle"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
+import { buttonClass } from "@/lib/ui"
 
 // Logo aislado para que el estado de click no re-renderice todo el Header
 function LogoButton() {
@@ -35,7 +36,7 @@ function LogoButton() {
             initial={{ scale: 1, opacity: 0.7 }}
             animate={{ scale: 3.2, opacity: 0 }}
             transition={{ duration: 0.55, delay: i * 0.1, ease: "easeOut" }}
-            className="absolute inset-0 rounded-lg border border-primary/50 pointer-events-none"
+            className="absolute inset-0 rounded-control border border-primary/50 pointer-events-none"
           />
         ))}
 
@@ -44,9 +45,9 @@ function LogoButton() {
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: rotation }}
           transition={{ type: "spring", stiffness: 180, damping: 12 }}
-          className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-shadow duration-150 cursor-pointer"
+          className="relative flex h-8 w-8 items-center justify-center rounded-control bg-foreground ring-1 ring-inset ring-white/10 group-hover:ring-primary/60 transition-shadow duration-150 cursor-pointer"
         >
-          <span className="text-sm font-bold text-primary-foreground select-none">SR</span>
+          <span className="text-sm font-bold text-background select-none">SR</span>
         </motion.div>
       </div>
     </button>
@@ -80,7 +81,7 @@ function NavItems({ navItems }: { navItems: { name: string; href: string }[] }) 
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="absolute inset-0 rounded-lg bg-foreground/5 -z-10"
+                className="absolute inset-0 rounded-control bg-foreground/[0.05] -z-10"
               />
             )}
           </AnimatePresence>
@@ -151,13 +152,13 @@ export function Header() {
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className={cn(
-            "pointer-events-auto rounded-full border backdrop-blur-xl",
+            "pointer-events-auto rounded-panel border backdrop-blur-xl",
             scrolled
-              ? "bg-background/80 border-border/60 shadow-xl shadow-primary/10"
-              : "bg-background/60 border-border/50 shadow-lg shadow-primary/5"
+              ? "bg-background/80 border-border/70 shadow-[0_12px_32px_-16px_rgb(0_0_0/0.25)]"
+              : "bg-background/60 border-border/60 shadow-[0_8px_24px_-16px_rgb(0_0_0/0.2)]"
           )}
         >
-          <div className="flex items-center justify-between px-6 py-3 gap-8">
+          <div className="flex items-center justify-between pl-3 pr-2 py-2 gap-8">
             {/* Logo */}
             <LogoButton />
 
@@ -173,7 +174,7 @@ export function Header() {
                 href="https://www.linkedin.com/in/santiago-requelme/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
                 aria-label="LinkedIn Profile"
               >
                 <svg
@@ -197,7 +198,7 @@ export function Header() {
                 href="https://github.com/santirequelme/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
                 aria-label="GitHub Profile"
               >
                 <svg
@@ -223,11 +224,9 @@ export function Header() {
                 href="https://www.linkedin.com/in/santiago-requelme/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-9 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 relative overflow-hidden group"
+                className={buttonClass("primary", "sm")}
               >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg" />
-                <span className="relative">{t("header.hireMe")}</span>
+                {t("header.hireMe")}
               </a>
             </div>
           </div>
@@ -247,10 +246,10 @@ export function Header() {
               whileTap={{ scale: [1, 0.8, 1.15, 0.95, 1] }}
               transition={{ duration: 0.3 }}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300 cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-control bg-foreground ring-1 ring-inset ring-white/10 group-hover:ring-primary/60 transition-all duration-300 cursor-pointer"
             >
               <motion.span
-                className="text-sm font-bold text-primary-foreground group-hover:font-extrabold transition-all duration-300"
+                className="text-sm font-bold text-background"
                 whileHover={{ rotate: [0, -10, 10, -10, 0] }}
                 transition={{ duration: 0.4 }}
               >
@@ -275,21 +274,21 @@ export function Header() {
               <motion.span
                 animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 7 : 0, width: mobileMenuOpen ? 20 : 20 }}
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                className="h-[2px] bg-foreground rounded-full"
+                className="h-[1.5px] bg-foreground"
                 style={{ width: 20 }}
               />
               {/* Line 2: medium — slides out on open */}
               <motion.span
                 animate={{ opacity: mobileMenuOpen ? 0 : 1, x: mobileMenuOpen ? 8 : 0 }}
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                className="h-[2px] bg-foreground rounded-full"
+                className="h-[1.5px] bg-foreground"
                 style={{ width: 14 }}
               />
               {/* Line 3: short — grows to full and crosses on open */}
               <motion.span
                 animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -7 : 0, width: mobileMenuOpen ? 20 : 8 }}
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                className="h-[2px] bg-foreground rounded-full"
+                className="h-[1.5px] bg-foreground"
                 style={{ width: 8 }}
               />
             </button>
@@ -330,9 +329,9 @@ export function Header() {
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_200%] animate-gradient-shift group-hover:shadow-lg group-hover:shadow-primary/50 transition-all duration-300"
+                    className="flex h-10 w-10 items-center justify-center rounded-control bg-foreground ring-1 ring-inset ring-white/10 group-hover:ring-primary/60 transition-all duration-300"
                   >
-                    <span className="text-lg font-bold text-primary-foreground">SR</span>
+                    <span className="text-lg font-bold text-background">SR</span>
                   </motion.div>
                   <span className="text-lg font-semibold">Santiago Requelme</span>
                 </Link>
@@ -411,10 +410,9 @@ export function Header() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/40 w-full group relative overflow-hidden"
+                    className={buttonClass("primary", "lg", "w-full")}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg" />
-                    <span className="relative">{t("header.hireMe")}</span>
+                    {t("header.hireMe")}
                   </a>
                 </motion.div>
 
