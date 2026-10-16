@@ -67,7 +67,7 @@ export const ROLES: Role[] = [
     company: "Jobbex IT",
     period: { en: "Mar 2026 — Sep 2026", es: "Mar 2026 — Sep 2026" },
     meta: { en: "Freelance · Portugal · Remote", es: "Freelance · Portugal · Remoto" },
-    title: { en: "Frontend Developer · Product Designer", es: "Frontend Developer · Product Designer" },
+    title: { en: "Frontend Developer", es: "Frontend Developer" },
     highlights: {
       en: [
         "Owned the end-to-end design process in Figma, from user flows and wireframes to high-fidelity UI, translated directly into production Angular / TypeScript / SCSS.",
