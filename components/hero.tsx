@@ -12,7 +12,7 @@ import { Magnetic } from "./motion/magnetic"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { buttonClass } from "@/lib/ui"
 import { CornerMarks, Dimension } from "./tech/annotations"
-import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
+import { gsap, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
@@ -20,6 +20,10 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const marksRef = useRef<HTMLDivElement>(null)
+  const shineRef = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
@@ -39,6 +43,52 @@ export function Hero() {
         // Type metric guides draw in under the headline.
         gsap.from(".hero-guide", { scaleX: 0, duration: 1.4, ease: "power3.inOut", stagger: 0.15, delay: 0.4 })
         gsap.from(".hero-guide-label", { opacity: 0, duration: 0.6, stagger: 0.15, delay: 1.2 })
+      })
+
+      // Portrait card tilts towards the cursor; the annotation layer drifts the
+      // other way for depth, and a soft highlight follows the pointer.
+      mm.add(FINE_POINTER, () => {
+        const stage = stageRef.current
+        const card = cardRef.current
+        const marks = marksRef.current
+        const shine = shineRef.current
+        if (!stage || !card || !marks || !shine) return
+
+        const MAX = 6
+        gsap.set(card, { transformPerspective: 1000, transformOrigin: "center" })
+        const rx = gsap.quickTo(card, "rotationX", { duration: 0.6, ease: "power3.out" })
+        const ry = gsap.quickTo(card, "rotationY", { duration: 0.6, ease: "power3.out" })
+        const mx = gsap.quickTo(marks, "x", { duration: 0.8, ease: "power3.out" })
+        const my = gsap.quickTo(marks, "y", { duration: 0.8, ease: "power3.out" })
+
+        const onMove = (e: PointerEvent) => {
+          const r = stage.getBoundingClientRect()
+          const px = (e.clientX - r.left) / r.width - 0.5
+          const py = (e.clientY - r.top) / r.height - 0.5
+          ry(px * MAX * 2)
+          rx(-py * MAX * 2)
+          mx(-px * 12)
+          my(-py * 12)
+          shine.style.setProperty("--mx", `${(px + 0.5) * 100}%`)
+          shine.style.setProperty("--my", `${(py + 0.5) * 100}%`)
+        }
+        const onEnter = () => gsap.to(shine, { opacity: 1, duration: 0.4 })
+        const onLeave = () => {
+          rx(0)
+          ry(0)
+          mx(0)
+          my(0)
+          gsap.to(shine, { opacity: 0, duration: 0.4 })
+        }
+
+        stage.addEventListener("pointermove", onMove)
+        stage.addEventListener("pointerenter", onEnter)
+        stage.addEventListener("pointerleave", onLeave)
+        return () => {
+          stage.removeEventListener("pointermove", onMove)
+          stage.removeEventListener("pointerenter", onEnter)
+          stage.removeEventListener("pointerleave", onLeave)
+        }
       })
 
       return () => mm.revert()
@@ -160,10 +210,11 @@ export function Hero() {
               <span>1:1</span>
             </p>
 
-            <div className="relative rounded-card border border-border bg-card p-1.5 shadow-[0_30px_60px_-40px_rgb(0_0_0/0.35)]">
-              <CornerMarks offset={10} />
-              <Dimension axis="x" offset={26} />
-              <Dimension axis="y" offset={26} />
+            <div ref={stageRef} className="relative">
+            <div
+              ref={cardRef}
+              className="relative rounded-card border border-border bg-card p-1.5 shadow-[0_30px_60px_-40px_rgb(0_0_0/0.35)] will-change-transform"
+            >
 
               <div className="relative aspect-square w-full overflow-hidden rounded-inner bg-secondary">
                 <motion.div
@@ -180,7 +231,27 @@ export function Hero() {
                 >
                   <Image src="/images/foto2.webp" alt="" fill loading="lazy" className="object-cover" />
                 </motion.div>
+
+                {/* Soft highlight that follows the pointer (driven by GSAP) */}
+                <div
+                  ref={shineRef}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light"
+                  style={{
+                    background:
+                      "radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.55), transparent 55%)",
+                  }}
+                />
               </div>
+            </div>
+
+            {/* Annotation layer: sits outside the tilting card and drifts the
+                opposite way, so the marks read as a separate plane. */}
+            <div ref={marksRef} aria-hidden="true" className="pointer-events-none absolute inset-0">
+              <CornerMarks offset={10} />
+              <Dimension axis="x" offset={26} />
+              <Dimension axis="y" offset={26} />
+            </div>
             </div>
           </div>
         </div>
