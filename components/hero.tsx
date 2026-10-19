@@ -4,18 +4,17 @@ import type React from "react"
 
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
-import Image from "next/image"
+import { useRef } from "react"
 import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
 import { Magnetic } from "./motion/magnetic"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { buttonClass } from "@/lib/ui"
 import { CornerMarks, Dimension } from "./tech/annotations"
+import { PixelAvatar } from "./motion/pixel-avatar"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 
 export function Hero() {
-  const [isHovered, setIsHovered] = useState(false)
   const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
@@ -46,11 +45,6 @@ export function Hero() {
     { scope: sectionRef },
   )
 
-  useEffect(() => {
-    setIsHovered(true)
-    const timer = setTimeout(() => setIsHovered(false), 3000)
-    return () => clearTimeout(timer)
-  }, [])
 
   const handleScrollToProjects = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
@@ -147,11 +141,7 @@ export function Hero() {
         </div>
 
         {/* Right side: profile photo presented as a design-tool frame */}
-        <div
-          className={`${enter} delay-300 lg:w-[30%] w-full max-w-sm pr-8 pb-10`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
+        <div className={`${enter} delay-300 lg:w-[30%] w-full max-w-sm pr-8 pb-10`}>
           <div ref={imageRef} className="relative">
             <p className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
               <span>
@@ -166,20 +156,7 @@ export function Hero() {
               <Dimension axis="y" offset={26} />
 
               <div className="relative aspect-square w-full overflow-hidden rounded-inner bg-secondary">
-                <motion.div
-                  animate={{ opacity: isHovered ? 0 : 1 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image src="/images/foto1.webp" alt="Santiago Requelme" fill className="object-cover" priority />
-                </motion.div>
-                <motion.div
-                  animate={{ opacity: isHovered ? 1 : 0 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image src="/images/foto2.webp" alt="" fill loading="lazy" className="object-cover" />
-                </motion.div>
+                <PixelAvatar src="/images/foto1.webp" hoverSrc="/images/foto2.webp" alt="Santiago Requelme" />
               </div>
             </div>
           </div>
