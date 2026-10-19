@@ -79,10 +79,10 @@ export function ProjectsList() {
           }
           const onEnter = (e: PointerEvent) => {
             place(e, true)
-            gsap.to(pill, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)", overwrite: "auto" })
+            gsap.to(pill, { scale: 1, opacity: 1, duration: 0.55, ease: "expo.out", overwrite: "auto" })
           }
           const onMove = (e: PointerEvent) => place(e)
-          const onLeave = () => gsap.to(pill, { scale: 0, opacity: 0, duration: 0.25, ease: "power2.in", overwrite: "auto" })
+          const onLeave = () => gsap.to(pill, { scale: 0, opacity: 0, duration: 0.35, ease: "expo.in", overwrite: "auto" })
 
           media.addEventListener("pointerenter", onEnter)
           media.addEventListener("pointermove", onMove)
@@ -219,13 +219,17 @@ export function ProjectsList() {
                     />
                   </div>
 
-                  {/* Cursor-following label (pointer devices only) */}
+                  {/* Cursor-following lens (pointer devices only). White with
+                      mix-blend-difference, so it inverts the image beneath it
+                      like a photographic negative; the label is knocked out. */}
                   <span
                     aria-hidden="true"
-                    className="project-pill pointer-events-none absolute left-0 top-0 hidden md:inline-flex items-center gap-1.5 whitespace-nowrap rounded-control bg-foreground/90 px-3 py-1.5 text-xs font-medium text-background opacity-0 shadow-lg backdrop-blur-md"
+                    className="project-pill pointer-events-none absolute left-0 top-0 z-10 hidden h-28 w-28 md:flex flex-col items-center justify-center gap-1 rounded-full bg-white text-black mix-blend-difference opacity-0"
                   >
-                    {t("projects.view")}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <ArrowUpRight className="h-5 w-5" strokeWidth={1.75} />
+                    <span className="max-w-[5.5rem] text-center font-mono text-[11px] font-medium uppercase leading-tight tracking-[0.12em]">
+                      {t("projects.view")}
+                    </span>
                   </span>
                 </div>
 
