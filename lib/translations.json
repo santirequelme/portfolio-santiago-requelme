@@ -74,8 +74,8 @@
     "footer.system": "Design system",
     "hero.viewCv": "Read CV",
     "footer.colophon": "designed & built by hand",
-    "projects.wellbeinn-app.title": "Wellbeinn App",
-    "projects.wellbeinn-app.description": "End-to-end product design of the Wellbeinn health app for iOS and Android: research, flows, UI and design system for the Wellbeinn Score, sleep, recovery and MATE, the AI health coach."
+    "projects.wellbeinn-app.title": "Wellbeinn Mate App",
+    "projects.wellbeinn-app.description": "End-to-end product design of Wellbeinn Mate, the health app for iOS and Android: research, flows, UI and design system for the Wellbeinn Score, sleep, recovery and MATE, the AI health coach."
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -152,7 +152,7 @@
     "footer.system": "Design system",
     "hero.viewCv": "Ver CV",
     "footer.colophon": "diseñado y construido a mano",
-    "projects.wellbeinn-app.title": "App Wellbeinn",
-    "projects.wellbeinn-app.description": "Diseño de producto de punta a punta de la app de salud Wellbeinn para iOS y Android: research, flujos, UI y design system del Wellbeinn Score, sueño, recuperación y MATE, el coach de salud con IA."
+    "projects.wellbeinn-app.title": "Wellbeinn Mate App",
+    "projects.wellbeinn-app.description": "Diseño de producto de punta a punta de Wellbeinn Mate, la app de salud para iOS y Android: research, flujos, UI y design system del Wellbeinn Score, sueño, recuperación y MATE, el coach de salud con IA."
   }
 }
