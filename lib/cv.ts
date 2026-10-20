@@ -49,6 +49,7 @@ export const ROLES: Role[] = [
         "Design product experiences across user profiles, use cases and hardware configurations, connecting apps with wearables and connected devices.",
         "Build high-fidelity interactive prototypes in HTML, CSS and JavaScript to validate UX before implementation.",
         "Develop and maintain the design system: tokens, typography, components, states and interaction patterns.",
+        "Designed the Wellbeinn mobile app end to end for iOS and Android, from research and flows to UI and design system.",
         "Designed and developed the Wellbeinn Band product landing page.",
         "Design motion and interaction patterns with GSAP, and use Claude Code to prototype and validate decisions directly in the browser.",
       ],
@@ -57,6 +58,7 @@ export const ROLES: Role[] = [
         "Diseño experiencias para distintos perfiles, casos de uso y configuraciones de hardware, conectando las apps con wearables y dispositivos conectados.",
         "Construyo prototipos interactivos de alta fidelidad en HTML, CSS y JavaScript para validar la UX antes de implementarla.",
         "Desarrollo y mantengo el design system: tokens, tipografía, componentes, estados y patrones de interacción.",
+        "Diseñé la app móvil de Wellbeinn de punta a punta para iOS y Android, desde el research y los flujos hasta la UI y el design system.",
         "Diseñé y desarrollé la landing de producto de la Wellbeinn Band.",
         "Diseño motion e interacciones con GSAP y uso Claude Code para prototipar y validar decisiones directamente en el navegador.",
       ],
@@ -158,7 +160,8 @@ export const ROLES: Role[] = [
 ]
 
 export const WORK: Work[] = [
-  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Latest · Wellbeinn", es: "Último · Wellbeinn" } },
+  { title: "Wellbeinn App", image: "/images/wellbeinn-app.jpg", url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app", tag: { en: "Latest · iOS & Android", es: "Último · iOS y Android" } },
+  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Wellbeinn", es: "Wellbeinn" } },
   { title: "Digital Legacy Platform", image: "/images/legacy-platform.svg", url: "/work/digital-legacy-platform", tag: { en: "Case study", es: "Caso de estudio" } },
   { title: "Aura Design System", image: "/images/design-system.svg", url: "/design-system", tag: { en: "Design system", es: "Design system" } },
   { title: "Supply Chain Dashboard", image: "/images/dashboard.webp", url: "https://suply-chain-dashboard.vercel.app/", tag: { en: "Dashboard", es: "Dashboard" } },
