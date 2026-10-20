@@ -109,6 +109,7 @@ export function Header() {
     { name: t("nav.projects"), href: "/#projectList" },
     { name: t("nav.about"), href: "/#about" },
     { name: t("nav.cv"), href: "/cv" },
+    { name: t("nav.lab"), href: "/lab" },
     { name: t("nav.contact"), href: "mailto:santireke37@gmail.com" },
   ]
 
