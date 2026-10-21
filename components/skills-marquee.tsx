@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 // Two rows of skills drifting in opposite directions; scroll velocity speeds
 // them up and skews them slightly, then they settle when scrolling stops.
-// Screen readers and print get a plain list — the moving rows are decorative.
+// Screen readers and print get a plain list - the moving rows are decorative.
 export function SkillsMarquee({ skills, className }: { skills: string[]; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const half = Math.ceil(skills.length / 2)

@@ -1,4 +1,4 @@
-# Santiago Requelme – Portfolio
+# Santiago Requelme - Portfolio
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Welcome to my personal portfolio — a place where design, code, and motion come together to tell my story as a UI/Frontend Engineer. This project reflects my passion for building intuitive user interfaces and creating experiences that feel both functional and artistic.
+Welcome to my personal portfolio, a place where design, code, and motion come together to tell my story as a UI/Frontend Engineer. This project reflects my passion for building intuitive user interfaces and creating experiences that feel both functional and artistic.
 
 Built with **Next.js 16**, **TailwindCSS**, and **Framer Motion**, it blends performance, minimalism, and interactivity in a cohesive way.
 

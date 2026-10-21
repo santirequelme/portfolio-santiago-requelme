@@ -36,7 +36,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         ],
         challenge: {
           title: "The challenge",
-          body: "Planning for the end of life is emotionally heavy and administratively dense. People fill in long, legal-sounding forms — beneficiaries, executors, bank details — about topics they would rather avoid. The product had to feel calm and guided, while handling complex, linked data reliably on every screen size.",
+          body: "Planning for the end of life is emotionally heavy and administratively dense. People fill in long, legal-sounding forms, with beneficiaries, executors and bank details, about topics they would rather avoid. The product had to feel calm and guided, while handling complex, linked data reliably on every screen size.",
         },
         built: {
           title: "What I built",
@@ -63,7 +63,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             },
             {
               title: "Design system",
-              body: "Shared primitives and page patterns reused across features — the foundation behind Aura, the design system showcased in this portfolio.",
+              body: "Shared primitives and page patterns reused across features, the foundation behind Aura, the design system showcased in this portfolio.",
             },
           ],
         },
@@ -87,7 +87,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             },
             {
               title: "Patterns, not one-off screens",
-              body: "Wills and codicils share the same structure, so I extracted it into reusable components — page intro, record grid, framed card, file drop zone — sized with container queries. Each new record type became faster to ship and consistent by default.",
+              body: "Wills and codicils share the same structure, so I extracted it into reusable components - page intro, record grid, framed card, file drop zone - sized with container queries. Each new record type became faster to ship and consistent by default.",
             },
           ],
         },
@@ -107,7 +107,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         ],
         challenge: {
           title: "El reto",
-          body: "Planificar el final de la vida es emocionalmente pesado y administrativamente denso. Las personas rellenan formularios largos y con lenguaje legal — beneficiarios, albaceas, datos bancarios — sobre temas que preferirían evitar. El producto tenía que sentirse tranquilo y guiado, y a la vez manejar datos complejos y relacionados de forma fiable en cualquier pantalla.",
+          body: "Planificar el final de la vida es emocionalmente pesado y administrativamente denso. Las personas rellenan formularios largos y con lenguaje legal, con beneficiarios, albaceas y datos bancarios, sobre temas que preferirían evitar. El producto tenía que sentirse tranquilo y guiado, y a la vez manejar datos complejos y relacionados de forma fiable en cualquier pantalla.",
         },
         built: {
           title: "Qué construí",
@@ -158,7 +158,7 @@ export const CASE_STUDIES: CaseStudy[] = [
             },
             {
               title: "Patrones, no pantallas sueltas",
-              body: "Testamentos y codicilos comparten la misma estructura, así que la extraje en componentes reutilizables — intro de página, grilla de registros, tarjeta enmarcada, zona para soltar archivos — dimensionados con container queries. Cada nuevo tipo de registro se entrega más rápido y es coherente por defecto.",
+              body: "Testamentos y codicilos comparten la misma estructura, así que la extraje en componentes reutilizables - intro de página, grilla de registros, tarjeta enmarcada, zona para soltar archivos - dimensionados con container queries. Cada nuevo tipo de registro se entrega más rápido y es coherente por defecto.",
             },
           ],
         },

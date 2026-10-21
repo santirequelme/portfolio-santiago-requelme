@@ -1,4 +1,4 @@
-// Line-level diff (longest common subsequence). Small inputs only — the
+// Line-level diff (longest common subsequence). Small inputs only - the
 // comparison snippets are a few dozen lines, so O(n·m) is fine.
 
 export type DiffLine = { type: "same" | "add" | "del"; text: string; oldNo?: number; newNo?: number }

@@ -135,14 +135,14 @@ export function Switch({ label, checked, onChange }: { label: string; checked: b
       <span
         aria-hidden="true"
         className={cn(
-          "relative h-5 w-9 rounded-full border transition-colors",
+          "relative block h-5 w-9 shrink-0 rounded-full border transition-colors",
           checked ? "border-[var(--lab-green)]/60 bg-[var(--lab-green)]/80" : "border-border bg-background",
         )}
       >
         <span
           className={cn(
-            "absolute top-0.5 h-3.5 w-3.5 rounded-full bg-foreground transition-transform motion-reduce:transition-none",
-            checked ? "translate-x-[18px]" : "translate-x-0.5",
+            "absolute left-0.5 top-0.5 block h-3.5 w-3.5 rounded-full bg-foreground transition-transform motion-reduce:transition-none",
+            checked ? "translate-x-4" : "translate-x-0",
           )}
         />
       </span>

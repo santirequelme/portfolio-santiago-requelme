@@ -177,7 +177,7 @@ export function ProjectsList() {
         <SectionMarker
           index="01"
           label={t("projects.title")}
-          meta={`${String(projects.length).padStart(2, "0")} · 2020 — 2026`}
+          meta={`${String(projects.length).padStart(2, "0")} · 2020 - 2026`}
           className="mb-16"
         />
 

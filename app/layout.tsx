@@ -7,7 +7,7 @@ import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
 import { SkipLink } from "@/components/skip-link"
 
-// Geist (variable, 100–900): fallback for titles and body. Titles use Geist Pixel.
+// Geist (variable, 100-900): fallback for titles and body. Titles use Geist Pixel.
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",

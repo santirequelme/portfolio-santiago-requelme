@@ -1,5 +1,5 @@
 // Design-to-Code Playground: configuration model, design tokens and class
-// recipes. This file is the single source of truth — the live preview renders
+// recipes. This file is the single source of truth - the live preview renders
 // these recipes and the code generator prints the very same strings, so the
 // preview and the code panel cannot drift apart.
 
@@ -68,7 +68,7 @@ function rgbToHex({ r, g, b }: { r: number; g: number; b: number }) {
   return `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`.toUpperCase()
 }
 
-/** Mix a colour towards black by `amount` (0–1). */
+/** Mix a colour towards black by `amount` (0-1). */
 function darken(hex: string, amount: number) {
   const { r, g, b } = hexToRgb(hex)
   return rgbToHex({ r: r * (1 - amount), g: g * (1 - amount), b: b * (1 - amount) })

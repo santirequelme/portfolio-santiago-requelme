@@ -295,7 +295,7 @@ export function Showcase() {
             </Section>
 
             <Section id="radius" skeleton="grid" icon={Square} eyebrow="Foundations" title="Radius"
-              desc="Corner radii scale with component size — subtle on inputs, softer on cards and dialogs, full for pills and avatars.">
+              desc="Corner radii scale with component size, subtle on inputs, softer on cards and dialogs, full for pills and avatars.">
               <div className="ds-radii">
                 {RADII.map((r) => (
                   <div key={r.name} className="ds-radii__box" style={{ borderRadius: `var(${r.v === "--ds-radius-full" ? "--ds-radius-lg" : r.v})` }}>
@@ -307,7 +307,7 @@ export function Showcase() {
             </Section>
 
             <Section id="elevation" skeleton="grid" icon={Layers} eyebrow="Foundations" title="Elevation"
-              desc="Five shadow steps convey depth and focus. Higher elevation means more transient — cards sit low, dialogs and toasts sit high.">
+              desc="Five shadow steps convey depth and focus. Higher elevation means more transient, so cards sit low and dialogs and toasts sit high.">
               <div className="ds-elev">
                 {SHADOWS.map((s) => (
                   <div key={s} className="ds-elev__box" style={{ boxShadow: `var(--ds-shadow-${s})` }}>
@@ -338,7 +338,7 @@ export function Showcase() {
 
             {/* ═══════════════════ COMPONENTS ═══════════════════ */}
             <Section id="buttons" icon={MousePointerClick} eyebrow="Components" title="Buttons"
-              desc="The primary action primitive. Five variants, three sizes, plus icon, pill, loading and disabled states — all driven by tokens.">
+              desc="The primary action primitive. Five variants, three sizes, plus icon, pill, loading and disabled states, all driven by tokens.">
               <div className="ds-block">
                 <div className="ds-label">Variants</div>
                 <div className="ds-row">
@@ -406,7 +406,7 @@ export function Showcase() {
             </Section>
 
             <Section id="switch" skeleton="list" icon={ToggleRight} eyebrow="Components" title="Switch"
-              desc="An accessible toggle for binary settings — role=switch, keyboard operable, with a spring-eased thumb.">
+              desc="An accessible toggle for binary settings, role=switch, keyboard operable, with a spring-eased thumb.">
               <div className="ds-panel" style={{ display: "flex", flexDirection: "column", gap: "var(--ds-space-4)" }}>
                 <Switch label="Push notifications" checked={switches.notifications} onChange={(v) => setSwitches((s) => ({ ...s, notifications: v }))} />
                 <Switch label="Share anonymous analytics" checked={switches.analytics} onChange={(v) => setSwitches((s) => ({ ...s, analytics: v }))} />
@@ -498,7 +498,7 @@ export function Showcase() {
             </Section>
 
             <Section id="dnd" skeleton="list" icon={Move} eyebrow="Components" title="Drag &amp; Drop"
-              desc="A reorderable list built on native drag events. Grab a row and drop it anywhere — the index updates live.">
+              desc="A reorderable list built on native drag events. Grab a row and drop it anywhere and the index updates live.">
               <div className="ds-panel">
                 <DragDropDemo />
               </div>
@@ -511,7 +511,7 @@ export function Showcase() {
 
             <footer style={{ marginTop: "var(--ds-space-16)", paddingTop: "var(--ds-space-6)", borderTop: "1px solid var(--ds-border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--ds-space-4)", flexWrap: "wrap" }}>
               <p style={{ fontSize: "var(--ds-text-sm)", color: "var(--ds-text-muted)" }}>
-                Aura Design System — built with React, tokens and a lot of care.
+                Aura Design System, built with React, tokens and a lot of care.
               </p>
               <Link href="/#projectList" className="ds-hero__back" style={{ margin: 0 }}>
                 Back to portfolio <ChevronRight size={16} />

@@ -126,7 +126,7 @@ export function Hero() {
             {t("cv.role")}
           </p>
 
-          {/* Heading + Subtitle inside h1 — same display size, contrasted by color.
+          {/* Heading + Subtitle inside h1 - same display size, contrasted by color.
               Cap-height and baseline guides sit behind the first line. */}
           <div className="relative">
             <div
@@ -205,7 +205,7 @@ export function Hero() {
           <div ref={imageRef} className="relative">
             <p className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
               <span>
-                <span className="text-primary">#</span> Frame 01 — Portrait
+                <span className="text-primary">#</span> Frame 01 - Portrait
               </span>
               <span>1:1</span>
             </p>

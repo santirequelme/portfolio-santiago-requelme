@@ -1,6 +1,6 @@
 // Code generation for the playground. Everything printed here comes from
-// RECIPES, SAMPLE and resolveTokens() in ./playground — the same values the
-// live preview renders — so the code always matches the current settings.
+// RECIPES, SAMPLE and resolveTokens() in ./playground - the same values the
+// live preview renders - so the code always matches the current settings.
 
 import { RECIPES, SAMPLE, resolveTokens, type PlaygroundConfig } from "./playground"
 
@@ -263,7 +263,7 @@ export function Example() {
 
 // ─── Angular (illustrative mapping of the same API) ─────────────────────────
 
-const ANGULAR_NOTE = "// Illustrative Angular equivalent — same recipes and API, not executed on this page."
+const ANGULAR_NOTE = "// Illustrative Angular equivalent - same recipes and API, not executed on this page."
 
 function angularCommon(name: string, recipes: { base: string; sizes: Record<string, string>; variants: Record<string, string> }) {
   return `const BASE = ${q(recipes.base)}

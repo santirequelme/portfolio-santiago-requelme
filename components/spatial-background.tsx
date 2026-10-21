@@ -7,7 +7,7 @@ import { gsap } from "@/lib/gsap"
 // pointer devices, snapped crosshair guides with live coordinates plus a
 // "loupe" that reveals grid intersections around the cursor.
 // Everything is driven by CSS custom properties from one rAF loop that only
-// runs while something changes — no React re-renders, no canvas.
+// runs while something changes - no React re-renders, no canvas.
 
 const MINOR = 24 // px, minor grid step (crosshair snaps to it)
 const MAJOR = 120 // px, major grid step and ruler label step

@@ -523,7 +523,7 @@ export function SystemView() {
           </div>
           <div className="sys-item group relative flex h-40 items-center justify-center rounded-card border border-border bg-card">
             <SelectionOverlay />
-            <span className="font-mono text-xs text-muted-foreground">SelectionOverlay — {c.hover}</span>
+            <span className="font-mono text-xs text-muted-foreground">SelectionOverlay - {c.hover}</span>
           </div>
         </div>
       </Section>
