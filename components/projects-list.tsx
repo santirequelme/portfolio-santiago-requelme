@@ -103,6 +103,12 @@ export function ProjectsList() {
 
   const projects = [
     {
+      title: t("projects.wellbeinn-app.title"),
+      description: t("projects.wellbeinn-app.description"),
+      image: "/images/wellbeinn-app.jpg",
+      url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app",
+    },
+    {
       title: t("projects.wellbeinn-band.title"),
       description: t("projects.wellbeinn-band.description"),
       image: "/images/wellbeinn-band.jpg",
@@ -171,7 +177,7 @@ export function ProjectsList() {
         <SectionMarker
           index="01"
           label={t("projects.title")}
-          meta={`${String(projects.length).padStart(2, "0")} · 2020 — 2026`}
+          meta={`${String(projects.length).padStart(2, "0")} · 2020 - 2026`}
           className="mb-16"
         />
 

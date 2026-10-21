@@ -40,7 +40,7 @@ export const ACHIEVEMENTS: Achievement[] = [
 export const ROLES: Role[] = [
   {
     company: "Wellbeinn",
-    period: { en: "May 2026 — Present", es: "May 2026 — Actualidad" },
+    period: { en: "May 2026 - Present", es: "May 2026 - Actualidad" },
     meta: { en: "Full-time · Spain · Remote", es: "Jornada completa · España · Remoto" },
     title: { en: "Product Engineer · UX/UI Designer", es: "Product Engineer · UX/UI Designer" },
     highlights: {
@@ -49,6 +49,7 @@ export const ROLES: Role[] = [
         "Design product experiences across user profiles, use cases and hardware configurations, connecting apps with wearables and connected devices.",
         "Build high-fidelity interactive prototypes in HTML, CSS and JavaScript to validate UX before implementation.",
         "Develop and maintain the design system: tokens, typography, components, states and interaction patterns.",
+        "Designed the Wellbeinn Mate app end to end for iOS and Android, from research and flows to UI and design system.",
         "Designed and developed the Wellbeinn Band product landing page.",
         "Design motion and interaction patterns with GSAP, and use Claude Code to prototype and validate decisions directly in the browser.",
       ],
@@ -57,6 +58,7 @@ export const ROLES: Role[] = [
         "Diseño experiencias para distintos perfiles, casos de uso y configuraciones de hardware, conectando las apps con wearables y dispositivos conectados.",
         "Construyo prototipos interactivos de alta fidelidad en HTML, CSS y JavaScript para validar la UX antes de implementarla.",
         "Desarrollo y mantengo el design system: tokens, tipografía, componentes, estados y patrones de interacción.",
+        "Diseñé la app Wellbeinn Mate de punta a punta para iOS y Android, desde el research y los flujos hasta la UI y el design system.",
         "Diseñé y desarrollé la landing de producto de la Wellbeinn Band.",
         "Diseño motion e interacciones con GSAP y uso Claude Code para prototipar y validar decisiones directamente en el navegador.",
       ],
@@ -65,7 +67,7 @@ export const ROLES: Role[] = [
   },
   {
     company: "Jobbex IT",
-    period: { en: "Mar 2026 — Sep 2026", es: "Mar 2026 — Sep 2026" },
+    period: { en: "Mar 2026 - Sep 2026", es: "Mar 2026 - Sep 2026" },
     meta: { en: "Freelance · Portugal · Remote", es: "Freelance · Portugal · Remoto" },
     title: { en: "Frontend Developer · Product Designer", es: "Frontend Developer · Product Designer" },
     highlights: {
@@ -87,7 +89,7 @@ export const ROLES: Role[] = [
   {
     company: "RIU Hotels · Mindata",
     url: "https://www.riu.com",
-    period: { en: "2023 — Feb 2026", es: "2023 — Feb 2026" },
+    period: { en: "2023 - Feb 2026", es: "2023 - Feb 2026" },
     meta: { en: "Global B2B SaaS platform · Multi-squad team", es: "Plataforma SaaS B2B global · Equipo multi-squad" },
     title: { en: "Frontend / UX Engineer", es: "Frontend / UX Engineer" },
     highlights: {
@@ -110,18 +112,18 @@ export const ROLES: Role[] = [
   },
   {
     company: "Freelance projects",
-    period: { en: "2022 — 2025", es: "2022 — 2025" },
+    period: { en: "2022 - 2025", es: "2022 - 2025" },
     meta: { en: "B2B and enterprise clients · Full ownership", es: "Clientes B2B y enterprise · Ownership completo" },
     title: { en: "Frontend Engineer · UI/UX Designer", es: "Frontend Engineer · UI/UX Designer" },
     highlights: {
       en: [
         "Led product discovery and delivery across client engagements, iterating from direct user feedback.",
-        "Architected Design Systems in React + TypeScript with tokens, variants and versioning, cutting code duplication by 35% and speeding delivery 30–45%.",
+        "Architected Design Systems in React + TypeScript with tokens, variants and versioning, cutting code duplication by 35% and speeding delivery 30-45%.",
         "Built data-facing UIs and component libraries from scratch, with fluid interfaces in Framer Motion and Tailwind CSS.",
       ],
       es: [
         "Lideré el discovery y la entrega de producto con distintos clientes, iterando a partir del feedback directo de usuarios.",
-        "Diseñé Design Systems en React + TypeScript con tokens, variantes y versionado, reduciendo un 35% la duplicación de código y acelerando las entregas un 30–45%.",
+        "Diseñé Design Systems en React + TypeScript con tokens, variantes y versionado, reduciendo un 35% la duplicación de código y acelerando las entregas un 30-45%.",
         "Construí UIs de datos y librerías de componentes desde cero, con interfaces fluidas en Framer Motion y Tailwind CSS.",
       ],
     },
@@ -129,7 +131,7 @@ export const ROLES: Role[] = [
   },
   {
     company: "Moby Digital",
-    period: { en: "2021 — 2022", es: "2021 — 2022" },
+    period: { en: "2021 - 2022", es: "2021 - 2022" },
     meta: { en: "SPA and CMS projects · Agile delivery", es: "Proyectos SPA y CMS · Entrega ágil" },
     title: { en: "Frontend Developer", es: "Frontend Developer" },
     highlights: {
@@ -158,7 +160,8 @@ export const ROLES: Role[] = [
 ]
 
 export const WORK: Work[] = [
-  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Latest · Wellbeinn", es: "Último · Wellbeinn" } },
+  { title: "Wellbeinn Mate App", image: "/images/wellbeinn-app.jpg", url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app", tag: { en: "Latest · iOS & Android", es: "Último · iOS y Android" } },
+  { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Wellbeinn", es: "Wellbeinn" } },
   { title: "Digital Legacy Platform", image: "/images/legacy-platform.svg", url: "/work/digital-legacy-platform", tag: { en: "Case study", es: "Caso de estudio" } },
   { title: "Aura Design System", image: "/images/design-system.svg", url: "/design-system", tag: { en: "Design system", es: "Design system" } },
   { title: "Supply Chain Dashboard", image: "/images/dashboard.webp", url: "https://suply-chain-dashboard.vercel.app/", tag: { en: "Dashboard", es: "Dashboard" } },
@@ -189,7 +192,7 @@ export const EDUCATION: { title: Localized; school: string; period: string }[] =
   {
     title: { en: "Computer Science", es: "Ciencias de la Computación" },
     school: "Universidad Nacional de Río Cuarto",
-    period: "2009 — 2014",
+    period: "2009 - 2014",
   },
 ]
 

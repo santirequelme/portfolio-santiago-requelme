@@ -1,5 +1,5 @@
 /* =============================================================================
- * Aura — Design System reference
+ * Aura - Design System reference
  *
  * A compact, composable UI system showcased as a standalone route inside the
  * portfolio. Everything is scoped under `.ds-root` (and re-themed via
@@ -7,7 +7,7 @@
  * portfolio's own theme.
  *
  * Fonts are inherited from the root layout (--font-geist / Satoshi /
- * --font-geist-mono) — no extra web-font requests.
+ * --font-geist-mono) - no extra web-font requests.
  * ========================================================================== */
 
 .ds-root {
@@ -170,7 +170,7 @@
 }
 
 /* =============================================================================
- * Shell — sidebar + content
+ * Shell - sidebar + content
  * ========================================================================== */
 .ds-shell { display: flex; min-height: 100vh; }
 
@@ -288,7 +288,7 @@
 .ds-grid { display: grid; gap: var(--ds-space-4); }
 
 /* =============================================================================
- * Foundations — swatches, tokens
+ * Foundations - swatches, tokens
  * ========================================================================== */
 .ds-ramp { display: grid; grid-template-columns: repeat(11, 1fr); border-radius: var(--ds-radius-md); overflow: hidden; border: 1px solid var(--ds-border); }
 .ds-ramp__cell { height: 68px; display: flex; align-items: flex-end; padding: 4px 6px; font-size: 0.625rem; font-weight: 600; }
@@ -560,7 +560,7 @@
 .dsx-theme[data-on="true"] .dsx-theme__sun { opacity: 0; transform: rotate(90deg) scale(0.4); }
 .dsx-theme[data-on="true"] .dsx-theme__moon { opacity: 1; transform: rotate(0deg) scale(1); }
 
-/* Stars — only visible at night */
+/* Stars - only visible at night */
 .dsx-theme__stars { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity var(--ds-dur-slow); pointer-events: none; }
 .dsx-theme[data-on="true"] .dsx-theme__stars { opacity: 1; }
 .dsx-theme__stars span { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; box-shadow: 0 0 4px rgba(255, 255, 255, 0.9); animation: ds-twinkle 2.4s ease-in-out infinite; }

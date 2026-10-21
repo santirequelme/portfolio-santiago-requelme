@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ThemeToggle } from "./theme-toggle"
 import { LanguageToggle } from "./language-toggle"
 import { useLanguage } from "@/contexts/language-context"
@@ -10,26 +11,33 @@ import { cn } from "@/lib/utils"
 import { buttonClass } from "@/lib/ui"
 
 // Logo aislado para que el estado de click no re-renderice todo el Header
+// On the home page it scrolls back to the top; on any other page it navigates home.
 function LogoButton() {
   const { t } = useLanguage()
+  const pathname = usePathname()
+  const isHome = pathname === "/"
   const [rotation, setRotation] = useState(0)
   const [rippling, setRippling] = useState(false)
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setRotation(r => r + 360)
     setRippling(true)
-    window.scrollTo({ top: 0, behavior: "smooth" })
     setTimeout(() => setRippling(false), 700)
+    if (isHome) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
   }
 
   return (
-    <button
+    <Link
+      href="/"
       onClick={handleClick}
-      aria-label={t("header.backToTop")}
+      aria-label={isHome ? t("header.backToTop") : t("header.home")}
       className="flex items-center gap-2 group flex-shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <div className="relative">
-        {/* Ripple rings — shockwave on click */}
+        {/* Ripple rings - shockwave on click */}
         {rippling && [0, 1, 2].map(i => (
           <motion.div
             key={i}
@@ -50,7 +58,7 @@ function LogoButton() {
           <span className="text-sm font-bold text-background select-none">SR</span>
         </motion.div>
       </div>
-    </button>
+    </Link>
   )
 }
 
@@ -101,6 +109,7 @@ export function Header() {
     { name: t("nav.projects"), href: "/#projectList" },
     { name: t("nav.about"), href: "/#about" },
     { name: t("nav.cv"), href: "/cv" },
+    { name: t("nav.lab"), href: "/lab" },
     { name: t("nav.contact"), href: "mailto:santireke37@gmail.com" },
   ]
 
@@ -262,7 +271,7 @@ export function Header() {
             <ThemeToggle />
             <LanguageToggle />
 
-            {/* Hamburger Menu — stepped lines icon */}
+            {/* Hamburger Menu - stepped lines icon */}
             <button
               ref={menuButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -277,14 +286,14 @@ export function Header() {
                 className="h-[1.5px] bg-foreground"
                 style={{ width: 20 }}
               />
-              {/* Line 2: medium — slides out on open */}
+              {/* Line 2: medium - slides out on open */}
               <motion.span
                 animate={{ opacity: mobileMenuOpen ? 0 : 1, x: mobileMenuOpen ? 8 : 0 }}
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}
                 className="h-[1.5px] bg-foreground"
                 style={{ width: 14 }}
               />
-              {/* Line 3: short — grows to full and crosses on open */}
+              {/* Line 3: short - grows to full and crosses on open */}
               <motion.span
                 animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -7 : 0, width: mobileMenuOpen ? 20 : 8 }}
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}

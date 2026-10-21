@@ -3,7 +3,7 @@
 import { Moon, Sun } from "lucide-react"
 
 /**
- * Animated light/dark toggle — a day/night pill with a morphing sun↔moon thumb
+ * Animated light/dark toggle - a day/night pill with a morphing sun↔moon thumb
  * and twinkling stars that appear at night. Accessible (role=switch).
  */
 export function ThemeToggle({ checked, onChange }: { checked: boolean; onChange: () => void }) {

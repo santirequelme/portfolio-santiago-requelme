@@ -46,6 +46,43 @@
   --ring: oklch(0.69 0.2 38);
 }
 
+/* AI Engineering Lab: graphite instead of warm charcoal, plus restrained
+   violet / blue / green accents for code and diagrams. Scoped to /lab. */
+.lab-scope {
+  --background: oklch(0.155 0.004 270);
+  --foreground: oklch(0.96 0.003 270);
+  --card: oklch(0.19 0.005 270);
+  --card-foreground: oklch(0.96 0.003 270);
+  --secondary: oklch(0.25 0.006 270);
+  --secondary-foreground: oklch(0.96 0.003 270);
+  --muted: oklch(0.33 0.006 270);
+  --muted-foreground: oklch(0.72 0.008 270);
+  --border: oklch(0.29 0.006 270);
+  --input: oklch(0.19 0.005 270);
+  --lab-violet: oklch(0.7 0.16 290);
+  --lab-blue: oklch(0.72 0.13 250);
+  --lab-green: oklch(0.76 0.15 155);
+  --lab-cyan: oklch(0.8 0.1 200);
+  --lab-comment: oklch(0.6 0.01 270);
+  --lab-editor: oklch(0.135 0.004 270);
+}
+
+html:has(.lab-page) {
+  background: oklch(0.155 0.004 270);
+  color-scheme: dark;
+}
+
+/* Previewed components use body type, not the pixel display face. */
+.lab-preview :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "Satoshi", var(--font-geist), "Geist", system-ui, sans-serif;
+}
+
+.lab-range {
+  accent-color: var(--lab-violet);
+  height: 1.25rem;
+  cursor: pointer;
+}
+
 @theme inline {
   /* Body: Satoshi (falls back to Geist until the font files are in public/fonts) */
   --font-sans: "Satoshi", var(--font-geist), "Geist", system-ui, sans-serif;
@@ -295,7 +332,7 @@ html {
   }
 }
 
-/* Satoshi (Fontshare, ITF Free Font License): variable files, weights 300–900 */
+/* Satoshi (Fontshare, ITF Free Font License): variable files, weights 300-900 */
 @font-face {
   font-family: "Satoshi";
   src: url("/fonts/Satoshi-Variable.woff2") format("woff2");

@@ -25,7 +25,7 @@ export function Skeleton({
   )
 }
 
-/* ── Section skeleton — three layouts that roughly mirror real content ──── */
+/* ── Section skeleton - three layouts that roughly mirror real content ──── */
 export type SkeletonVariant = "grid" | "list" | "controls"
 
 export function SectionSkeleton({ variant = "controls" }: { variant?: SkeletonVariant }) {
@@ -83,7 +83,7 @@ export function SectionSkeleton({ variant = "controls" }: { variant?: SkeletonVa
   )
 }
 
-/* ── Lazy body — shows the skeleton, reveals children when in view ─────── */
+/* ── Lazy body - shows the skeleton, reveals children when in view ─────── */
 export function LazyBody({ skeleton, children }: { skeleton: ReactNode; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
   const [loaded, setLoaded] = useState(false)

@@ -17,12 +17,12 @@ interface StoryCardProps {
   content: string
 }
 
-// ─── Sub-components at module level — never recreated on parent render ─────────
+// ─── Sub-components at module level - never recreated on parent render ─────────
 
 function StoryCard({ title, content }: StoryCardProps) {
   return (
     <article className="story-card relative rounded-card bg-card/60 border border-border overflow-hidden group transition-colors duration-300 hover:border-primary/30">
-      {/* Progress rail — grows with scroll, highlighted on hover */}
+      {/* Progress rail - grows with scroll, highlighted on hover */}
       <div className="story-rail absolute left-0 top-0 bottom-0 w-[2px] origin-top bg-primary opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="px-6 md:px-8 py-8">

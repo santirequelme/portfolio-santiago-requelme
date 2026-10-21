@@ -47,7 +47,7 @@
     "settings.effects": "Effects",
     "settings.toggleCursor": "Toggle cursor effect",
     "projects.design-system.title": "Aura Design System",
-    "projects.design-system.description": "A production design system: semantic tokens, typography, elevation, motion and composable primitives — buttons, tags, cards. Explore the interactive showcase.",
+    "projects.design-system.description": "A production design system: semantic tokens, typography, elevation, motion and composable primitives, like buttons, tags, cards. Explore the interactive showcase.",
     "case.eyebrow": "Case study",
     "case.back": "All projects",
     "case.stack": "Stack",
@@ -55,6 +55,7 @@
     "projects.legacy.title": "Digital Legacy Platform",
     "projects.legacy.description": "Case study: wills, funeral wishes, insurance and documents in one calm, guided product. Built end to end on a real API, with interactive demos of the key decisions.",
     "nav.cv": "CV",
+    "nav.lab": "AI Lab",
     "cv.eyebrow": "Curriculum vitae",
     "cv.role": "Product Engineer · UX/UI Designer",
     "cv.summary": "Product Engineer with 5+ years building production B2B platforms, combining strong React / Angular / TypeScript engineering with a UX design background that turns complex data into clear, actionable interfaces. I own the work from problem definition through delivery and iteration.",
@@ -69,11 +70,14 @@
     "cv.ctaButton": "Get in touch",
     "cv.achievements": "Key achievements",
     "projects.wellbeinn-band.title": "Wellbeinn Band Landing",
-    "projects.wellbeinn-band.description": "Latest project: designed and developed the product landing for the Wellbeinn Band, a wearable with ECG and an AI coach. Scroll-driven storytelling with GSAP and Lenis, from UX to a responsive front end.",
+    "projects.wellbeinn-band.description": "Designed and developed the product landing for the Wellbeinn Band, a wearable with ECG and an AI coach. Scroll-driven storytelling with GSAP and Lenis, from UX to a responsive front end.",
     "projects.view": "View project",
     "footer.system": "Design system",
     "hero.viewCv": "Read CV",
-    "footer.colophon": "designed & built by hand"
+    "footer.colophon": "designed & built by hand",
+    "projects.wellbeinn-app.title": "Wellbeinn Mate App",
+    "projects.wellbeinn-app.description": "End-to-end product design of Wellbeinn Mate, the health app for iOS and Android: research, flows, UI and design system for the Wellbeinn Score, sleep, recovery and MATE, the AI health coach.",
+    "header.home": "Go to home"
   },
   "es": {
     "nav.projects": "Proyectos",
@@ -123,7 +127,7 @@
     "settings.effects": "Efectos",
     "settings.toggleCursor": "Activar efecto cursor",
     "projects.design-system.title": "Design System",
-    "projects.design-system.description": "Un design system de producción: tokens semánticos, tipografía, elevación, motion y primitivos componibles — botones, tags, cards. Explora el showcase interactivo.",
+    "projects.design-system.description": "Un design system de producción: tokens semánticos, tipografía, elevación, motion y primitivos componibles, como botones, tags, cards. Explora el showcase interactivo.",
     "case.eyebrow": "Caso de estudio",
     "case.back": "Todos los proyectos",
     "case.stack": "Stack",
@@ -131,6 +135,7 @@
     "projects.legacy.title": "Plataforma de Legado Digital",
     "projects.legacy.description": "Caso de estudio: testamentos, deseos para el funeral, seguros y documentos en un producto tranquilo y guiado. Construido de punta a punta sobre una API real, con demos interactivas de las decisiones clave.",
     "nav.cv": "CV",
+    "nav.lab": "AI Lab",
     "cv.eyebrow": "Currículum",
     "cv.role": "Product Engineer · UX/UI Designer",
     "cv.summary": "Product Engineer con más de 5 años construyendo plataformas B2B en producción, combinando ingeniería frontend sólida en React / Angular / TypeScript con una base de diseño UX que convierte datos complejos en interfaces claras y accionables. Me hago cargo desde la definición del problema hasta la entrega y la iteración.",
@@ -145,10 +150,13 @@
     "cv.ctaButton": "Hablemos",
     "cv.achievements": "Logros clave",
     "projects.wellbeinn-band.title": "Landing Wellbeinn Band",
-    "projects.wellbeinn-band.description": "Último proyecto: diseño y desarrollo de la landing de producto de la Wellbeinn Band, una pulsera con ECG y coach IA. Narrativa guiada por el scroll con GSAP y Lenis, de la UX al frontend responsive.",
+    "projects.wellbeinn-band.description": "Diseño y desarrollo de la landing de producto de la Wellbeinn Band, una pulsera con ECG y coach IA. Narrativa guiada por el scroll con GSAP y Lenis, de la UX al frontend responsive.",
     "projects.view": "Ver proyecto",
     "footer.system": "Design system",
     "hero.viewCv": "Ver CV",
-    "footer.colophon": "diseñado y construido a mano"
+    "footer.colophon": "diseñado y construido a mano",
+    "projects.wellbeinn-app.title": "Wellbeinn Mate App",
+    "projects.wellbeinn-app.description": "Diseño de producto de punta a punta de Wellbeinn Mate, la app de salud para iOS y Android: research, flujos, UI y design system del Wellbeinn Score, sueño, recuperación y MATE, el coach de salud con IA.",
+    "header.home": "Ir al inicio"
   }
 }
