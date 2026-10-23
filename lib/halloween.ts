@@ -11,11 +11,11 @@ const PREF_KEY = "halloween"
 const PREVIEW_KEY = "halloween-preview"
 const EVENT = "halloween-change"
 
-/** October 24 to November 1, in the visitor's local time. */
+/** October 23 to November 3, in the visitor's local time. */
 export function isHalloweenWeek(now = new Date()) {
   const month = now.getMonth()
   const day = now.getDate()
-  return (month === 9 && day >= 24) || (month === 10 && day <= 1)
+  return (month === 9 && day >= 23) || (month === 10 && day <= 3)
 }
 
 function readSeason() {
