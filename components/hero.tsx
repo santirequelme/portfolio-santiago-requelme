@@ -13,10 +13,24 @@ import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { buttonClass } from "@/lib/ui"
 import { CornerMarks, Dimension } from "./tech/annotations"
 import { gsap, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
+import dynamic from "next/dynamic"
+import { useHalloween } from "@/lib/halloween"
+
+// Halloween costume pieces: their own chunk, loaded only during Halloween week.
+const costume = () => import("./halloween/avatar-costume")
+const CostumeBack = dynamic(() => costume().then((m) => m.CostumeBack), { ssr: false })
+const CostumeFront = dynamic(() => costume().then((m) => m.CostumeFront), { ssr: false })
+const BatBurst = dynamic(() => costume().then((m) => m.BatBurst), { ssr: false })
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false)
   const { t } = useLanguage()
+  const { active: halloween } = useHalloween()
+  // Each hover (and the intro wink) sends a new flight of bats.
+  const [bursts, setBursts] = useState(0)
+  useEffect(() => {
+    if (halloween && isHovered) setBursts((n) => n + 1)
+  }, [halloween, isHovered])
   const sectionRef = useRef<HTMLElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
@@ -117,7 +131,7 @@ export function Hero() {
     "animate-in fade-in slide-in-from-bottom-10 duration-700 ease-out fill-mode-both motion-reduce:animate-none"
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-32 pb-16">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-x-clip px-4 pt-20 md:pt-32 pb-16">
       <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
         {/* Left side: Text content */}
         <div ref={textRef} className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
@@ -205,18 +219,20 @@ export function Hero() {
           <div ref={imageRef} className="relative">
             <p className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
               <span>
-                <span className="text-primary">#</span> Frame 01 - Portrait
+                <span className="text-primary">#</span> Frame 01 - {halloween ? "Count Dracula" : "Portrait"}
               </span>
               <span>1:1</span>
             </p>
 
             <div ref={stageRef} className="relative">
+            {halloween && bursts > 0 && <BatBurst key={bursts} />}
             <div
               ref={cardRef}
               className="relative rounded-card border border-border bg-card p-1.5 shadow-[0_30px_60px_-40px_rgb(0_0_0/0.35)] will-change-transform"
             >
 
               <div className="relative aspect-square w-full overflow-hidden rounded-inner bg-secondary">
+                {halloween && <CostumeBack />}
                 <motion.div
                   animate={{ opacity: isHovered ? 0 : 1 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
@@ -231,6 +247,8 @@ export function Hero() {
                 >
                   <Image src="/images/foto2.webp" alt="" fill loading="lazy" className="object-cover" />
                 </motion.div>
+
+                {halloween && <CostumeFront hovered={isHovered} />}
 
                 {/* Soft highlight that follows the pointer (driven by GSAP) */}
                 <div
