@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SpatialBackground } from "@/components/spatial-background"
+import { HalloweenLayer } from "@/components/halloween/halloween-layer"
 import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { LabView } from "@/components/lab/lab-view"
 
@@ -19,6 +20,7 @@ export default function LabPage() {
     <div className="dark lab-scope lab-page relative min-h-screen bg-background text-foreground">
       <ScrollProgress />
       <SpatialBackground />
+      <HalloweenLayer />
       <Header />
       <main id="main-content">
         <LabView />

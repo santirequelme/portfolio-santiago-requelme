@@ -1,0 +1,316 @@
+/* Halloween mode. Loaded with the Halloween chunk only, never the rest of the
+   year. Everything moves with transform/opacity so it stays on the compositor. */
+
+/* ── Sky: moon, witches and bats behind the content ───────────────────── */
+.hw-sky {
+  --hw-ink: color-mix(in oklch, var(--foreground) 86%, transparent);
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  color: var(--hw-ink);
+  transition: opacity 0.8s ease;
+}
+.dark .hw-sky,
+.hw-sky:where(.dark *) {
+  /* Near-black cut-outs: they read against the moon, faint elsewhere. */
+  --hw-ink: oklch(0.07 0.012 285);
+}
+
+.hw-moon {
+  position: absolute;
+  top: 9vh;
+  right: -4vw;
+  width: clamp(150px, 21vw, 320px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 34%, rgb(214 120 60 / 0.28) 0 7%, transparent 7.5%),
+    radial-gradient(circle at 62% 58%, rgb(214 120 60 / 0.22) 0 5%, transparent 5.5%),
+    radial-gradient(circle at 56% 26%, rgb(214 120 60 / 0.18) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 38% 35%, #ffe6bd, #f7b36e 55%, #ec8a49);
+  box-shadow: 0 0 90px 24px rgb(246 160 90 / 0.22);
+  opacity: 0.55;
+}
+.dark .hw-moon,
+.hw-moon:where(.dark *) {
+  opacity: 0.92;
+  box-shadow: 0 0 140px 40px rgb(246 160 90 / 0.2);
+}
+
+.hw-witch {
+  position: absolute;
+  left: 0;
+  top: var(--y);
+  width: var(--w);
+  opacity: var(--o, 1);
+  transform: translate3d(-30vw, 0, 0);
+  animation: hw-fly var(--dur) cubic-bezier(0.45, 0.05, 0.55, 0.95) var(--delay) infinite;
+  will-change: transform;
+}
+.hw-witch > * {
+  display: block;
+  animation: hw-bob 1.7s ease-in-out infinite alternate;
+}
+@keyframes hw-fly {
+  0% { transform: translate3d(-30vw, 4vh, 0); }
+  20% { transform: translate3d(42vw, -3vh, 0); }
+  40%, 100% { transform: translate3d(118vw, 1vh, 0); }
+}
+@keyframes hw-bob {
+  from { transform: translateY(-7px) rotate(-3deg); }
+  to { transform: translateY(7px) rotate(2deg); }
+}
+
+/* Bats circling the moon: the orbit rotates, each bat counter-rotates. */
+.hw-orbit {
+  position: absolute;
+  top: calc(9vh + clamp(75px, 10.5vw, 160px));
+  right: calc(-4vw + clamp(75px, 10.5vw, 160px));
+  width: 0;
+  height: 0;
+  animation: hw-spin var(--dur) linear infinite var(--dir, normal);
+}
+.hw-orbit > .hw-bat {
+  position: absolute;
+  left: var(--r);
+  top: 0;
+  width: var(--s);
+  margin: calc(var(--s) * -0.25) 0 0 calc(var(--s) * -0.5);
+  animation: hw-spin var(--dur) linear infinite reverse;
+}
+.hw-orbit > .hw-bat > svg {
+  display: block;
+  animation: hw-flap 0.2s ease-in-out infinite alternate;
+}
+@keyframes hw-spin { to { transform: rotate(360deg); } }
+@keyframes hw-flap {
+  from { transform: scaleY(1); }
+  to { transform: scaleY(0.55); }
+}
+
+/* ── Overlay: cobwebs, spider and the pumpkin switch ──────────────────── */
+.hw-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  contain: strict;
+}
+
+.hw-web {
+  position: absolute;
+  top: 0;
+  width: clamp(110px, 13vw, 210px);
+  color: var(--foreground);
+  opacity: 0.32;
+  transition: opacity 0.8s ease;
+}
+.hw-web--left { left: 0; }
+.hw-web--right { right: 0; transform: scaleX(-1); }
+.hw-web-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hw-draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.4s forwards;
+}
+@keyframes hw-draw { to { stroke-dashoffset: 0; } }
+
+.hw-spider-rig {
+  position: absolute;
+  top: 0;
+  right: clamp(48px, 7vw, 120px);
+  width: 40px;
+  transform: translate3d(0, 16vh, 0);
+  animation: hw-dangle 9s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hw-spider-rig.is-holding { animation: none; }
+.hw-thread {
+  position: absolute;
+  bottom: calc(100% - 10px);
+  left: 50%;
+  width: 1px;
+  height: 100vh;
+  background: color-mix(in oklch, var(--foreground) 45%, transparent);
+}
+.hw-spider {
+  display: block;
+  width: 40px;
+  color: var(--foreground);
+  pointer-events: auto;
+  cursor: grab;
+  transform-origin: 50% 0;
+  animation: hw-sway 3.2s ease-in-out infinite alternate;
+}
+@keyframes hw-dangle {
+  from { transform: translate3d(0, 14vh, 0); }
+  to { transform: translate3d(0, 30vh, 0); }
+}
+@keyframes hw-sway {
+  from { transform: rotate(-7deg); }
+  to { transform: rotate(7deg); }
+}
+
+.hw-pumpkin-btn {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hw-pumpkin-btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+.hw-pumpkin-btn > svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.25));
+}
+.hw-pumpkin-btn:hover > svg { transform: rotate(-8deg) scale(1.06); }
+.hw-pumpkin-btn:active > svg { transform: scale(0.94); }
+.hw-glow {
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 190 70 / 0.55), rgb(255 140 0 / 0.18) 45%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.is-lit .hw-glow { opacity: 1; animation: hw-flicker 2.4s steps(1, end) infinite; }
+.is-lit .hw-face { animation: hw-flicker-face 2.4s steps(1, end) infinite; }
+.hw-face { transition: opacity 0.35s ease; }
+@keyframes hw-flicker {
+  0%, 100% { opacity: 1; }
+  12% { opacity: 0.78; }
+  14% { opacity: 1; }
+  41% { opacity: 0.86; }
+  44% { opacity: 0.68; }
+  47% { opacity: 1; }
+  73% { opacity: 0.9; }
+  76% { opacity: 1; }
+}
+@keyframes hw-flicker-face {
+  0%, 100% { opacity: 1; }
+  12% { opacity: 0.84; }
+  14% { opacity: 1; }
+  44% { opacity: 0.76; }
+  47% { opacity: 1; }
+}
+.hw-smoke {
+  position: absolute;
+  left: 46%;
+  bottom: 70%;
+  width: 14px;
+  height: 34px;
+  border-radius: 50%;
+  border-left: 2px solid color-mix(in oklch, var(--foreground) 45%, transparent);
+  opacity: 0;
+  animation: hw-smoke 1.5s ease-out forwards;
+}
+@keyframes hw-smoke {
+  0% { opacity: 0; transform: translateY(6px) scale(0.6) rotate(0deg); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-30px) scale(1.3) rotate(24deg); }
+}
+.hw-tip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  translate: 0 -50%;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 6px 10px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: var(--foreground);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.hw-pumpkin-btn:hover .hw-tip,
+.hw-pumpkin-btn:focus-visible .hw-tip {
+  opacity: 1;
+  transform: none;
+}
+
+/* Effects fade out when the candle is blown out. */
+.hw-scene { transition: opacity 0.8s ease; }
+.hw-off { opacity: 0; }
+
+/* ── Avatar costume ───────────────────────────────────────────────────── */
+.hw-costume { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hw-costume-bat { position: absolute; color: #140a1c; }
+.hw-costume-bat > svg { display: block; animation: hw-flap 0.22s ease-in-out var(--d, 0s) infinite alternate; }
+.hw-fangs { transition: opacity 0.25s ease-out; }
+.hw-eye-glow { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.is-hovered .hw-eye-glow { animation: hw-eye 1.6s ease-out 0.15s; }
+@keyframes hw-eye {
+  0% { opacity: 0; transform: scale(0.4); }
+  20% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+.hw-burst { position: absolute; inset: 0; pointer-events: none; }
+.hw-burst-bat {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: var(--s);
+  margin-left: calc(var(--s) / -2);
+  color: oklch(0.16 0.02 300);
+  opacity: 0;
+  animation: hw-burst 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d) forwards;
+}
+.dark .hw-burst-bat,
+.hw-burst-bat:where(.dark *) { color: oklch(0.08 0.01 300); }
+.hw-burst-bat > svg { display: block; animation: hw-flap 0.16s ease-in-out infinite alternate; }
+@keyframes hw-burst {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.3) rotate(0deg); }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1) rotate(var(--r)); }
+}
+
+/* Small screens: one witch, fewer bats. */
+@media (max-width: 640px) {
+  .hw-witch--far,
+  .hw-orbit--3 { display: none; }
+  .hw-spider-rig { right: 22px; }
+  /* Passes behind the headline on phones: keep it quieter there. */
+  .hw-witch { opacity: calc(var(--o, 1) * 0.55); }
+}
+
+/* Reduced motion: a still scene. */
+@media (prefers-reduced-motion: reduce) {
+  .hw-witch,
+  .hw-witch > *,
+  .hw-orbit,
+  .hw-orbit > .hw-bat,
+  .hw-orbit > .hw-bat > svg,
+  .hw-spider-rig,
+  .hw-spider,
+  .hw-web-path,
+  .is-lit .hw-glow,
+  .is-lit .hw-face,
+  .hw-costume-bat > svg,
+  .hw-burst { animation: none !important; }
+  .hw-witch { transform: translate3d(calc(100vw - var(--w) - 14vw), 0, 0); }
+  .hw-witch--far { display: none; }
+  .hw-web-path { stroke-dashoffset: 0; }
+  .hw-burst { display: none; }
+}
