@@ -4,15 +4,29 @@ import { ArrowUpRight, Info } from "lucide-react"
 import type { AiCopy } from "@/lib/lab/ai-copy"
 import { SITE } from "@/lib/lab/ai-copy"
 import type { LabCopy } from "@/lib/lab/content"
+import type { Savings } from "@/lib/lab/savings"
 import type { RulesEntry } from "@/lib/registry"
 import { Badge } from "./badge"
 import { BeforeAfter } from "./before-after"
 import { CopyButton } from "./code-block"
 import { McpDemo } from "./mcp-demo"
+import { SavingsStrip } from "./savings-strip"
 
-export function AiSection({ copy, codeLabels, rules }: { copy: AiCopy; codeLabels: LabCopy["code"]; rules: RulesEntry }) {
+export function AiSection({
+  copy,
+  codeLabels,
+  rules,
+  savings,
+}: {
+  copy: AiCopy
+  codeLabels: LabCopy["code"]
+  rules: RulesEntry
+  savings: Savings
+}) {
   return (
     <div className="space-y-6">
+      <SavingsStrip copy={copy.savings} savings={savings} />
+
       {/* ── The functional part: the public registry ─────────────────── */}
       <section aria-labelledby="registry-title" className="rounded-card border border-border bg-card p-4 md:p-5">
         <div className="flex flex-wrap items-center gap-3">

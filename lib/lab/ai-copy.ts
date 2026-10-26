@@ -20,9 +20,17 @@ export const MCP_CONFIG = `{
 
 export const AI_COPY = {
   en: {
-    marker: "Use it with AI",
+    marker: "For agents",
     title: "Built for agents, not just people.",
-    body: "The tokens, specs and code behind this page are published as a public registry, so an agent can read the system instead of guessing it from screenshots.",
+    body: "The same system is published as a public registry, so an agent reads the right spec, tokens and code instead of guessing from screenshots or writing the component again.",
+    savings: {
+      title: "What it saves, measured on this page",
+      disclaimer: "Measured on this demo when the page is built. Not a benchmark of a real project.",
+      read: { versus: "instead of", label: "What an agent reads to build the Card and Button for Angular: the registry's answer, not the source files." },
+      lines: { unit: "lines", label: "The Angular Card component. Its CSS ({css} lines) is written once and shared by React, Angular and Vue." },
+      caught: { unit: "issues", label: "Caught by validate_usage in the answer written without the system, before anyone reviews it." },
+      sources: "Source files compared",
+    },
     registry: {
       title: "Public registry",
       badge: "Live",
@@ -31,7 +39,7 @@ export const AI_COPY = {
       open: "Open",
       copy: "Copy command",
     },
-    note: "The MCP below is a conceptual demo: no MCP server runs on this site. The public registry above is the part that works today.",
+    note: "The MCP below is a conceptual demo of what I would set up for your team: no MCP server runs on this site. The public registry above is the part that works today.",
     mcp: {
       title: "MCP demo",
       badge: "Illustrative",
@@ -75,9 +83,17 @@ export const AI_COPY = {
     },
   },
   es: {
-    marker: "Úsalo con IA",
+    marker: "Para agentes",
     title: "Hecho para agentes, no solo para personas.",
-    body: "Los tokens, specs y el código detrás de esta página están publicados como un registry público, así un agente puede leer el sistema en lugar de adivinarlo a partir de capturas.",
+    body: "El mismo sistema está publicado como un registry público, así un agente lee la spec, los tokens y el código correctos en lugar de adivinarlos a partir de capturas o escribir el componente de nuevo.",
+    savings: {
+      title: "Lo que ahorra, medido en esta página",
+      disclaimer: "Medido sobre esta demo al generar la página. No es un benchmark de un proyecto real.",
+      read: { versus: "en lugar de", label: "Lo que lee un agente para armar la Card y el Button en Angular: la respuesta del registry, no los archivos fuente." },
+      lines: { unit: "líneas", label: "El componente Card en Angular. Su CSS ({css} líneas) se escribe una vez y lo comparten React, Angular y Vue." },
+      caught: { unit: "problemas", label: "Detectados por validate_usage en la respuesta escrita sin el sistema, antes de que nadie la revise." },
+      sources: "Archivos fuente comparados",
+    },
     registry: {
       title: "Registry público",
       badge: "En vivo",
@@ -86,7 +102,7 @@ export const AI_COPY = {
       open: "Abrir",
       copy: "Copiar comando",
     },
-    note: "El MCP de abajo es una demostración conceptual: en este sitio no corre ningún servidor MCP. El registry público de arriba es la parte que funciona hoy.",
+    note: "El MCP de abajo es una demostración conceptual de lo que configuraría para tu equipo: en este sitio no corre ningún servidor MCP. El registry público de arriba es la parte que funciona hoy.",
     mcp: {
       title: "Demo de MCP",
       badge: "Ilustrativo",
