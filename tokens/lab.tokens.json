@@ -1,0 +1,23 @@
+{
+  "color": {
+    "surface": { "$type": "color", "$value": "#1B1C21", "$description": "Card background" },
+    "text": { "$type": "color", "$value": "#F2F2F4", "$description": "Primary text on surface" },
+    "primary": { "$type": "color", "$value": "#E23A0D", "$description": "Brand accent: buttons, links, focus" },
+    "onPrimary": { "$type": "color", "$value": "#111111", "$description": "Text on primary, picked for contrast" },
+    "border": { "$type": "color", "$value": "#2E3037", "$description": "Hairlines and outlined variants" }
+  },
+  "radius": {
+    "card": { "$type": "dimension", "$value": "0.5rem" },
+    "button": { "$type": "dimension", "$value": "0.5rem" },
+    "input": { "$type": "dimension", "$value": "0.5rem" }
+  },
+  "space": {
+    "sm": { "$type": "dimension", "$value": "1rem" },
+    "md": { "$type": "dimension", "$value": "1.25rem" },
+    "lg": { "$type": "dimension", "$value": "1.5rem" }
+  },
+  "fontSize": {
+    "title": { "$type": "fontSize", "$value": "1rem" },
+    "body": { "$type": "fontSize", "$value": "0.875rem" }
+  }
+}
