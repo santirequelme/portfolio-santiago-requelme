@@ -1,13 +1,14 @@
 "use client"
 
 import { useRef, useState, type ReactNode } from "react"
-import { ArrowDown, Check, Sparkles, UserRound } from "lucide-react"
+import { ArrowDown, ArrowUpRight, Check, Mail, Sparkles, UserRound } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
 import { AI_COPY } from "@/lib/lab/ai-copy"
 import { LAB_COPY } from "@/lib/lab/content"
 import { DEFAULT_CONFIG, type PlaygroundConfig } from "@/lib/lab/playground"
 import { STACKS_COPY } from "@/lib/lab/stacks-copy"
+import type { Savings } from "@/lib/lab/savings"
 import type { RulesEntry } from "@/lib/registry"
 import { buttonClass, chipClass } from "@/lib/ui"
 import { CornerMarks, SectionMarker } from "@/components/tech/annotations"
@@ -19,7 +20,7 @@ import { Comparison } from "./comparison"
 import { Process } from "./process"
 import { Principles } from "./principles"
 
-export function LabView({ rules }: { rules: RulesEntry }) {
+export function LabView({ rules, savings }: { rules: RulesEntry; savings: Savings }) {
   const { language } = useLanguage()
   const c = LAB_COPY[language]
   const stacks = STACKS_COPY[language]
@@ -80,7 +81,7 @@ export function LabView({ rules }: { rules: RulesEntry }) {
           <p className="lab-hero-fade mt-6 max-w-2xl text-lg leading-relaxed text-foreground/85">{c.hero.body}</p>
           <p className="lab-hero-fade mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{c.hero.intro}</p>
           <div className="lab-hero-fade mt-8 flex flex-wrap items-center gap-4">
-            <a href="#playground" className={buttonClass("primary", "lg")}>
+            <a href="#stacks" className={buttonClass("primary", "lg")}>
               {c.hero.cta}
               <ArrowDown className="h-4 w-4" aria-hidden="true" />
             </a>
@@ -92,26 +93,23 @@ export function LabView({ rules }: { rules: RulesEntry }) {
           <CornerMarks />
           <div className="grid gap-px overflow-hidden rounded-card border border-border bg-border">
             <SplitList
-              icon={<Sparkles className="h-3.5 w-3.5 text-[var(--lab-violet)]" aria-hidden="true" />}
-              title={c.hero.accelerates.title}
-              items={c.hero.accelerates.items}
-              tone="text-[var(--lab-violet)]"
+              icon={<UserRound className="h-3.5 w-3.5 text-primary" aria-hidden="true" />}
+              title={c.hero.people.title}
+              items={c.hero.people.items}
+              tone="text-primary"
             />
             <SplitList
-              icon={<UserRound className="h-3.5 w-3.5 text-primary" aria-hidden="true" />}
-              title={c.hero.human.title}
-              items={c.hero.human.items}
-              tone="text-primary"
+              icon={<Sparkles className="h-3.5 w-3.5 text-[var(--lab-violet)]" aria-hidden="true" />}
+              title={c.hero.agents.title}
+              items={c.hero.agents.items}
+              tone="text-[var(--lab-violet)]"
             />
           </div>
         </div>
       </header>
 
-      <Section id="playground" index="01" marker={c.playground.marker} title={c.playground.title} body={c.playground.body}>
-        <Playground copy={c.playground} codeLabels={c.code} config={config} setConfig={setConfig} />
-      </Section>
-
-      <Section id="stacks" index="02" marker={stacks.marker} title={stacks.title} body={stacks.body}>
+      {/* The story: one source of truth (01), for people (02), for agents (03). */}
+      <Section id="stacks" index="01" marker={stacks.marker} title={stacks.title} body={stacks.body}>
         <StackSwitcher
           copy={stacks}
           codeLabels={c.code}
@@ -120,25 +118,33 @@ export function LabView({ rules }: { rules: RulesEntry }) {
         />
       </Section>
 
+      <Section id="playground" index="02" marker={c.playground.marker} title={c.playground.title} body={c.playground.body}>
+        <Playground copy={c.playground} codeLabels={c.code} config={config} setConfig={setConfig} />
+      </Section>
+
       <Section id="ai" index="03" marker={ai.marker} title={ai.title} body={ai.body}>
-        <AiSection copy={ai} codeLabels={c.code} rules={rules} />
+        <AiSection copy={ai} codeLabels={c.code} rules={rules} savings={savings} />
       </Section>
 
-      <Section id="workflow" index="04" marker={c.workflow.marker} title={c.workflow.title} body={c.workflow.body}>
-        <Workflow copy={c.workflow} />
+      <Section id="how" index="04" marker={c.how.marker} title={c.how.title} body={c.how.body}>
+        <div className="space-y-16">
+          <Part id="workflow" title={c.workflow.title} body={c.workflow.body}>
+            <Workflow copy={c.workflow} />
+          </Part>
+          <Part id="comparison" title={c.comparison.title} body={c.comparison.body}>
+            <Comparison copy={c.comparison} codeLabels={c.code} />
+          </Part>
+          <Part id="process" title={c.process.title} body={c.process.body}>
+            <Process copy={c.process} />
+          </Part>
+        </div>
       </Section>
 
-      <Section id="comparison" index="05" marker={c.comparison.marker} title={c.comparison.title} body={c.comparison.body}>
-        <Comparison copy={c.comparison} codeLabels={c.code} />
-      </Section>
-
-      <Section id="process" index="06" marker={c.process.marker} title={c.process.title} body={c.process.body}>
-        <Process copy={c.process} />
-      </Section>
-
-      <Section id="principles" index="07" marker={c.principles.marker} title={c.principles.title}>
+      <Section id="principles" index="05" marker={c.principles.marker} title={c.principles.title}>
         <Principles copy={c.principles} />
       </Section>
+
+      <Closing copy={c.closing} />
     </div>
   )
 }
@@ -168,6 +174,48 @@ function Section({
         {body && <p className="lab-reveal max-w-xl text-base leading-relaxed text-muted-foreground">{body}</p>}
       </div>
       <div className="lab-reveal min-w-0">{children}</div>
+    </section>
+  )
+}
+
+/** A titled block inside a section, keeping its own id for in-page links. */
+function Part({ id, title, body, children }: { id: string; title: string; body: string; children: ReactNode }) {
+  return (
+    <div id={id} className="scroll-mt-28">
+      <div className="mb-6 grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-end md:gap-10">
+        <h3 className="lab-reveal font-display text-2xl leading-[1.1] md:text-[1.75rem]">{title}</h3>
+        <p className="lab-reveal max-w-xl text-sm leading-relaxed text-muted-foreground">{body}</p>
+      </div>
+      <div className="lab-reveal min-w-0">{children}</div>
+    </div>
+  )
+}
+
+function Closing({ copy }: { copy: (typeof LAB_COPY)["en"]["closing"] }) {
+  return (
+    <section id="hire" aria-labelledby="closing-title" className="lab-section scroll-mt-28 relative mt-8 py-16 md:py-20">
+      <CornerMarks />
+      <div className="lab-reveal rounded-card border border-border bg-card p-6 md:p-10">
+        <h2 id="closing-title" className="font-display text-3xl leading-[1.05] md:text-[2.75rem]">
+          {copy.title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{copy.body}</p>
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <a href={`mailto:santireke37@gmail.com?subject=${encodeURIComponent(copy.subject)}`} className={buttonClass("primary", "lg")}>
+            <Mail className="h-4 w-4" aria-hidden="true" />
+            {copy.cta}
+          </a>
+          <a
+            href="https://www.linkedin.com/in/santiago-requelme/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {copy.linkedin}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
     </section>
   )
 }

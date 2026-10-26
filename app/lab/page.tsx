@@ -5,13 +5,14 @@ import { SpatialBackground } from "@/components/spatial-background"
 import { HalloweenLayer } from "@/components/halloween/halloween-layer"
 import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { LabView } from "@/components/lab/lab-view"
+import { measureSavings } from "@/lib/lab/savings"
 import { getRules } from "@/lib/registry"
 import { readAgentsGuide } from "@/lib/registry/guide"
 
 export const metadata: Metadata = {
   title: "AI Engineering Lab",
   description:
-    "How Santiago Requelme uses AI-assisted development to go from design to production-ready code: an interactive design-to-code playground, workflow and review decisions.",
+    "Santiago Requelme builds design systems that people and AI agents can reuse: tokens, specs and components for React, Angular, Vue, Swift and Kotlin, published as a public registry.",
   alternates: { canonical: "/lab" },
 }
 
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 export default function LabPage() {
   // Read at build time; the simulated MCP demo shows these real rules.
   const rules = getRules(readAgentsGuide())
+  const savings = measureSavings()
   return (
     <div className="dark lab-scope lab-page relative min-h-screen bg-background text-foreground">
       <ScrollProgress />
@@ -27,7 +29,7 @@ export default function LabPage() {
       <HalloweenLayer />
       <Header />
       <main id="main-content">
-        <LabView rules={rules} />
+        <LabView rules={rules} savings={savings} />
       </main>
       <Footer />
     </div>

@@ -2,9 +2,9 @@
 
 export const STACKS_COPY = {
   en: {
-    marker: "Design tokens",
+    marker: "One source of truth",
     title: "One system, every stack.",
-    body: "One Card, one source of truth. Style Dictionary builds tokens/lab.tokens.json into CSS variables, SwiftUI and Jetpack Compose, and every stack below reads the same token names.",
+    body: "Tokens and specs are written once. Style Dictionary turns tokens/lab.tokens.json into CSS variables, SwiftUI and Jetpack Compose, and every stack below gets the same Card from the same templates. Change the primary colour and all five follow.",
     primary: "Change primary color",
     customPrimary: "Custom primary color",
     primaryHint: "Same token as the playground's Accent.",
@@ -29,9 +29,9 @@ export const STACKS_COPY = {
     components: { button: "Button", card: "Card", input: "Input" },
   },
   es: {
-    marker: "Design tokens",
+    marker: "Una fuente de verdad",
     title: "Un sistema, todos los stacks.",
-    body: "Una Card, una única fuente de verdad. Style Dictionary compila tokens/lab.tokens.json a variables CSS, SwiftUI y Jetpack Compose, y cada stack de abajo lee los mismos nombres de tokens.",
+    body: "Los tokens y las specs se escriben una vez. Style Dictionary convierte tokens/lab.tokens.json en variables CSS, SwiftUI y Jetpack Compose, y cada stack de abajo recibe la misma Card de las mismas plantillas. Cambia el color primario y los cinco lo siguen.",
     primary: "Cambiar color primario",
     customPrimary: "Color primario personalizado",
     primaryHint: "Es el mismo token que el Acento del playground.",
