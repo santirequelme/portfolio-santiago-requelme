@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "next start",
     "tokens:build": "node scripts/build-tokens.mjs",
-    "tokens:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-tokens.mjs"
+    "tokens:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-tokens.mjs",
+    "specs:validate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/validate-specs.mjs"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.1",
@@ -29,6 +30,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "ajv": "^8.20.0",
     "postcss": "^8.5",
     "style-dictionary": "5.7.1",
     "tailwindcss": "^4.1.9",

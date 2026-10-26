@@ -1,0 +1,60 @@
+{
+  "$schema": "./schema/component-spec.schema.json",
+  "name": "Card",
+  "description": "A surface that groups related content, such as a title, a short text and one action.",
+  "source": "components/lab/demo-components.tsx (styles: RECIPES.card in lib/lab/playground.ts)",
+  "element": "article",
+  "extends": "HTMLAttributes<HTMLElement>",
+  "whenToUse": [
+    "Group related content with at most one main action: a project, an article, a setting summary.",
+    "Show several items of the same kind side by side, each in its own Card."
+  ],
+  "whenNotToUse": [
+    "As a clickable surface: Card has no button role or keyboard handling. Put a link or a Button inside it instead.",
+    "For page layout or whole sections: use plain layout elements."
+  ],
+  "props": [
+    { "name": "variant", "type": "enum", "values": ["elevated", "outlined", "filled"], "default": "elevated", "required": false, "description": "Surface style: shadow, hairline border or a tint of color.primary." },
+    { "name": "size", "type": "enum", "values": ["sm", "md", "lg"], "default": "md", "required": false, "description": "Padding and maximum width, from RECIPES.card.sizes." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Sets aria-disabled, dims the card to 50% and blocks pointer events." },
+    { "name": "children", "type": "node", "default": null, "required": false, "description": "The content, styled with cardParts (eyebrow, title, body, action)." },
+    { "name": "className", "type": "string", "default": null, "required": false, "description": "Extra classes, merged after the recipe with cn()." }
+  ],
+  "variants": ["elevated", "outlined", "filled"],
+  "sizes": ["sm", "md", "lg"],
+  "states": [
+    { "name": "default", "description": "elevated: color.surface with a soft shadow. outlined: transparent with a color.border hairline. filled: color.surface tinted 10% with color.primary." },
+    { "name": "hover", "description": "elevated: deeper shadow. outlined: the border turns color.primary. filled: the tint grows to 16%. data-force=\"hover\" pins this state for docs and visual tests." },
+    { "name": "disabled", "description": "aria-disabled=\"true\", 50% opacity and no pointer events." }
+  ],
+  "tokens": [
+    { "path": "color.surface", "usage": "elevated background, and the base of the filled tint." },
+    { "path": "color.text", "usage": "Text colour." },
+    { "path": "color.primary", "usage": "Eyebrow and action text, outlined hover border, filled tint, action focus ring." },
+    { "path": "color.border", "usage": "outlined border." },
+    { "path": "radius.card", "usage": "Corner radius; the action's focus ring uses half of it." },
+    { "path": "space.sm", "usage": "Padding at size sm (the web recipe's p-4 has the same value)." },
+    { "path": "space.md", "usage": "Padding at size md (p-5, same value)." },
+    { "path": "space.lg", "usage": "Padding at size lg (p-6, same value)." },
+    { "path": "fontSize.title", "usage": "cardParts.title text (text-base, same value)." },
+    { "path": "fontSize.body", "usage": "cardParts.body and cardParts.action text (text-sm, same value)." }
+  ],
+  "accessibility": {
+    "role": "article, from the native <article> element. The Card itself is not interactive.",
+    "keyboard": [
+      "The Card is not focusable; Tab reaches the links or buttons inside it.",
+      "When disabled, also take inner actions out of the tab order (tabIndex={-1}): aria-disabled and pointer-events do not do that."
+    ],
+    "focus": "The action (cardParts.action) shows a 2px color.primary ring on focus-visible. Inner Buttons keep their own ring.",
+    "contrast": "Title and body text at least 4.5:1 against the card background in every variant (WCAG 2.2 AA, 1.4.3).",
+    "labels": "Start the content with a heading (cardParts.title) so the article can be found by heading navigation."
+  },
+  "composition": [
+    "Content goes inside as children, styled with cardParts: eyebrow, title, body and action.",
+    "cardParts.action styles a link. A Button can be the action instead, as in the 'One system, every stack' Card, which composes an image, a title and a primary Button."
+  ],
+  "example": {
+    "language": "tsx",
+    "code": "<Card variant=\"elevated\" size=\"md\">\n  <p className={cardParts.eyebrow}>Design system</p>\n  <h3 className={cardParts.title}>Tokens, not hex codes</h3>\n  <p className={cardParts.body}>Components read semantic tokens.</p>\n  <a href=\"/system\" className={cardParts.action}>Read the docs</a>\n</Card>"
+  }
+}

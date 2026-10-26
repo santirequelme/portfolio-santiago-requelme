@@ -1,0 +1,61 @@
+{
+  "$schema": "./schema/component-spec.schema.json",
+  "name": "Input",
+  "description": "A single-line text field with a visible label and optional help text.",
+  "source": "components/lab/demo-components.tsx (styles: RECIPES.input in lib/lab/playground.ts)",
+  "element": "input",
+  "extends": "InputHTMLAttributes<HTMLInputElement> without the native size attribute, with the ref forwarded to the <input>",
+  "whenToUse": [
+    "Single-line text entry: names, emails, search terms.",
+    "Any field that needs a visible label and, optionally, a short hint."
+  ],
+  "whenNotToUse": [
+    "Multi-line text: use a textarea.",
+    "Choosing from a fixed list: use a select or a radio group.",
+    "Showing a validation error: Input has no error state yet."
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": null, "required": true, "description": "Visible label, rendered as a <label> linked to the input." },
+    { "name": "hint", "type": "string", "default": null, "required": false, "description": "Help text under the input, linked with aria-describedby." },
+    { "name": "variant", "type": "enum", "values": ["outline", "filled"], "default": "outline", "required": false, "description": "Bordered field or a filled field without border." },
+    { "name": "size", "type": "enum", "values": ["sm", "md", "lg"], "default": "md", "required": false, "description": "Height, padding and text size, from RECIPES.input.sizes. Replaces the native size attribute." },
+    { "name": "id", "type": "string", "default": null, "required": false, "description": "Input id. When omitted, one is generated with useId()." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Native disabled: not focusable, dimmed." },
+    { "name": "placeholder", "type": "string", "default": null, "required": false, "description": "Native placeholder. An example value, never a replacement for the label." },
+    { "name": "className", "type": "string", "default": null, "required": false, "description": "Extra classes for the <input>, merged after the recipe with cn()." }
+  ],
+  "variants": ["outline", "filled"],
+  "sizes": ["sm", "md", "lg"],
+  "states": [
+    { "name": "default", "description": "outline: color.surface with a color.border hairline. filled: color.surface tinted with color.text, no visible border." },
+    { "name": "hover", "description": "Only while enabled. outline: the border moves towards color.text. filled: the tint gets stronger. data-force=\"hover\" pins this state for docs and visual tests." },
+    { "name": "focus", "description": "focus-visible: the border turns color.primary and a 4px color.primary ring at 25% appears." },
+    { "name": "disabled", "description": "50% opacity, not-allowed cursor, hover styles switched off." }
+  ],
+  "tokens": [
+    { "path": "color.surface", "usage": "outline background, and the base of the filled tint." },
+    { "path": "color.text", "usage": "Typed text and label; filled tint and outline hover border are mixed from it." },
+    { "path": "color.border", "usage": "outline border." },
+    { "path": "color.primary", "usage": "Focus border and focus ring." },
+    { "path": "radius.input", "usage": "Corner radius." },
+    { "path": "fontSize.body", "usage": "Label text, and the typed text at size md (text-sm, same value)." }
+  ],
+  "accessibility": {
+    "role": "textbox for text-like types, from the native <input> element.",
+    "keyboard": [
+      "Tab moves focus to it; typing and editing are native.",
+      "No custom key handling."
+    ],
+    "focus": "Keep the focus-visible style (color.primary border and ring). Never remove it without a visible replacement.",
+    "contrast": "Typed text, label and hint at least 4.5:1 (WCAG 2.2 AA, 1.4.3). The field boundary at least 3:1 against its surroundings (1.4.11).",
+    "labels": "label is required and rendered as a visible <label for>. Do not use the placeholder as the label. The hint is announced through aria-describedby."
+  },
+  "composition": [
+    "Renders its own label and hint: do not wrap it in another <label>.",
+    "To submit, place it in a <form> with a Button of type submit; Input does not render one."
+  ],
+  "example": {
+    "language": "tsx",
+    "code": "<Input\n  type=\"email\"\n  label=\"Email\"\n  hint=\"We'll only use it to reply.\"\n  placeholder=\"you@company.com\"\n/>"
+  }
+}

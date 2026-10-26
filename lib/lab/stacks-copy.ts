@@ -23,6 +23,10 @@ export const STACKS_COPY = {
     tokensPanel: "tokens/lab.tokens.json",
     tokensPanelMeta: "Source of truth",
     tokensPanelNote: "The source file, with your primary and radius edits applied. Every stack above is built from it.",
+    spec: "Spec",
+    specTabs: "Component spec",
+    specNote: "What the component is, how to use it and which tokens it reads. The templates above take the Card's variants and default from it.",
+    components: { button: "Button", card: "Card", input: "Input" },
   },
   es: {
     marker: "Design tokens",
@@ -46,6 +50,10 @@ export const STACKS_COPY = {
     tokensPanel: "tokens/lab.tokens.json",
     tokensPanelMeta: "Fuente de verdad",
     tokensPanelNote: "El archivo fuente, con tus cambios de primario y radio aplicados. Todos los stacks de arriba salen de aquí.",
+    spec: "Spec",
+    specTabs: "Spec del componente",
+    specNote: "Qué es el componente, cómo usarlo y qué tokens lee. Las plantillas de arriba toman de aquí las variantes y el valor por defecto de la Card.",
+    components: { button: "Botón", card: "Tarjeta", input: "Input" },
   },
 }
 

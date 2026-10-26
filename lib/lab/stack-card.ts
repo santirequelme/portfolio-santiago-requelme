@@ -3,13 +3,14 @@
 // snippets print them, so preview and code come from the same definition.
 // `{{group.name}}` is a token reference (see tokens/lab.tokens.json).
 
+import { enumProp, SPECS } from "./specs"
 import { cssVarName } from "./token-outputs"
 
 export type CardVariant = "elevated" | "outlined" | "filled"
 export type CardPart = "card" | "media" | "title" | "button"
 export type Declarations = Record<string, string | number>
 
-const BASE: Record<CardPart, Declarations> = {
+export const CARD_BASE: Record<CardPart, Declarations> = {
   card: {
     display: "flex",
     flexDirection: "column",
@@ -48,16 +49,24 @@ const BASE: Record<CardPart, Declarations> = {
 }
 
 // Same three looks as the playground's Card variants.
-const VARIANTS: Record<CardVariant, Declarations> = {
+export const CARD_VARIANT_STYLES: Record<CardVariant, Declarations> = {
   elevated: { background: "{{color.surface}}", boxShadow: "0 8px 24px -12px rgb(0 0 0 / 0.35)" },
   outlined: { background: "transparent", border: "1px solid {{color.border}}" },
   filled: { background: "color-mix(in srgb, {{color.primary}} 10%, {{color.surface}})" },
 }
 
-export const CARD_VARIANTS = Object.keys(VARIANTS) as CardVariant[]
+// Variant names and the default come from specs/card.spec.json; every one of
+// them needs a style above, and there must be no extra styles.
+const variantSpec = enumProp(SPECS.card, "variant")
+const styled = Object.keys(CARD_VARIANT_STYLES)
+if (styled.length !== variantSpec.values.length || !variantSpec.values.every((v) => styled.includes(v))) {
+  throw new Error(`Card variants in card.spec.json (${variantSpec.values.join(", ")}) and stack-card.ts (${styled.join(", ")}) differ`)
+}
+export const CARD_VARIANTS = variantSpec.values as CardVariant[]
+export const DEFAULT_CARD_VARIANT = variantSpec.default as CardVariant
 
 export function cardDeclarations(variant: CardVariant): Record<CardPart, Declarations> {
-  return { ...BASE, card: { ...BASE.card, ...VARIANTS[variant] } }
+  return { ...CARD_BASE, card: { ...CARD_BASE.card, ...CARD_VARIANT_STYLES[variant] } }
 }
 
 export const TOKEN_REF = /\{\{([a-zA-Z]+\.[a-zA-Z]+)\}\}/g

@@ -4,7 +4,7 @@ import { useId, useMemo, useState } from "react"
 import { ChevronRight } from "lucide-react"
 import type { LabCopy } from "@/lib/lab/content"
 import type { PlaygroundConfig } from "@/lib/lab/playground"
-import { CARD_VARIANTS, type CardVariant } from "@/lib/lab/stack-card"
+import { CARD_VARIANTS, DEFAULT_CARD_VARIANT, type CardVariant } from "@/lib/lab/stack-card"
 import { primaryDefinitions, stackFiles, STACKS, type StackId } from "@/lib/lab/stacks"
 import type { StacksCopy } from "@/lib/lab/stacks-copy"
 import { cssVariables, tokensFor } from "@/lib/lab/stack-tokens"
@@ -12,11 +12,12 @@ import { tokenize } from "@/lib/lab/highlight"
 import { cn } from "@/lib/utils"
 import { CodeBlock, CodeLines, CopyButton, TokenSpans } from "./code-block"
 import { AccentPicker } from "./playground"
+import { SpecPanel } from "./spec-panel"
 import { StackCard } from "./stack-card-preview"
 
-/** The playground's Card variant when Card is selected there; elevated otherwise. */
+/** The playground's Card variant when Card is selected there; the spec's default otherwise. */
 const cardVariantOf = (config: PlaygroundConfig): CardVariant =>
-  config.component === "card" && (CARD_VARIANTS as string[]).includes(config.variant) ? (config.variant as CardVariant) : "elevated"
+  config.component === "card" && (CARD_VARIANTS as string[]).includes(config.variant) ? (config.variant as CardVariant) : DEFAULT_CARD_VARIANT
 
 export function StackSwitcher({
   copy,
@@ -172,6 +173,8 @@ export function StackSwitcher({
             />
           </div>
         </div>
+
+        <SpecPanel copy={copy} codeLabels={codeLabels} followed={config.component} />
 
         <details className="group overflow-hidden rounded-card border border-border bg-[var(--lab-editor)]">
           <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 font-mono text-[12px] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring [&::-webkit-details-marker]:hidden">

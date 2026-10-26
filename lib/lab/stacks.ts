@@ -1,8 +1,20 @@
 // "One system, every stack": for the lab's Card, returns the code each stack
 // would ship, using the generated token names, plus the generated token file
-// that stack reads. Everything derives from the same token set.
+// that stack reads. Tokens come from tokens/lab.tokens.json; the Card's
+// description, variant values and default come from specs/card.spec.json.
 
-import { cardDeclarations, toCssValue, TOKEN_REF, type CardVariant, type Declarations } from "./stack-card"
+import { SAMPLE } from "./playground"
+import { SPECS } from "./specs"
+import {
+  CARD_BASE,
+  CARD_VARIANT_STYLES,
+  CARD_VARIANTS,
+  DEFAULT_CARD_VARIANT,
+  toCssValue,
+  TOKEN_REF,
+  type CardVariant,
+  type Declarations,
+} from "./stack-card"
 import { ANGULAR, KOTLIN, KOTLIN_SURFACE, REACT, SWIFT, SWIFT_SURFACE, VUE } from "./stack-templates"
 import { camelName, flatTokens, TOKEN_PATHS, type LabTokens } from "./stack-tokens"
 import { TOKEN_FILES, type TokenFileId } from "./token-outputs"
@@ -55,39 +67,88 @@ function checkRefs(value: string | number) {
   return toCssValue(value)
 }
 
-/** React: the body of the `styles` object. */
-function reactStyles(parts: Record<string, Declarations>) {
-  return Object.entries(parts)
-    .map(([part, decls]) => {
+/** React: the body of an object of style objects, one per key. */
+function reactObject(groups: Record<string, Declarations>) {
+  return Object.entries(groups)
+    .map(([key, decls]) => {
       const lines = Object.entries(decls).map(([prop, value]) => `    ${prop}: ${JSON.stringify(checkRefs(value))},`)
-      return `  ${part}: {\n${lines.join("\n")}\n  },`
+      return `  ${key}: {\n${lines.join("\n")}\n  },`
     })
     .join("\n")
 }
 
-/** Angular and Vue: plain CSS rules, one per part. */
-function cssRules(parts: Record<string, Declarations>, indent: string) {
-  return Object.entries(parts)
-    .map(([part, decls]) => {
+/** Angular and Vue: plain CSS rules, one per key. */
+function cssRules(groups: Record<string, Declarations>, indent: string, selector: (key: string) => string) {
+  return Object.entries(groups)
+    .map(([key, decls]) => {
       const lines = Object.entries(decls).map(([prop, value]) => `${indent}  ${kebab(prop)}: ${checkRefs(value)};`)
-      return `${indent}.${part} {\n${lines.join("\n")}\n${indent}}`
+      return `${indent}${selector(key)} {\n${lines.join("\n")}\n${indent}}`
     })
     .join("\n\n")
 }
 
+const part = (key: string) => `.${key}`
+const variantRule = (key: string) => `.card[data-variant="${key}"]`
+const pascal = (s: string) => s[0].toUpperCase() + s.slice(1)
+const { title, action } = SAMPLE.card
+
+/** Replaces every `{{name}}` placeholder, failing on any left unfilled. */
+function fill(template: string, values: Record<string, string>) {
+  let code = template
+  for (const [key, value] of Object.entries(values)) code = code.replaceAll(`{{${key}}}`, value)
+  const left = /\{\{\w+\}\}/.exec(code)
+  if (left) throw new Error(`Placeholder ${left[0]} is not filled`)
+  return code
+}
+
 function componentCode(stack: StackDef, variant: CardVariant) {
-  const parts = cardDeclarations(variant)
+  const doc = `${SPECS.card.name}: ${SPECS.card.description}`
+  const quoted = (v: string) => JSON.stringify(v)
   switch (stack.id) {
     case "react":
-      return stack.template.replace("{{styles}}", reactStyles(parts))
+      return fill(stack.template, {
+        doc,
+        variantType: CARD_VARIANTS.map(quoted).join(" | "),
+        variantDefault: quoted(DEFAULT_CARD_VARIANT),
+        styles: reactObject(CARD_BASE),
+        variantStyles: reactObject(CARD_VARIANT_STYLES),
+        usage: `<Card variant="${variant}" image="/cover.jpg" title="${title}" action="${action}" />`,
+      })
     case "angular":
-      return stack.template.replace("{{styles}}", cssRules(parts, "    "))
-    case "vue":
-      return stack.template.replace("{{styles}}", cssRules(parts, ""))
+    case "vue": {
+      const indent = stack.id === "angular" ? "    " : ""
+      return fill(stack.template, {
+        doc,
+        variantType: CARD_VARIANTS.map(quoted).join(" | "),
+        variantDefault: quoted(DEFAULT_CARD_VARIANT),
+        styles: cssRules(CARD_BASE, indent, part),
+        variantStyles: cssRules(CARD_VARIANT_STYLES, indent, variantRule),
+        usage:
+          stack.id === "angular"
+            ? `<ui-card variant="${variant}" image="/cover.jpg" title="${title}" actionLabel="${action}" (action)="open()" />`
+            : `<Card variant="${variant}" image="/cover.jpg" title="${title}" action-label="${action}" @action="open" />`,
+      })
+    }
     case "swift":
-      return nativeRefs(stack.template.replace("{{surface}}", SWIFT_SURFACE[variant]))
+      return nativeRefs(
+        fill(stack.template, {
+          doc,
+          variantType: CARD_VARIANTS.join(", "),
+          variantDefault: `.${DEFAULT_CARD_VARIANT}`,
+          surfaceCases: CARD_VARIANTS.map((v) => `        case .${v}:\n            ${SWIFT_SURFACE[v]}`).join("\n"),
+          usage: `CardView(image: Image("cover"), title: "${title}", action: "${action}", variant: .${variant})`,
+        }),
+      )
     case "kotlin":
-      return nativeRefs(stack.template.replace("{{surface}}", KOTLIN_SURFACE[variant]))
+      return nativeRefs(
+        fill(stack.template, {
+          doc,
+          variantType: CARD_VARIANTS.map(pascal).join(", "),
+          variantDefault: `CardVariant.${pascal(DEFAULT_CARD_VARIANT)}`,
+          surfaceCases: CARD_VARIANTS.map((v) => `        CardVariant.${pascal(v)} -> ${KOTLIN_SURFACE[v]}`).join("\n"),
+          usage: `CardView(image = painterResource(R.drawable.cover), title = "${title}", action = "${action}", variant = CardVariant.${pascal(variant)})`,
+        }),
+      )
   }
 }
 
