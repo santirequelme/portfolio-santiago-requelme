@@ -1,21 +1,32 @@
 "use client"
 
-import { useRef, type ReactNode } from "react"
+import { useRef, useState, type ReactNode } from "react"
 import { ArrowDown, Check, Sparkles, UserRound } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap"
+import { AI_COPY } from "@/lib/lab/ai-copy"
 import { LAB_COPY } from "@/lib/lab/content"
+import { DEFAULT_CONFIG, type PlaygroundConfig } from "@/lib/lab/playground"
+import { STACKS_COPY } from "@/lib/lab/stacks-copy"
+import type { RulesEntry } from "@/lib/registry"
 import { buttonClass, chipClass } from "@/lib/ui"
 import { CornerMarks, SectionMarker } from "@/components/tech/annotations"
+import { AiSection } from "./ai-section"
 import { Playground } from "./playground"
+import { StackSwitcher } from "./stack-switcher"
 import { Workflow } from "./workflow"
 import { Comparison } from "./comparison"
 import { Process } from "./process"
 import { Principles } from "./principles"
 
-export function LabView() {
+export function LabView({ rules }: { rules: RulesEntry }) {
   const { language } = useLanguage()
   const c = LAB_COPY[language]
+  const stacks = STACKS_COPY[language]
+  const ai = AI_COPY[language]
+  // Shared by the playground and "One system, every stack", so a token change
+  // in either one shows up in both.
+  const [config, setConfig] = useState<PlaygroundConfig>(DEFAULT_CONFIG)
   const rootRef = useRef<HTMLDivElement>(null)
 
   useGSAP(
@@ -97,22 +108,35 @@ export function LabView() {
       </header>
 
       <Section id="playground" index="01" marker={c.playground.marker} title={c.playground.title} body={c.playground.body}>
-        <Playground copy={c.playground} codeLabels={c.code} />
+        <Playground copy={c.playground} codeLabels={c.code} config={config} setConfig={setConfig} />
       </Section>
 
-      <Section id="workflow" index="02" marker={c.workflow.marker} title={c.workflow.title} body={c.workflow.body}>
+      <Section id="stacks" index="02" marker={stacks.marker} title={stacks.title} body={stacks.body}>
+        <StackSwitcher
+          copy={stacks}
+          codeLabels={c.code}
+          config={config}
+          onPrimaryChange={(accent) => setConfig((prev) => ({ ...prev, accent }))}
+        />
+      </Section>
+
+      <Section id="ai" index="03" marker={ai.marker} title={ai.title} body={ai.body}>
+        <AiSection copy={ai} codeLabels={c.code} rules={rules} />
+      </Section>
+
+      <Section id="workflow" index="04" marker={c.workflow.marker} title={c.workflow.title} body={c.workflow.body}>
         <Workflow copy={c.workflow} />
       </Section>
 
-      <Section id="comparison" index="03" marker={c.comparison.marker} title={c.comparison.title} body={c.comparison.body}>
+      <Section id="comparison" index="05" marker={c.comparison.marker} title={c.comparison.title} body={c.comparison.body}>
         <Comparison copy={c.comparison} codeLabels={c.code} />
       </Section>
 
-      <Section id="process" index="04" marker={c.process.marker} title={c.process.title} body={c.process.body}>
+      <Section id="process" index="06" marker={c.process.marker} title={c.process.title} body={c.process.body}>
         <Process copy={c.process} />
       </Section>
 
-      <Section id="principles" index="05" marker={c.principles.marker} title={c.principles.title}>
+      <Section id="principles" index="07" marker={c.principles.marker} title={c.principles.title}>
         <Principles copy={c.principles} />
       </Section>
     </div>

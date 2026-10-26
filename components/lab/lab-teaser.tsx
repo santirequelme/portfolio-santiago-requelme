@@ -42,7 +42,7 @@ export function LabTeaser() {
 
   return (
     <section ref={ref} aria-labelledby="lab-teaser-title" className="relative px-4 py-16 md:py-24">
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-7xl">
         <CornerMarks />
         <div className="lab-teaser-panel dark lab-scope grid gap-8 overflow-hidden rounded-panel border border-border bg-background p-6 text-foreground md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center md:p-10">
           <div>

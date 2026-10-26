@@ -1,0 +1,63 @@
+{
+  "$schema": "./schema/component-spec.schema.json",
+  "name": "Button",
+  "description": "Triggers an action on the current page, in three levels of emphasis and three sizes.",
+  "source": "components/lab/demo-components.tsx (styles: RECIPES.button in lib/lab/playground.ts)",
+  "element": "button",
+  "extends": "ButtonHTMLAttributes<HTMLButtonElement>, with the ref forwarded to the <button>",
+  "whenToUse": [
+    "Trigger an action on the current page: save, submit a form, open a dialog.",
+    "Use primary for the main action of a group, secondary or ghost for the others."
+  ],
+  "whenNotToUse": [
+    "Navigating to another page or URL: use a link (<a>).",
+    "Turning a setting on or off: use a switch or a checkbox.",
+    "Showing progress while an action runs: Button has no loading state yet."
+  ],
+  "props": [
+    { "name": "variant", "type": "enum", "values": ["primary", "secondary", "ghost"], "default": "primary", "required": false, "description": "Level of emphasis." },
+    { "name": "size", "type": "enum", "values": ["sm", "md", "lg"], "default": "md", "required": false, "description": "Height, padding and text size, from RECIPES.button.sizes." },
+    { "name": "type", "type": "enum", "values": ["button", "submit", "reset"], "default": "button", "required": false, "description": "Native button type. Defaults to button so it never submits a form by accident." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Native disabled: not focusable, no click, dimmed." },
+    { "name": "onClick", "type": "function", "default": null, "required": false, "description": "Native click handler." },
+    { "name": "children", "type": "node", "default": null, "required": false, "description": "The label. Optional in the types, but a button needs a text label or an aria-label." },
+    { "name": "className", "type": "string", "default": null, "required": false, "description": "Extra classes, merged after the recipe with cn()." }
+  ],
+  "variants": ["primary", "secondary", "ghost"],
+  "sizes": ["sm", "md", "lg"],
+  "states": [
+    { "name": "default", "description": "primary: color.primary fill with color.onPrimary text. secondary: color.surface fill, color.border hairline, color.text label. ghost: transparent with color.primary text." },
+    { "name": "hover", "description": "Only while enabled. primary darkens to a hover shade derived from color.primary; secondary's border turns color.primary; ghost gets a 12% color.primary tint. data-force=\"hover\" pins this state for docs and visual tests." },
+    { "name": "focus", "description": "Keyboard focus (focus-visible) shows a 2px color.primary ring with a 2px offset. Mouse clicks show no ring." },
+    { "name": "disabled", "description": "50% opacity, not-allowed cursor, hover styles switched off." }
+  ],
+  "tokens": [
+    { "path": "color.primary", "usage": "primary background, ghost text, secondary hover border, focus ring, ghost hover tint." },
+    { "path": "color.onPrimary", "usage": "primary label text." },
+    { "path": "color.surface", "usage": "secondary background." },
+    { "path": "color.text", "usage": "secondary label text." },
+    { "path": "color.border", "usage": "secondary border." },
+    { "path": "radius.button", "usage": "Corner radius, every variant and size." },
+    { "path": "space.sm", "usage": "Horizontal padding at size md (the web recipe's px-4 has the same value)." },
+    { "path": "space.md", "usage": "Horizontal padding at size lg (px-5, same value)." },
+    { "path": "fontSize.body", "usage": "Label text at size md (text-sm, same value)." }
+  ],
+  "accessibility": {
+    "role": "button, from the native <button> element.",
+    "keyboard": [
+      "Tab moves focus to it; Enter and Space activate it (native behaviour).",
+      "When disabled it is skipped by Tab and does not fire onClick."
+    ],
+    "focus": "Keep the focus-visible ring (2px color.primary, 2px offset). Never remove it without a visible replacement.",
+    "contrast": "Label text at least 4.5:1 against the button background (WCAG 2.2 AA, 1.4.3). Focus ring at least 3:1 against the page (1.4.11).",
+    "labels": "Needs a visible text label as children. Icon-only buttons need an aria-label."
+  },
+  "composition": [
+    "Can be the action of a Card: the 'One system, every stack' Card uses a primary md Button.",
+    "Children can mix an icon and text; the recipe spaces them with a gap."
+  ],
+  "example": {
+    "language": "tsx",
+    "code": "<Button variant=\"primary\" size=\"md\" onClick={save}>\n  Save changes\n</Button>"
+  }
+}

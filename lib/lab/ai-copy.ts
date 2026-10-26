@@ -1,0 +1,134 @@
+// Copy for "Use it with AI" (EN / ES). Code and tool names stay in English.
+
+export const SITE = "https://www.santirequelme.dev"
+
+const ROUTES = [
+  { path: "/r/index.json", en: "Every component, its variants and sizes, and the supported stacks.", es: "Todos los componentes, sus variantes y tamaños, y los stacks soportados." },
+  { path: "/r/tokens.json", en: "The full token set, with values and their CSS, Swift and Kotlin names.", es: "El set completo de tokens, con valores y sus nombres en CSS, Swift y Kotlin." },
+  { path: "/r/rules.json", en: "The agent rules: AGENTS.md plus each spec's accessibility rules.", es: "Las reglas para agentes: AGENTS.md y las reglas de accesibilidad de cada spec." },
+  { path: "/r/card.json?stack=angular", en: "One component: spec, tokens and code. Stacks: react, angular, vue, swift, kotlin.", es: "Un componente: spec, tokens y código. Stacks: react, angular, vue, swift, kotlin." },
+]
+
+export const MCP_CONFIG = `{
+  "mcpServers": {
+    "design-system": {
+      "type": "http",
+      "url": "https://design-system.example/mcp"
+    }
+  }
+}`
+
+export const AI_COPY = {
+  en: {
+    marker: "Use it with AI",
+    title: "Built for agents, not just people.",
+    body: "The tokens, specs and code behind this page are published as a public registry, so an agent can read the system instead of guessing it from screenshots.",
+    registry: {
+      title: "Public registry",
+      badge: "Live",
+      body: "Static, read-only JSON, generated at build time from the same tokens, specs and templates. CORS is open, so any tool can fetch it.",
+      routes: ROUTES.map((r) => ({ path: r.path, text: r.en })),
+      open: "Open",
+      copy: "Copy command",
+    },
+    note: "The MCP below is a conceptual demo: no MCP server runs on this site. The public registry above is the part that works today.",
+    mcp: {
+      title: "MCP demo",
+      badge: "Illustrative",
+      configLabel: "Example config",
+      example: "Example",
+      configNote: "How a developer would connect an MCP server in Claude Code (.mcp.json) or Cursor (.cursor/mcp.json). The address is a placeholder: there is no server behind it.",
+      conversation: "Guided conversation",
+      conversationNote: "The requests are a script; the responses are real, computed in your browser from the same core that serves /r.",
+      developer: "Developer",
+      agent: "Agent",
+      calls: "calls",
+      returns: "Returns",
+      excerpt: "Excerpt. Full response:",
+      prompt: "Using the design system MCP, build a settings card with an image and a save button for my Angular app.",
+      notes: [
+        "Reads the rules first: tokens only, follow each spec's accessibility section, nothing outside the spec.",
+        "Gets the Card: its variants, the tokens it reads and the Angular files.",
+        "Gets the Button for the save action.",
+        "Checks its first draft of the save button. It fails: \"brand\" is not a variant, and the colour and padding are hardcoded.",
+        "Uses the primary variant instead. Now it passes.",
+        "Answers with the registry's Angular Card example, with the requested text.",
+      ],
+      answer: "Answer",
+      step: "Step",
+      prev: "Previous",
+      next: "Next",
+      steps: "Conversation steps",
+    },
+    beforeAfter: {
+      title: "Before and after",
+      body: "The same request, answered without and with the design system.",
+      without: "Without the design system",
+      withSystem: "With the design system",
+      withoutBadge: "Illustrative · written by hand",
+      withBadge: "Generated from the registry",
+      withoutNote: "A typical generic answer: hardcoded colours and sizes, a div as a button (no role, no keyboard), and a placeholder instead of a label.",
+      withNote: "Card and Button from the registry, styled only with tokens, with a real <button> and the spec's focus styles.",
+      report: "validate_usage on its props",
+      valid: "valid",
+      invalid: "invalid",
+    },
+  },
+  es: {
+    marker: "Úsalo con IA",
+    title: "Hecho para agentes, no solo para personas.",
+    body: "Los tokens, specs y el código detrás de esta página están publicados como un registry público, así un agente puede leer el sistema en lugar de adivinarlo a partir de capturas.",
+    registry: {
+      title: "Registry público",
+      badge: "En vivo",
+      body: "JSON estático y de solo lectura, generado en el build con los mismos tokens, specs y plantillas. CORS está abierto, así cualquier herramienta puede leerlo.",
+      routes: ROUTES.map((r) => ({ path: r.path, text: r.es })),
+      open: "Abrir",
+      copy: "Copiar comando",
+    },
+    note: "El MCP de abajo es una demostración conceptual: en este sitio no corre ningún servidor MCP. El registry público de arriba es la parte que funciona hoy.",
+    mcp: {
+      title: "Demo de MCP",
+      badge: "Ilustrativo",
+      configLabel: "Configuración de ejemplo",
+      example: "Ejemplo",
+      configNote: "Cómo conectaría un desarrollador un servidor MCP en Claude Code (.mcp.json) o Cursor (.cursor/mcp.json). La dirección es un ejemplo: no hay ningún servidor detrás.",
+      conversation: "Conversación guiada",
+      conversationNote: "Los pedidos son un guion; las respuestas son reales, calculadas en tu navegador con el mismo core que sirve /r.",
+      developer: "Desarrollador",
+      agent: "Agente",
+      calls: "llama a",
+      returns: "Devuelve",
+      excerpt: "Extracto. Respuesta completa:",
+      prompt: "Using the design system MCP, build a settings card with an image and a save button for my Angular app.",
+      notes: [
+        "Primero lee las reglas: solo tokens, seguir la sección de accesibilidad de cada spec, nada fuera del spec.",
+        "Pide la Card: sus variantes, los tokens que lee y los archivos de Angular.",
+        "Pide el Button para la acción de guardar.",
+        "Revisa su primer borrador del botón. Falla: \"brand\" no es una variante, y el color y el padding están fijos.",
+        "Usa la variante primary en su lugar. Ahora pasa.",
+        "Responde con el ejemplo de Card en Angular del registry, con el texto pedido.",
+      ],
+      answer: "Respuesta",
+      step: "Paso",
+      prev: "Anterior",
+      next: "Siguiente",
+      steps: "Pasos de la conversación",
+    },
+    beforeAfter: {
+      title: "Antes y después",
+      body: "El mismo pedido, respondido sin y con el design system.",
+      without: "Sin el design system",
+      withSystem: "Con el design system",
+      withoutBadge: "Ilustrativo · escrito a mano",
+      withBadge: "Generado desde el registry",
+      withoutNote: "Una respuesta genérica típica: colores y tamaños fijos, un div como botón (sin rol ni teclado) y un placeholder en lugar de un label.",
+      withNote: "Card y Button del registry, con estilos solo a partir de tokens, un <button> real y los estilos de foco del spec.",
+      report: "validate_usage sobre sus props",
+      valid: "válido",
+      invalid: "inválido",
+    },
+  },
+}
+
+export type AiCopy = (typeof AI_COPY)["en"]

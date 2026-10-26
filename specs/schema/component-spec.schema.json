@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://santirequelme.dev/specs/component-spec.schema.json",
+  "title": "ComponentSpec",
+  "description": "A machine-readable description of one design-system component. Mirrors specs/schema/component-spec.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "source",
+    "element",
+    "extends",
+    "whenToUse",
+    "whenNotToUse",
+    "props",
+    "variants",
+    "sizes",
+    "states",
+    "tokens",
+    "accessibility",
+    "composition",
+    "example"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "pattern": "^[A-Z][A-Za-z]*$" },
+    "description": { "type": "string", "minLength": 10 },
+    "source": { "type": "string", "minLength": 1 },
+    "element": { "type": "string", "minLength": 1 },
+    "extends": { "type": ["string", "null"] },
+    "whenToUse": { "$ref": "#/definitions/sentences" },
+    "whenNotToUse": { "$ref": "#/definitions/sentences" },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "default", "required", "description"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[a-z][A-Za-z]*$" },
+          "type": { "enum": ["enum", "string", "boolean", "function", "node"] },
+          "values": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "default": { "type": ["string", "boolean", "null"] },
+          "required": { "type": "boolean" },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "variants": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "sizes": { "type": "array", "items": { "type": "string" } },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "enum": ["default", "hover", "focus", "disabled", "loading", "error"] },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "usage"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^[a-zA-Z]+(\\.[a-zA-Z]+)+$" },
+          "usage": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "keyboard", "focus", "contrast", "labels"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "keyboard": { "$ref": "#/definitions/sentences" },
+        "focus": { "type": "string", "minLength": 1 },
+        "contrast": { "type": "string", "minLength": 1 },
+        "labels": { "type": "string", "minLength": 1 }
+      }
+    },
+    "composition": { "$ref": "#/definitions/sentences" },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "code"],
+      "properties": {
+        "language": { "const": "tsx" },
+        "code": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "definitions": {
+    "sentences": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

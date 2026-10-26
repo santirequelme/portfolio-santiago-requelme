@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type Dispatch, type SetStateAction } from "react"
 import { RotateCcw } from "lucide-react"
 import {
   ACCENT_PRESETS,
@@ -45,10 +45,19 @@ function contrastLevel(ratio: number) {
   return "Fail"
 }
 
-export function Playground({ copy, codeLabels }: { copy: Copy; codeLabels: LabCopy["code"] }) {
-  // The whole playground is driven by this one object; preview and code both
-  // derive from it.
-  const [config, setConfig] = useState<PlaygroundConfig>(DEFAULT_CONFIG)
+export function Playground({
+  copy,
+  codeLabels,
+  config,
+  setConfig,
+}: {
+  copy: Copy
+  codeLabels: LabCopy["code"]
+  /** The whole playground is driven by this one object; preview and code both
+   *  derive from it. It lives in LabView so other sections can follow it. */
+  config: PlaygroundConfig
+  setConfig: Dispatch<SetStateAction<PlaygroundConfig>>
+}) {
   const set = <K extends keyof PlaygroundConfig>(key: K, value: PlaygroundConfig[K]) =>
     setConfig((c) => ({ ...c, [key]: value }))
 
@@ -83,7 +92,6 @@ export function Playground({ copy, codeLabels }: { copy: Copy; codeLabels: LabCo
 
   const force = config.state === "hover" ? { "data-force": "hover" } : {}
   const disabled = config.state === "disabled"
-  const isPreset = ACCENT_PRESETS.some((p) => p.value.toLowerCase() === config.accent.toLowerCase())
 
   return (
     <div className="grid gap-4 lg:grid-cols-[19.5rem_minmax(0,1fr)]">
@@ -141,7 +149,7 @@ export function Playground({ copy, codeLabels }: { copy: Copy; codeLabels: LabCo
           />
         </Field>
 
-        <AccentPicker copy={copy} value={config.accent} isPreset={isPreset} onChange={(v) => set("accent", v)} />
+        <AccentPicker label={copy.accent} customLabel={copy.customAccent} value={config.accent} onChange={(v) => set("accent", v)} />
 
         <div className="border-t border-border pt-4">
           <Switch label={copy.showCode} checked={config.showCode} onChange={(v) => set("showCode", v)} />
@@ -262,19 +270,22 @@ export function Playground({ copy, codeLabels }: { copy: Copy; codeLabels: LabCo
   )
 }
 
-function AccentPicker({
-  copy,
+/** Preset swatches plus a native colour input. */
+export function AccentPicker({
+  label,
+  customLabel,
   value,
-  isPreset,
   onChange,
 }: {
-  copy: Copy
+  label: string
+  customLabel: string
   value: string
-  isPreset: boolean
   onChange: (v: string) => void
 }) {
   const groupRef = useRef<HTMLDivElement>(null)
+  const labelId = useId()
   const current = ACCENT_PRESETS.findIndex((p) => p.value.toLowerCase() === value.toLowerCase())
+  const isPreset = current !== -1
 
   const move = (from: number, dir: 1 | -1) => {
     const next = (from + dir + ACCENT_PRESETS.length) % ACCENT_PRESETS.length
@@ -283,9 +294,9 @@ function AccentPicker({
   }
 
   return (
-    <Field label={copy.accent} labelId="lab-accent-label" hint={value.toUpperCase()}>
+    <Field label={label} labelId={labelId} hint={value.toUpperCase()}>
       <div className="flex items-center gap-2">
-        <div ref={groupRef} role="radiogroup" aria-labelledby="lab-accent-label" className="flex gap-2">
+        <div ref={groupRef} role="radiogroup" aria-labelledby={labelId} className="flex gap-2">
           {ACCENT_PRESETS.map((p, i) => {
             const checked = i === current
             return (
@@ -324,7 +335,7 @@ function AccentPicker({
           )}
           style={isPreset ? undefined : { background: value }}
         >
-          <span className="sr-only">{copy.customAccent}</span>
+          <span className="sr-only">{customLabel}</span>
           {isPreset && (
             <span
               aria-hidden="true"

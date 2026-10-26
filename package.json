@@ -6,7 +6,11 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "tokens:build": "node scripts/build-tokens.mjs",
+    "tokens:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-tokens.mjs",
+    "specs:validate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/validate-specs.mjs",
+    "test": "tsx --test tests/registry.test.ts tests/registry-routes.test.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.1",
@@ -27,8 +31,11 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "ajv": "^8.20.0",
     "postcss": "^8.5",
+    "style-dictionary": "5.7.1",
     "tailwindcss": "^4.1.9",
+    "tsx": "4.23.15",
     "tw-animate-css": "1.3.3",
     "typescript": "^5.9.3"
   }
