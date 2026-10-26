@@ -37,7 +37,10 @@
     { "path": "color.surface", "usage": "secondary background." },
     { "path": "color.text", "usage": "secondary label text." },
     { "path": "color.border", "usage": "secondary border." },
-    { "path": "radius.button", "usage": "Corner radius, every variant and size." }
+    { "path": "radius.button", "usage": "Corner radius, every variant and size." },
+    { "path": "space.sm", "usage": "Horizontal padding at size md (the web recipe's px-4 has the same value)." },
+    { "path": "space.md", "usage": "Horizontal padding at size lg (px-5, same value)." },
+    { "path": "fontSize.body", "usage": "Label text at size md (text-sm, same value)." }
   ],
   "accessibility": {
     "role": "button, from the native <button> element.",

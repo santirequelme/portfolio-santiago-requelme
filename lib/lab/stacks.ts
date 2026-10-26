@@ -1,29 +1,28 @@
-// "One system, every stack": for the lab's Card, returns the code each stack
-// would ship, using the generated token names, plus the generated token file
-// that stack reads. Tokens come from tokens/lab.tokens.json; the Card's
-// description, variant values and default come from specs/card.spec.json.
+// Generates the code each stack ships for Button, Card and Input, plus the
+// generated token files. Sources: tokens/lab.tokens.json (tokens), the specs
+// (description, variants, sizes, defaults) and lib/lab/templates (code).
+// Used by the lab's stack switcher and by the public registry (lib/registry).
 
-import { SAMPLE } from "./playground"
-import { SPECS } from "./specs"
-import {
-  CARD_BASE,
-  CARD_VARIANT_STYLES,
-  CARD_VARIANTS,
-  DEFAULT_CARD_VARIANT,
-  toCssValue,
-  TOKEN_REF,
-  type CardVariant,
-  type Declarations,
-} from "./stack-card"
-import { ANGULAR, KOTLIN, KOTLIN_SURFACE, REACT, SWIFT, SWIFT_SURFACE, VUE } from "./stack-templates"
-import { camelName, flatTokens, TOKEN_PATHS, type LabTokens } from "./stack-tokens"
+import { componentCss, cssTokenPaths, TOKEN_REF } from "./component-css"
+import { SAMPLE, type ComponentKind } from "./playground"
+import { enumProp, SPECS } from "./specs"
+import { camelName, cssVarName, flatTokens, TOKEN_PATHS, type LabTokens } from "./stack-tokens"
 import { TOKEN_FILES, type TokenFileId } from "./token-outputs"
+import { BUTTON } from "./templates/button"
+import { CARD } from "./templates/card"
+import { CARD_EXAMPLE } from "./templates/card-example"
+import { INPUT } from "./templates/input"
+import { pascal, type ComponentTemplates, type Language, type StackId } from "./templates/shared"
 
-export type StackId = "react" | "angular" | "vue" | "swift" | "kotlin"
+export type { Language, StackId }
 
-export interface StackFile {
+export interface GeneratedFile {
   name: string
+  language: Language
   code: string
+}
+
+export interface StackFile extends GeneratedFile {
   /** 1-based lines that use or define the primary colour. */
   primaryLines: Set<number>
 }
@@ -31,128 +30,108 @@ export interface StackFile {
 interface StackDef {
   id: StackId
   label: string
-  file: string
   tokenFile: TokenFileId
-  /** True when the live preview runs this exact code. */
+  /** True when the lab's live preview runs this stack's code. */
   runs: boolean
-  template: string
 }
 
 export const STACKS: readonly StackDef[] = [
-  { id: "react", label: "React", file: "Card.tsx", tokenFile: "css", runs: true, template: REACT },
-  { id: "angular", label: "Angular", file: "card.component.ts", tokenFile: "css", runs: false, template: ANGULAR },
-  { id: "vue", label: "Vue", file: "Card.vue", tokenFile: "css", runs: false, template: VUE },
-  { id: "swift", label: "Swift", file: "CardView.swift", tokenFile: "swift", runs: false, template: SWIFT },
-  { id: "kotlin", label: "Kotlin", file: "CardView.kt", tokenFile: "kotlin", runs: false, template: KOTLIN },
+  { id: "react", label: "React", tokenFile: "css", runs: true },
+  { id: "angular", label: "Angular", tokenFile: "css", runs: false },
+  { id: "vue", label: "Vue", tokenFile: "css", runs: false },
+  { id: "swift", label: "Swift", tokenFile: "swift", runs: false },
+  { id: "kotlin", label: "Kotlin", tokenFile: "kotlin", runs: false },
 ]
 
-// ─── Placeholder filling ────────────────────────────────────────────────────
+const TEMPLATES: Record<ComponentKind, ComponentTemplates> = { button: BUTTON, card: CARD, input: INPUT }
 
-/** `{{color.primary}}` → `Tokens.colorPrimary`, failing loudly on unknown tokens. */
-function nativeRefs(code: string) {
+const cardVariant = enumProp(SPECS.card, "variant")
+export const CARD_VARIANTS = cardVariant.values
+export const DEFAULT_CARD_VARIANT = cardVariant.default
+
+// ─── Placeholders ───────────────────────────────────────────────────────────
+
+const isNative = (stack: StackId) => stack === "swift" || stack === "kotlin"
+
+/** A spec value as the stack writes it: Kotlin enums are PascalCase. */
+const asValue = (stack: StackId, value: string) => (stack === "kotlin" ? pascal(value) : value)
+
+/** A spec value list as a union type (web) or enum cases (native). */
+function asType(stack: StackId, values: string[]) {
+  if (stack === "swift") return values.join(", ")
+  if (stack === "kotlin") return values.map(pascal).join(", ")
+  return values.map((v) => JSON.stringify(v)).join(" | ")
+}
+
+/** `{{color.primary}}` → `var(--ds-color-primary)` on the web, `Tokens.colorPrimary` natively. */
+function resolveTokens(code: string, stack: StackId) {
   return code.replace(TOKEN_REF, (_, path: string) => {
-    if (!TOKEN_PATHS.has(path)) throw new Error(`Unknown token "${path}" in a stack template`)
-    return `Tokens.${camelName(path.split("."))}`
+    if (!TOKEN_PATHS.has(path)) throw new Error(`Unknown token "${path}" in a template`)
+    const parts = path.split(".")
+    return isNative(stack) ? `Tokens.${camelName(parts)}` : `var(${cssVarName(parts)})`
   })
 }
 
-const kebab = (prop: string) => prop.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
-
-function checkRefs(value: string | number) {
-  if (typeof value === "string") {
-    for (const [, path] of value.matchAll(TOKEN_REF)) {
-      if (!TOKEN_PATHS.has(path)) throw new Error(`Unknown token "${path}" in the card definition`)
-    }
-  }
-  return toCssValue(value)
-}
-
-/** React: the body of an object of style objects, one per key. */
-function reactObject(groups: Record<string, Declarations>) {
-  return Object.entries(groups)
-    .map(([key, decls]) => {
-      const lines = Object.entries(decls).map(([prop, value]) => `    ${prop}: ${JSON.stringify(checkRefs(value))},`)
-      return `  ${key}: {\n${lines.join("\n")}\n  },`
-    })
-    .join("\n")
-}
-
-/** Angular and Vue: plain CSS rules, one per key. */
-function cssRules(groups: Record<string, Declarations>, indent: string, selector: (key: string) => string) {
-  return Object.entries(groups)
-    .map(([key, decls]) => {
-      const lines = Object.entries(decls).map(([prop, value]) => `${indent}  ${kebab(prop)}: ${checkRefs(value)};`)
-      return `${indent}${selector(key)} {\n${lines.join("\n")}\n${indent}}`
-    })
-    .join("\n\n")
-}
-
-const part = (key: string) => `.${key}`
-const variantRule = (key: string) => `.card[data-variant="${key}"]`
-const pascal = (s: string) => s[0].toUpperCase() + s.slice(1)
-const { title, action } = SAMPLE.card
-
 /** Replaces every `{{name}}` placeholder, failing on any left unfilled. */
-function fill(template: string, values: Record<string, string>) {
+function fill(template: string, values: Record<string, string>, stack: StackId) {
   let code = template
   for (const [key, value] of Object.entries(values)) code = code.replaceAll(`{{${key}}}`, value)
   const left = /\{\{\w+\}\}/.exec(code)
   if (left) throw new Error(`Placeholder ${left[0]} is not filled`)
-  return code
+  return resolveTokens(code, stack)
 }
 
-function componentCode(stack: StackDef, variant: CardVariant) {
-  const doc = `${SPECS.card.name}: ${SPECS.card.description}`
-  const quoted = (v: string) => JSON.stringify(v)
-  switch (stack.id) {
-    case "react":
-      return fill(stack.template, {
-        doc,
-        variantType: CARD_VARIANTS.map(quoted).join(" | "),
-        variantDefault: quoted(DEFAULT_CARD_VARIANT),
-        styles: reactObject(CARD_BASE),
-        variantStyles: reactObject(CARD_VARIANT_STYLES),
-        usage: `<Card variant="${variant}" image="/cover.jpg" title="${title}" action="${action}" />`,
-      })
-    case "angular":
-    case "vue": {
-      const indent = stack.id === "angular" ? "    " : ""
-      return fill(stack.template, {
-        doc,
-        variantType: CARD_VARIANTS.map(quoted).join(" | "),
-        variantDefault: quoted(DEFAULT_CARD_VARIANT),
-        styles: cssRules(CARD_BASE, indent, part),
-        variantStyles: cssRules(CARD_VARIANT_STYLES, indent, variantRule),
-        usage:
-          stack.id === "angular"
-            ? `<ui-card variant="${variant}" image="/cover.jpg" title="${title}" actionLabel="${action}" (action)="open()" />`
-            : `<Card variant="${variant}" image="/cover.jpg" title="${title}" action-label="${action}" @action="open" />`,
-      })
-    }
-    case "swift":
-      return nativeRefs(
-        fill(stack.template, {
-          doc,
-          variantType: CARD_VARIANTS.join(", "),
-          variantDefault: `.${DEFAULT_CARD_VARIANT}`,
-          surfaceCases: CARD_VARIANTS.map((v) => `        case .${v}:\n            ${SWIFT_SURFACE[v]}`).join("\n"),
-          usage: `CardView(image: Image("cover"), title: "${title}", action: "${action}", variant: .${variant})`,
-        }),
-      )
-    case "kotlin":
-      return nativeRefs(
-        fill(stack.template, {
-          doc,
-          variantType: CARD_VARIANTS.map(pascal).join(", "),
-          variantDefault: `CardVariant.${pascal(DEFAULT_CARD_VARIANT)}`,
-          surfaceCases: CARD_VARIANTS.map((v) => `        CardVariant.${pascal(v)} -> ${KOTLIN_SURFACE[v]}`).join("\n"),
-          usage: `CardView(image = painterResource(R.drawable.cover), title = "${title}", action = "${action}", variant = CardVariant.${pascal(variant)})`,
-        }),
-      )
+function placeholderValues(kind: ComponentKind, stack: StackId) {
+  const spec = SPECS[kind]
+  const variant = enumProp(spec, "variant")
+  const size = enumProp(spec, "size")
+  const ctx = { variants: variant.values, sizes: size.values }
+  const native = stack === "swift" ? TEMPLATES[kind].swift(ctx) : stack === "kotlin" ? TEMPLATES[kind].kotlin(ctx) : {}
+  return {
+    doc: `${spec.name}: ${spec.description}`,
+    variantType: asType(stack, variant.values),
+    variantDefault: asValue(stack, variant.default),
+    sizeType: asType(stack, size.values),
+    sizeDefault: asValue(stack, size.default),
+    css: componentCss(kind),
+    ...native,
   }
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────
+
+/** The component's files for one stack. */
+export function componentFiles(kind: ComponentKind, stack: StackId): GeneratedFile[] {
+  const values = placeholderValues(kind, stack)
+  return TEMPLATES[kind].files[stack].map((f) => ({ ...f, code: fill(f.code, values, stack) }))
+}
+
+/** The lab's Card composition (image, title, primary Button) in one stack. */
+export function cardExampleFile(
+  stack: StackId,
+  variant: string = DEFAULT_CARD_VARIANT,
+  text: { title: string; action: string } = SAMPLE.card,
+): GeneratedFile {
+  const t = CARD_EXAMPLE[stack]
+  const values = {
+    variant: asValue(stack, variant),
+    size: asValue(stack, enumProp(SPECS.card, "size").default),
+    title: text.title,
+    action: text.action,
+  }
+  return { ...t, code: fill(t.code, values, stack) }
+}
+
+/** Token paths a component's code reads, across every stack. */
+export function codeTokenPaths(kind: ComponentKind): string[] {
+  const paths = new Set(cssTokenPaths(kind))
+  for (const stack of STACKS.map((s) => s.id)) {
+    const values = placeholderValues(kind, stack)
+    const raw = [...TEMPLATES[kind].files[stack].map((f) => f.code), ...Object.values(values)].join("\n")
+    for (const [, path] of raw.matchAll(TOKEN_REF)) paths.add(path)
+  }
+  return [...paths].sort()
+}
 
 const PRIMARY = /--ds-color-primary\b|Tokens\.colorPrimary\b|\bcolorPrimary =/
 
@@ -162,21 +141,19 @@ function linesMatching(code: string, re: RegExp) {
   return set
 }
 
+const TOKEN_FILE_LANGUAGE: Record<TokenFileId, Language> = { css: "css", swift: "swift", kotlin: "kotlin" }
+
 /** The generated token file, exactly as `pnpm tokens:build` writes it, minus surrounding blank lines. */
-export function tokenFile(id: TokenFileId, tokens: LabTokens) {
+export function tokenFile(id: TokenFileId, tokens: LabTokens): GeneratedFile {
   const { name, format } = TOKEN_FILES[id]
-  return { name, code: format(flatTokens(tokens)).trim() }
+  return { name, language: TOKEN_FILE_LANGUAGE[id], code: format(flatTokens(tokens)).trim() }
 }
 
-/** Component file + the token file it reads, for one stack. */
-export function stackFiles(id: StackId, variant: CardVariant, tokens: LabTokens): StackFile[] {
+/** For the stack switcher: the Card example, the Card's files and the token file. */
+export function stackFiles(id: StackId, variant: string, tokens: LabTokens): StackFile[] {
   const stack = STACKS.find((s) => s.id === id) ?? STACKS[0]
-  const component = componentCode(stack, variant)
-  const generated = tokenFile(stack.tokenFile, tokens)
-  return [
-    { name: stack.file, code: component, primaryLines: linesMatching(component, PRIMARY) },
-    { ...generated, primaryLines: linesMatching(generated.code, PRIMARY) },
-  ]
+  const files = [cardExampleFile(stack.id, variant), ...componentFiles("card", stack.id), tokenFile(stack.tokenFile, tokens)]
+  return files.map((f) => ({ ...f, primaryLines: linesMatching(f.code, PRIMARY) }))
 }
 
 /** The line that defines color.primary in each generated file. */

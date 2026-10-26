@@ -30,6 +30,7 @@
   "tokens": [
     { "path": "color.surface", "usage": "elevated background, and the base of the filled tint." },
     { "path": "color.text", "usage": "Text colour." },
+    { "path": "color.muted", "usage": "cardParts.body text." },
     { "path": "color.primary", "usage": "Eyebrow and action text, outlined hover border, filled tint, action focus ring." },
     { "path": "color.border", "usage": "outlined border." },
     { "path": "radius.card", "usage": "Corner radius; the action's focus ring uses half of it." },

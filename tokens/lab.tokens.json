@@ -2,6 +2,7 @@
   "color": {
     "surface": { "$type": "color", "$value": "#1B1C21", "$description": "Card background" },
     "text": { "$type": "color", "$value": "#F2F2F4", "$description": "Primary text on surface" },
+    "muted": { "$type": "color", "$value": "#A0A0AB", "$description": "Secondary text: card body, hints, placeholders" },
     "primary": { "$type": "color", "$value": "#E23A0D", "$description": "Brand accent: buttons, links, focus" },
     "onPrimary": { "$type": "color", "$value": "#111111", "$description": "Text on primary, picked for contrast" },
     "border": { "$type": "color", "$value": "#2E3037", "$description": "Hairlines and outlined variants" }

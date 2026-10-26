@@ -5,6 +5,8 @@ import { SpatialBackground } from "@/components/spatial-background"
 import { HalloweenLayer } from "@/components/halloween/halloween-layer"
 import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { LabView } from "@/components/lab/lab-view"
+import { getRules } from "@/lib/registry"
+import { readAgentsGuide } from "@/lib/registry/guide"
 
 export const metadata: Metadata = {
   title: "AI Engineering Lab",
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
 // The Lab is always dark: it scopes the dark tokens (plus a graphite
 // override) to this subtree instead of changing the site-wide theme.
 export default function LabPage() {
+  // Read at build time; the simulated MCP demo shows these real rules.
+  const rules = getRules(readAgentsGuide())
   return (
     <div className="dark lab-scope lab-page relative min-h-screen bg-background text-foreground">
       <ScrollProgress />
@@ -23,7 +27,7 @@ export default function LabPage() {
       <HalloweenLayer />
       <Header />
       <main id="main-content">
-        <LabView />
+        <LabView rules={rules} />
       </main>
       <Footer />
     </div>

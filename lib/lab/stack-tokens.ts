@@ -8,7 +8,7 @@ import { camelName, cssVarName, flattenTokens, type FlatToken, type TokenGroup, 
 type Group<K extends string> = Record<K, TokenLeaf>
 
 export interface LabTokens extends TokenGroup {
-  color: Group<"surface" | "text" | "primary" | "onPrimary" | "border">
+  color: Group<"surface" | "text" | "muted" | "primary" | "onPrimary" | "border">
   radius: Group<"card" | "button" | "input">
   space: Group<"sm" | "md" | "lg">
   fontSize: Group<"title" | "body">

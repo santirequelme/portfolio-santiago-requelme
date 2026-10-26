@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.*
 
 object Tokens {
   val colorBorder = Color(0xff2e3037)
+  val colorMuted = Color(0xffa0a0ab)
   val colorOnPrimary = Color(0xff111111)
   val colorPrimary = Color(0xffe23a0d)
   val colorSurface = Color(0xff1b1c21)

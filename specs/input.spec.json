@@ -35,9 +35,11 @@
   "tokens": [
     { "path": "color.surface", "usage": "outline background, and the base of the filled tint." },
     { "path": "color.text", "usage": "Typed text and label; filled tint and outline hover border are mixed from it." },
+    { "path": "color.muted", "usage": "Placeholder and hint text." },
     { "path": "color.border", "usage": "outline border." },
     { "path": "color.primary", "usage": "Focus border and focus ring." },
     { "path": "radius.input", "usage": "Corner radius." },
+    { "path": "space.sm", "usage": "Horizontal padding at size lg (the web recipe's px-4 has the same value)." },
     { "path": "fontSize.body", "usage": "Label text, and the typed text at size md (text-sm, same value)." }
   ],
   "accessibility": {

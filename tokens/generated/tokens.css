@@ -5,6 +5,7 @@
 :root {
   --ds-color-surface: #1b1c21; /** Card background */
   --ds-color-text: #f2f2f4; /** Primary text on surface */
+  --ds-color-muted: #a0a0ab; /** Secondary text: card body, hints, placeholders */
   --ds-color-primary: #e23a0d; /** Brand accent: buttons, links, focus */
   --ds-color-on-primary: #111111; /** Text on primary, picked for contrast */
   --ds-color-border: #2e3037; /** Hairlines and outlined variants */

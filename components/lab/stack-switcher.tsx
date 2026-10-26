@@ -4,8 +4,7 @@ import { useId, useMemo, useState } from "react"
 import { ChevronRight } from "lucide-react"
 import type { LabCopy } from "@/lib/lab/content"
 import type { PlaygroundConfig } from "@/lib/lab/playground"
-import { CARD_VARIANTS, DEFAULT_CARD_VARIANT, type CardVariant } from "@/lib/lab/stack-card"
-import { primaryDefinitions, stackFiles, STACKS, type StackId } from "@/lib/lab/stacks"
+import { CARD_VARIANTS, DEFAULT_CARD_VARIANT, primaryDefinitions, stackFiles, STACKS, type StackId } from "@/lib/lab/stacks"
 import type { StacksCopy } from "@/lib/lab/stacks-copy"
 import { cssVariables, tokensFor } from "@/lib/lab/stack-tokens"
 import { tokenize } from "@/lib/lab/highlight"
@@ -16,8 +15,8 @@ import { SpecPanel } from "./spec-panel"
 import { StackCard } from "./stack-card-preview"
 
 /** The playground's Card variant when Card is selected there; the spec's default otherwise. */
-const cardVariantOf = (config: PlaygroundConfig): CardVariant =>
-  config.component === "card" && (CARD_VARIANTS as string[]).includes(config.variant) ? (config.variant as CardVariant) : DEFAULT_CARD_VARIANT
+const cardVariantOf = (config: PlaygroundConfig): string =>
+  config.component === "card" && CARD_VARIANTS.includes(config.variant) ? config.variant : DEFAULT_CARD_VARIANT
 
 export function StackSwitcher({
   copy,
@@ -167,7 +166,7 @@ export function StackSwitcher({
                 name: f.name,
                 code: f.code,
                 marks: f.primaryLines,
-                note: i === 0 ? (current.runs ? copy.runs : copy.notRun) : copy.generated,
+                note: i === 0 ? (current.runs ? copy.runs : copy.notRun) : i === files.length - 1 ? copy.generated : undefined,
               }))}
               labels={codeLabels}
             />
