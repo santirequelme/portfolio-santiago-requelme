@@ -3,7 +3,9 @@
 // of truth: tokens/lab.tokens.json, specs/*.spec.json, lib/lab/templates and
 // AGENTS.md. Nothing here is written or stored.
 
+import { auditPlayground, auditTokens } from "@/lib/lab/audit"
 import { SPECS } from "@/lib/lab/specs"
+import { platformValue } from "@/lib/lab/token-outputs"
 import { cardExampleFile, componentFiles, STACKS, tokenFile } from "@/lib/lab/stacks"
 import { BASE_PATH, COMPONENT_IDS, parseComponent, parseStack, STACK_IDS } from "./parse"
 import { camelName, cssVarName, flatTokens, SOURCE_TOKENS } from "@/lib/lab/stack-tokens"
@@ -25,7 +27,17 @@ export function resolvedTokens(): ResolvedToken[] {
     css: `var(${cssVarName(t.path)})`,
     swift: `Tokens.${camelName(t.path)}`,
     kotlin: `Tokens.${camelName(t.path)}`,
+    scope: t.scope ?? "shared",
+    ...(t.scope === "platform"
+      ? { platforms: { web: platformValue(t, "web"), ios: platformValue(t, "ios"), android: platformValue(t, "android") } }
+      : {}),
   }))
+}
+
+/** The audit that gates every build (lib/lab/audit.ts), on the source tokens. */
+export function getAudit() {
+  const checks = [...auditTokens(flatTokens(SOURCE_TOKENS)), ...auditPlayground()]
+  return { command: "pnpm tokens:audit", passed: checks.filter((c) => c.pass).length, failed: checks.filter((c) => !c.pass).length, checks }
 }
 
 export function getTokens() {
@@ -34,6 +46,7 @@ export function getTokens() {
     format: "W3C Design Tokens (DTCG)",
     tokens: SOURCE_TOKENS,
     flat: resolvedTokens(),
+    audit: getAudit(),
     files: {
       css: tokenFile("css", SOURCE_TOKENS),
       swift: tokenFile("swift", SOURCE_TOKENS),

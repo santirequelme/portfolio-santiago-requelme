@@ -103,7 +103,7 @@ describe("getRules", () => {
   const rules = getRules(readAgentsGuide())
 
   it("reads the numbered rules from AGENTS.md", () => {
-    assert.equal(rules.rules.length, 3)
+    assert.equal(rules.rules.length, 4)
     assert.match(rules.rules[0].title, /Always use tokens/)
     assert.match(rules.rules[1].title, /accessibility/)
   })

@@ -1,6 +1,6 @@
 // Validates specs/*.spec.json. Run with `pnpm specs:validate`. Checks, per spec:
 //   1. it matches specs/schema/component-spec.schema.json
-//   2. every token path exists in tokens/lab.tokens.json
+//   2. every token path exists in tokens/lab.tokens.json (tokens and contrastChecks)
 //   3. it is internally consistent (enum defaults, variants and sizes vs props)
 //   4. it matches the code: variants and sizes vs RECIPES in lib/lab/playground.ts,
 //      prop defaults vs components/lab/demo-components.tsx
@@ -60,6 +60,12 @@ function check(file) {
   spec.tokens.forEach((t, i) => {
     if (!tokenPaths.includes(t.path))
       errors.push(`tokens[${i}].path "${t.path}" is not in tokens/lab.tokens.json (did you mean "${closest(t.path)}"?)`)
+  })
+
+  spec.accessibility.contrastChecks.forEach((c, i) => {
+    for (const side of ["foreground", "background"])
+      if (!tokenPaths.includes(c[side]))
+        errors.push(`accessibility.contrastChecks[${i}].${side} "${c[side]}" is not in tokens/lab.tokens.json (did you mean "${closest(c[side])}"?)`)
   })
 
   // 3. Internal consistency

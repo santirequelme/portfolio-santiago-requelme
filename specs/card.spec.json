@@ -29,9 +29,9 @@
   ],
   "tokens": [
     { "path": "color.surface", "usage": "elevated background, and the base of the filled tint." },
-    { "path": "color.text", "usage": "Text colour." },
-    { "path": "color.muted", "usage": "cardParts.body text." },
-    { "path": "color.primary", "usage": "Eyebrow and action text, outlined hover border, filled tint, action focus ring." },
+    { "path": "color.text", "usage": "Text colour, including cardParts.action." },
+    { "path": "color.muted", "usage": "cardParts.body and cardParts.eyebrow text." },
+    { "path": "color.primary", "usage": "cardParts.action underline and focus ring, outlined hover border, filled tint. Never text." },
     { "path": "color.border", "usage": "outlined border." },
     { "path": "radius.card", "usage": "Corner radius; the action's focus ring uses half of it." },
     { "path": "space.sm", "usage": "Padding at size sm (the web recipe's p-4 has the same value)." },
@@ -48,6 +48,11 @@
     ],
     "focus": "The action (cardParts.action) shows a 2px color.primary ring on focus-visible. Inner Buttons keep their own ring.",
     "contrast": "Title and body text at least 4.5:1 against the card background in every variant (WCAG 2.2 AA, 1.4.3).",
+    "contrastChecks": [
+      { "label": "title and action text", "foreground": "color.text", "background": "color.surface", "min": 4.5 },
+      { "label": "body and eyebrow text", "foreground": "color.muted", "background": "color.surface", "min": 4.5 },
+      { "label": "action focus ring", "foreground": "color.primary", "background": "color.surface", "min": 3 }
+    ],
     "labels": "Start the content with a heading (cardParts.title) so the article can be found by heading navigation."
   },
   "composition": [

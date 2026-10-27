@@ -99,7 +99,8 @@ const SWIFT = `import SwiftUI
 
 // {{doc}}
 // API from specs/button.spec.json. Uses the generated Tokens enum (Tokens.swift).
-// Heights and the sm and lg text sizes have no token yet.
+// The visible height is shared with the web; the tap area is platform-local
+// (Tokens.controlMinTarget, 44pt on iOS). The sm and lg text sizes have no token yet.
 
 enum DSButtonVariant {
     case {{variantType}}
@@ -126,6 +127,8 @@ struct DSButton: View {
                 .frame(height: metrics.height)
                 .background(colors.background, in: shape)
                 .overlay(shape.stroke(colors.border, lineWidth: 1))
+                .frame(minHeight: {{control.minTarget}})
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .disabled(isDisabled)
@@ -154,8 +157,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -165,7 +170,8 @@ import dev.santirequelme.tokens.Tokens
 
 // {{doc}}
 // API from specs/button.spec.json. Uses the generated Tokens object (Tokens.kt).
-// Heights and the sm and lg text sizes have no token yet.
+// The visible height is shared with the web; the touch target is platform-local
+// (Tokens.controlMinTarget, 48dp on Android). The sm and lg text sizes have no token yet.
 
 enum class DSButtonVariant { {{variantType}} }
 enum class DSButtonSize { {{sizeType}} }
@@ -185,21 +191,24 @@ fun DSButton(
     val (height, padding, fontSize) = when (size) {
 {{sizeCases}}
     }
-    Button(
-        onClick = onClick,
-        enabled = enabled,
-        shape = RoundedCornerShape({{radius.button}}),
-        border = border?.let { BorderStroke(1.dp, it) },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = container,
-            contentColor = content,
-            disabledContainerColor = container.copy(alpha = 0.5f),
-            disabledContentColor = content.copy(alpha = 0.5f),
-        ),
-        contentPadding = PaddingValues(horizontal = padding),
-        modifier = modifier.height(height),
-    ) {
-        Text(label, fontSize = fontSize, fontWeight = FontWeight.Medium)
+    // Material's Button pads its touch target to this size.
+    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides {{control.minTarget}}) {
+        Button(
+            onClick = onClick,
+            enabled = enabled,
+            shape = RoundedCornerShape({{radius.button}}),
+            border = border?.let { BorderStroke(1.dp, it) },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = container,
+                contentColor = content,
+                disabledContainerColor = container.copy(alpha = 0.5f),
+                disabledContentColor = content.copy(alpha = 0.5f),
+            ),
+            contentPadding = PaddingValues(horizontal = padding),
+            modifier = modifier.height(height),
+        ) {
+            Text(label, fontSize = fontSize, fontWeight = FontWeight.Medium)
+        }
     }
 }
 
@@ -210,14 +219,14 @@ fun DSButton(
 const COLORS: Record<string, [string | null, string, string | null]> = {
   primary: ["{{color.primary}}", "{{color.onPrimary}}", null],
   secondary: ["{{color.surface}}", "{{color.text}}", "{{color.border}}"],
-  ghost: [null, "{{color.primary}}", null],
+  ghost: [null, "{{color.text}}", null],
 }
 
 // Per size: height, horizontal padding, text size.
 const SIZES: Record<string, [string | number, string | number, string | number]> = {
-  sm: [32, 12, 13],
-  md: [40, "{{space.sm}}", "{{fontSize.body}}"],
-  lg: [48, "{{space.md}}", 16],
+  sm: ["{{control.sm}}", 12, 13],
+  md: ["{{control.md}}", "{{space.sm}}", "{{fontSize.body}}"],
+  lg: ["{{control.lg}}", "{{space.md}}", 16],
 }
 
 export const BUTTON: ComponentTemplates = {

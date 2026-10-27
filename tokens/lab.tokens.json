@@ -1,24 +1,31 @@
 {
   "color": {
-    "surface": { "$type": "color", "$value": "#1B1C21", "$description": "Card background" },
-    "text": { "$type": "color", "$value": "#F2F2F4", "$description": "Primary text on surface" },
-    "muted": { "$type": "color", "$value": "#A0A0AB", "$description": "Secondary text: card body, hints, placeholders" },
-    "primary": { "$type": "color", "$value": "#E23A0D", "$description": "Brand accent: buttons, links, focus" },
-    "onPrimary": { "$type": "color", "$value": "#111111", "$description": "Text on primary, picked for contrast" },
-    "border": { "$type": "color", "$value": "#2E3037", "$description": "Hairlines and outlined variants" }
+    "surface": {"$type": "color", "$value": "#1B1C21", "$description": "Card background", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "text": {"$type": "color", "$value": "#F2F2F4", "$description": "Primary text on surface", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "muted": {"$type": "color", "$value": "#A0A0AB", "$description": "Secondary text: card body, hints, placeholders", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "primary": {"$type": "color", "$value": "#E23A0D", "$description": "Brand accent: buttons, links, focus", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "onPrimary": {"$type": "color", "$value": "#000000", "$description": "Text on primary, picked for contrast", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "border": {"$type": "color", "$value": "#2E3037", "$description": "Decorative hairlines and outlined cards", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "controlBorder": {"$type": "color", "$value": "#6B6E78", "$description": "Boundary of form fields, at least 3:1 against surface", "$extensions": {"dev.santirequelme": {"scope": "shared"}}}
   },
   "radius": {
-    "card": { "$type": "dimension", "$value": "0.5rem" },
-    "button": { "$type": "dimension", "$value": "0.5rem" },
-    "input": { "$type": "dimension", "$value": "0.5rem" }
+    "card": {"$type": "dimension", "$value": "0.5rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "button": {"$type": "dimension", "$value": "0.5rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "input": {"$type": "dimension", "$value": "0.5rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}}
   },
   "space": {
-    "sm": { "$type": "dimension", "$value": "1rem" },
-    "md": { "$type": "dimension", "$value": "1.25rem" },
-    "lg": { "$type": "dimension", "$value": "1.5rem" }
+    "sm": {"$type": "dimension", "$value": "1rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "md": {"$type": "dimension", "$value": "1.25rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "lg": {"$type": "dimension", "$value": "1.5rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}}
   },
   "fontSize": {
-    "title": { "$type": "fontSize", "$value": "1rem" },
-    "body": { "$type": "fontSize", "$value": "0.875rem" }
+    "title": {"$type": "fontSize", "$value": "1rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "body": {"$type": "fontSize", "$value": "0.875rem", "$extensions": {"dev.santirequelme": {"scope": "shared"}}}
+  },
+  "control": {
+    "sm": {"$type": "dimension", "$value": "2rem", "$description": "Small control height", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "md": {"$type": "dimension", "$value": "2.5rem", "$description": "Medium control height", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "lg": {"$type": "dimension", "$value": "3rem", "$description": "Large control height", "$extensions": {"dev.santirequelme": {"scope": "shared"}}},
+    "minTarget": {"$type": "dimension", "$value": "1.5rem", "$description": "Minimum touch target: 24px web (WCAG 2.5.8), 44pt iOS, 48dp Android", "$extensions": {"dev.santirequelme": {"scope": "platform", "ios": "2.75rem", "android": "3rem"}}}
   }
 }

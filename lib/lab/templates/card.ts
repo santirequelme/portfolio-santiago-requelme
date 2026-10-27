@@ -148,7 +148,7 @@ struct DSCard<Content: View>: View {
 // Content styles, matching cardParts on the web.
 extension View {
     func cardEyebrow() -> some View {
-        font(.system(size: 11, weight: .medium)).textCase(.uppercase).foregroundStyle({{color.primary}})
+        font(.system(size: 11, weight: .medium)).textCase(.uppercase).foregroundStyle({{color.muted}})
     }
 
     func cardTitle() -> some View {
@@ -215,7 +215,7 @@ fun DSCard(
 
 // Content styles, matching cardParts on the web. Uppercase the eyebrow text itself.
 object CardParts {
-    val eyebrow = TextStyle(color = {{color.primary}}, fontSize = 11.sp, fontWeight = FontWeight.Medium, letterSpacing = 1.32.sp)
+    val eyebrow = TextStyle(color = {{color.muted}}, fontSize = 11.sp, fontWeight = FontWeight.Medium, letterSpacing = 1.32.sp)
     val title = TextStyle(color = {{color.text}}, fontSize = {{fontSize.title}}, fontWeight = FontWeight.SemiBold)
     val body = TextStyle(color = {{color.muted}}, fontSize = {{fontSize.body}})
 }

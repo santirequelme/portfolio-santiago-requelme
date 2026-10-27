@@ -27,6 +27,9 @@ export interface ResolvedToken {
   css: string
   swift: string
   kotlin: string
+  /** "shared": one value everywhere. "platform": `value` is the web one, `platforms` has all three. */
+  scope: "shared" | "platform"
+  platforms?: { web: string; ios: string; android: string }
 }
 
 export interface ComponentSummary {

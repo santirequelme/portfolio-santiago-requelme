@@ -27,7 +27,7 @@
   "variants": ["outline", "filled"],
   "sizes": ["sm", "md", "lg"],
   "states": [
-    { "name": "default", "description": "outline: color.surface with a color.border hairline. filled: color.surface tinted with color.text, no visible border." },
+    { "name": "default", "description": "outline: color.surface with a color.controlBorder boundary. filled: color.surface tinted with color.text, with the same boundary (the tint alone is below 3:1)." },
     { "name": "hover", "description": "Only while enabled. outline: the border moves towards color.text. filled: the tint gets stronger. data-force=\"hover\" pins this state for docs and visual tests." },
     { "name": "focus", "description": "focus-visible: the border turns color.primary and a 4px color.primary ring at 25% appears." },
     { "name": "disabled", "description": "50% opacity, not-allowed cursor, hover styles switched off." }
@@ -36,11 +36,15 @@
     { "path": "color.surface", "usage": "outline background, and the base of the filled tint." },
     { "path": "color.text", "usage": "Typed text and label; filled tint and outline hover border are mixed from it." },
     { "path": "color.muted", "usage": "Placeholder and hint text." },
-    { "path": "color.border", "usage": "outline border." },
+    { "path": "color.controlBorder", "usage": "Field boundary in both variants, at least 3:1 against surface." },
     { "path": "color.primary", "usage": "Focus border and focus ring." },
     { "path": "radius.input", "usage": "Corner radius." },
     { "path": "space.sm", "usage": "Horizontal padding at size lg (the web recipe's px-4 has the same value)." },
-    { "path": "fontSize.body", "usage": "Label text, and the typed text at size md (text-sm, same value)." }
+    { "path": "fontSize.body", "usage": "Label text, and the typed text at size md (text-sm, same value)." },
+    { "path": "control.sm", "usage": "Height at size sm (h-8, same value). Shared across platforms." },
+    { "path": "control.md", "usage": "Height at size md (h-10, same value). Shared across platforms." },
+    { "path": "control.lg", "usage": "Height at size lg (h-12, same value). Shared across platforms." },
+    { "path": "control.minTarget", "usage": "Native tap area: platform-local, 44pt on iOS and 48dp on Android." }
   ],
   "accessibility": {
     "role": "textbox for text-like types, from the native <input> element.",
@@ -50,6 +54,12 @@
     ],
     "focus": "Keep the focus-visible style (color.primary border and ring). Never remove it without a visible replacement.",
     "contrast": "Typed text, label and hint at least 4.5:1 (WCAG 2.2 AA, 1.4.3). The field boundary at least 3:1 against its surroundings (1.4.11).",
+    "contrastChecks": [
+      { "label": "typed text and label", "foreground": "color.text", "background": "color.surface", "min": 4.5 },
+      { "label": "placeholder and hint", "foreground": "color.muted", "background": "color.surface", "min": 4.5 },
+      { "label": "field boundary", "foreground": "color.controlBorder", "background": "color.surface", "min": 3 },
+      { "label": "focus border", "foreground": "color.primary", "background": "color.surface", "min": 3 }
+    ],
     "labels": "label is required and rendered as a visible <label for>. Do not use the placeholder as the label. The hint is announced through aria-describedby."
   },
   "composition": [

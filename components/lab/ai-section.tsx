@@ -11,6 +11,7 @@ import { BeforeAfter } from "./before-after"
 import { CopyButton } from "./code-block"
 import { McpDemo } from "./mcp-demo"
 import { SavingsStrip } from "./savings-strip"
+import { SelfCheck } from "./self-check"
 
 export function AiSection({
   copy,
@@ -26,6 +27,8 @@ export function AiSection({
   return (
     <div className="space-y-6">
       <SavingsStrip copy={copy.savings} savings={savings} />
+
+      <SelfCheck copy={copy.selfCheck} />
 
       {/* ── The functional part: the public registry ─────────────────── */}
       <section aria-labelledby="registry-title" className="rounded-card border border-border bg-card p-4 md:p-5">

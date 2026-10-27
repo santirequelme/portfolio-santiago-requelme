@@ -165,7 +165,8 @@ const SWIFT = `import SwiftUI
 
 // {{doc}}
 // API from specs/input.spec.json. Uses the generated Tokens enum (Tokens.swift).
-// Heights and the sm and lg text sizes have no token yet.
+// The visible height is shared with the web; the tap area is platform-local
+// (Tokens.controlMinTarget, 44pt on iOS). The sm and lg text sizes have no token yet.
 
 enum DSInputVariant {
     case {{variantType}}
@@ -218,6 +219,10 @@ struct DSInput: View {
                 .frame(height: metrics.height)
                 .background(background, in: shape)
                 .overlay(shape.stroke(focused ? {{color.primary}} : border, lineWidth: focused ? 2 : 1))
+                // Tap area: at least Tokens.controlMinTarget (platform-local, 44pt on iOS).
+                .frame(minHeight: {{control.minTarget}})
+                .contentShape(Rectangle())
+                .onTapGesture { focused = true }
                 .accessibilityHint(hint ?? "")
                 .disabled(isDisabled)
                 .opacity(isDisabled ? 0.5 : 1)
@@ -266,8 +271,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -286,7 +294,8 @@ import dev.santirequelme.tokens.Tokens
 
 // {{doc}}
 // API from specs/input.spec.json. Uses the generated Tokens object (Tokens.kt).
-// Heights and the sm and lg text sizes have no token yet.
+// The visible height is shared with the web; the touch target is platform-local
+// (Tokens.controlMinTarget, 48dp on Android). The sm and lg text sizes have no token yet.
 
 enum class DSInputVariant { {{variantType}} }
 enum class DSInputSize { {{sizeType}} }
@@ -314,28 +323,31 @@ fun DSInput(
     }
     Column(modifier = modifier.widthIn(max = 288.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(label, color = {{color.text}}, fontSize = {{fontSize.body}}, fontWeight = FontWeight.Medium)
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            enabled = enabled,
-            singleLine = true,
-            interactionSource = interaction,
-            textStyle = TextStyle(color = {{color.text}}, fontSize = fontSize),
-            cursorBrush = SolidColor({{color.primary}}),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(height)
-                .alpha(if (enabled) 1f else 0.5f)
-                .background(background, shape)
-                .border(if (focused) 2.dp else 1.dp, if (focused) {{color.primary}} else border, shape)
-                .semantics { contentDescription = label },
-            decorationBox = { inner ->
-                Box(Modifier.fillMaxSize().padding(horizontal = padding), contentAlignment = Alignment.CenterStart) {
-                    if (value.isEmpty() && placeholder != null) Text(placeholder, color = {{color.muted}}, fontSize = fontSize)
-                    inner()
-                }
-            },
-        )
+        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides {{control.minTarget}}) {
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                enabled = enabled,
+                singleLine = true,
+                interactionSource = interaction,
+                textStyle = TextStyle(color = {{color.text}}, fontSize = fontSize),
+                cursorBrush = SolidColor({{color.primary}}),
+                modifier = Modifier
+                    .minimumInteractiveComponentSize()
+                    .fillMaxWidth()
+                    .height(height)
+                    .alpha(if (enabled) 1f else 0.5f)
+                    .background(background, shape)
+                    .border(if (focused) 2.dp else 1.dp, if (focused) {{color.primary}} else border, shape)
+                    .semantics { contentDescription = label },
+                decorationBox = { inner ->
+                    Box(Modifier.fillMaxSize().padding(horizontal = padding), contentAlignment = Alignment.CenterStart) {
+                        if (value.isEmpty() && placeholder != null) Text(placeholder, color = {{color.muted}}, fontSize = fontSize)
+                        inner()
+                    }
+                },
+            )
+        }
         if (hint != null) Text(hint, color = {{color.muted}}, fontSize = 12.sp)
     }
 }
@@ -345,9 +357,9 @@ fun DSInput(
 
 // Per size: height, horizontal padding, text size.
 const SIZES: Record<string, [string | number, string | number, string | number]> = {
-  sm: [32, 10, 13],
-  md: [40, 12, "{{fontSize.body}}"],
-  lg: [48, "{{space.sm}}", 16],
+  sm: ["{{control.sm}}", 10, 13],
+  md: ["{{control.md}}", 12, "{{fontSize.body}}"],
+  lg: ["{{control.lg}}", "{{space.sm}}", 16],
 }
 
 const SWIFT_BACKGROUND: Record<string, string> = {
@@ -355,10 +367,11 @@ const SWIFT_BACKGROUND: Record<string, string> = {
   filled: `// Color.mix(with:by:) needs iOS 18.
             return {{color.surface}}.mix(with: {{color.text}}, by: 0.07)`,
 }
-const SWIFT_BORDER: Record<string, string> = { outline: "return {{color.border}}", filled: "return .clear" }
+// Both variants keep a 3:1 boundary: the filled tint alone is not enough.
+const SWIFT_BORDER: Record<string, string> = { outline: "return {{color.controlBorder}}", filled: "return {{color.controlBorder}}" }
 const KOTLIN_VARIANT: Record<string, string> = {
-  outline: "Pair({{color.surface}}, {{color.border}})",
-  filled: "Pair(lerp({{color.surface}}, {{color.text}}, 0.07f), Color.Transparent)",
+  outline: "Pair({{color.surface}}, {{color.controlBorder}})",
+  filled: "Pair(lerp({{color.surface}}, {{color.text}}, 0.07f), {{color.controlBorder}})",
 }
 
 export const INPUT: ComponentTemplates = {

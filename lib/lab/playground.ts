@@ -90,14 +90,15 @@ export function contrastRatio(a: string, b: string) {
 
 /** Text colour for content placed on the accent: whichever contrasts more. */
 function onAccent(accent: string) {
-  return contrastRatio(accent, "#FFFFFF") >= contrastRatio(accent, "#111111") ? "#FFFFFF" : "#111111"
+  return contrastRatio(accent, "#FFFFFF") >= contrastRatio(accent, "#000000") ? "#FFFFFF" : "#000000"
 }
 
 // ─── Tokens ─────────────────────────────────────────────────────────────────
 
-const THEME_SURFACES = {
-  light: { canvas: "#F4F2EE", surface: "#FFFFFF", fg: "#17120F", muted: "#6B635D", border: "#E2DDD9" },
-  dark: { canvas: "#111215", surface: "#1B1C21", fg: "#F2F2F4", muted: "#A0A0AB", border: "#2E3037" },
+// `border` is for decorative hairlines; `control` is the 3:1 boundary of form fields.
+export const THEME_SURFACES = {
+  light: { canvas: "#F4F2EE", surface: "#FFFFFF", fg: "#17120F", muted: "#6B635D", border: "#E2DDD9", control: "#8A847F" },
+  dark: { canvas: "#111215", surface: "#1B1C21", fg: "#F2F2F4", muted: "#A0A0AB", border: "#2E3037", control: "#6B6E78" },
 } as const
 
 export type TokenName =
@@ -110,6 +111,7 @@ export type TokenName =
   | "--ui-fg"
   | "--ui-muted"
   | "--ui-border"
+  | "--ui-control"
 
 /** CSS custom properties the components read. */
 export function resolveTokens(config: PlaygroundConfig): Record<TokenName, string> {
@@ -124,6 +126,7 @@ export function resolveTokens(config: PlaygroundConfig): Record<TokenName, strin
     "--ui-fg": s.fg,
     "--ui-muted": s.muted,
     "--ui-border": s.border,
+    "--ui-control": s.control,
   }
 }
 
@@ -147,7 +150,7 @@ export const RECIPES = {
       secondary:
         "border border-[var(--ui-border)] bg-[var(--ui-surface)] text-[var(--ui-fg)] enabled:hover:border-[var(--ui-accent)] data-[force=hover]:border-[var(--ui-accent)]",
       ghost:
-        "bg-transparent text-[var(--ui-accent)] enabled:hover:bg-[color-mix(in_srgb,var(--ui-accent)_12%,transparent)] data-[force=hover]:bg-[color-mix(in_srgb,var(--ui-accent)_12%,transparent)]",
+        "bg-transparent text-[var(--ui-fg)] enabled:hover:bg-[color-mix(in_srgb,var(--ui-accent)_12%,transparent)] data-[force=hover]:bg-[color-mix(in_srgb,var(--ui-accent)_12%,transparent)]",
     },
   },
   card: {
@@ -167,11 +170,11 @@ export const RECIPES = {
         "bg-[color-mix(in_srgb,var(--ui-accent)_10%,var(--ui-surface))] hover:bg-[color-mix(in_srgb,var(--ui-accent)_16%,var(--ui-surface))] data-[force=hover]:bg-[color-mix(in_srgb,var(--ui-accent)_16%,var(--ui-surface))]",
     },
     parts: {
-      eyebrow: "text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--ui-accent)]",
+      eyebrow: "text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--ui-muted)]",
       title: "text-base font-semibold leading-snug",
       body: "text-sm leading-relaxed text-[var(--ui-muted)]",
       action:
-        "mt-1 inline-flex w-fit items-center gap-1 rounded-[calc(var(--ui-radius)/2)] text-sm font-medium text-[var(--ui-accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-accent)]",
+        "mt-1 inline-flex w-fit items-center gap-1 rounded-[calc(var(--ui-radius)/2)] text-sm font-medium text-[var(--ui-fg)] underline decoration-[var(--ui-accent)] underline-offset-4 hover:decoration-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-accent)]",
     },
   },
   input: {
@@ -184,9 +187,9 @@ export const RECIPES = {
     },
     variants: {
       outline:
-        "border border-[var(--ui-border)] bg-[var(--ui-surface)] enabled:hover:border-[color-mix(in_srgb,var(--ui-fg)_35%,var(--ui-border))] data-[force=hover]:border-[color-mix(in_srgb,var(--ui-fg)_35%,var(--ui-border))]",
+        "border border-[var(--ui-control)] bg-[var(--ui-surface)] enabled:hover:border-[color-mix(in_srgb,var(--ui-fg)_35%,var(--ui-control))] data-[force=hover]:border-[color-mix(in_srgb,var(--ui-fg)_35%,var(--ui-control))]",
       filled:
-        "border border-transparent bg-[color-mix(in_srgb,var(--ui-fg)_7%,var(--ui-surface))] enabled:hover:bg-[color-mix(in_srgb,var(--ui-fg)_11%,var(--ui-surface))] data-[force=hover]:bg-[color-mix(in_srgb,var(--ui-fg)_11%,var(--ui-surface))]",
+        "border border-[var(--ui-control)] bg-[color-mix(in_srgb,var(--ui-fg)_7%,var(--ui-surface))] enabled:hover:bg-[color-mix(in_srgb,var(--ui-fg)_11%,var(--ui-surface))] data-[force=hover]:bg-[color-mix(in_srgb,var(--ui-fg)_11%,var(--ui-surface))]",
     },
     parts: {
       field: "flex w-full max-w-72 flex-col gap-1.5",

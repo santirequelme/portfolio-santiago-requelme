@@ -78,12 +78,28 @@
     "accessibility": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["role", "keyboard", "focus", "contrast", "labels"],
+      "required": ["role", "keyboard", "focus", "contrast", "contrastChecks", "labels"],
       "properties": {
         "role": { "type": "string", "minLength": 1 },
         "keyboard": { "$ref": "#/definitions/sentences" },
         "focus": { "type": "string", "minLength": 1 },
         "contrast": { "type": "string", "minLength": 1 },
+        "contrastChecks": {
+          "description": "The colour pairs behind `contrast`, checked against the tokens by pnpm tokens:audit.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "foreground", "background", "min"],
+            "properties": {
+              "label": { "type": "string", "minLength": 1 },
+              "foreground": { "type": "string", "pattern": "^[a-zA-Z]+(\\.[a-zA-Z]+)+$" },
+              "background": { "type": "string", "pattern": "^[a-zA-Z]+(\\.[a-zA-Z]+)+$" },
+              "min": { "enum": [3, 4.5, 7] }
+            }
+          }
+        },
         "labels": { "type": "string", "minLength": 1 }
       }
     },
