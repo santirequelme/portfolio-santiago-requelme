@@ -10,7 +10,9 @@ import { cssVariables, tokensFor } from "@/lib/lab/stack-tokens"
 import { tokenize } from "@/lib/lab/highlight"
 import { cn } from "@/lib/utils"
 import { CodeBlock, CodeLines, CopyButton, TokenSpans } from "./code-block"
+import { ContrastStatus } from "./contrast-status"
 import { AccentPicker } from "./playground"
+import { ScopeTable } from "./scope-table"
 import { SpecPanel } from "./spec-panel"
 import { StackCard } from "./stack-card-preview"
 
@@ -54,6 +56,8 @@ export function StackSwitcher({
           <AccentPicker label={copy.primary} customLabel={copy.customPrimary} value={primary} onChange={onPrimaryChange} />
           <p className="text-xs text-muted-foreground">{copy.primaryHint}</p>
         </div>
+
+        <ContrastStatus copy={copy.contrast} tokens={tokens} />
 
         <div className="space-y-1.5 border-t border-border pt-4 font-mono text-[11px] text-muted-foreground">
           <p className="uppercase tracking-[0.12em]">{copy.following}</p>
@@ -174,6 +178,8 @@ export function StackSwitcher({
         </div>
 
         <SpecPanel copy={copy} codeLabels={codeLabels} followed={config.component} />
+
+        <ScopeTable copy={copy.scope} />
 
         <details className="group overflow-hidden rounded-card border border-border bg-[var(--lab-editor)]">
           <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 font-mono text-[12px] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring [&::-webkit-details-marker]:hidden">

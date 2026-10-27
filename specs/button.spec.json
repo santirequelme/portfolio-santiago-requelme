@@ -26,21 +26,25 @@
   "variants": ["primary", "secondary", "ghost"],
   "sizes": ["sm", "md", "lg"],
   "states": [
-    { "name": "default", "description": "primary: color.primary fill with color.onPrimary text. secondary: color.surface fill, color.border hairline, color.text label. ghost: transparent with color.primary text." },
+    { "name": "default", "description": "primary: color.primary fill with color.onPrimary text. secondary: color.surface fill, color.border hairline, color.text label. ghost: transparent with color.text label." },
     { "name": "hover", "description": "Only while enabled. primary darkens to a hover shade derived from color.primary; secondary's border turns color.primary; ghost gets a 12% color.primary tint. data-force=\"hover\" pins this state for docs and visual tests." },
     { "name": "focus", "description": "Keyboard focus (focus-visible) shows a 2px color.primary ring with a 2px offset. Mouse clicks show no ring." },
     { "name": "disabled", "description": "50% opacity, not-allowed cursor, hover styles switched off." }
   ],
   "tokens": [
-    { "path": "color.primary", "usage": "primary background, ghost text, secondary hover border, focus ring, ghost hover tint." },
+    { "path": "color.primary", "usage": "primary background, secondary hover border, focus ring, ghost hover tint. Never text: on surface it is below 4.5:1." },
     { "path": "color.onPrimary", "usage": "primary label text." },
     { "path": "color.surface", "usage": "secondary background." },
-    { "path": "color.text", "usage": "secondary label text." },
+    { "path": "color.text", "usage": "secondary and ghost label text." },
     { "path": "color.border", "usage": "secondary border." },
     { "path": "radius.button", "usage": "Corner radius, every variant and size." },
     { "path": "space.sm", "usage": "Horizontal padding at size md (the web recipe's px-4 has the same value)." },
     { "path": "space.md", "usage": "Horizontal padding at size lg (px-5, same value)." },
-    { "path": "fontSize.body", "usage": "Label text at size md (text-sm, same value)." }
+    { "path": "fontSize.body", "usage": "Label text at size md (text-sm, same value)." },
+    { "path": "control.sm", "usage": "Height at size sm (h-8, same value). Shared across platforms." },
+    { "path": "control.md", "usage": "Height at size md (h-10, same value). Shared across platforms." },
+    { "path": "control.lg", "usage": "Height at size lg (h-12, same value). Shared across platforms." },
+    { "path": "control.minTarget", "usage": "Native tap area: platform-local, 44pt on iOS and 48dp on Android. On the web every height already exceeds its 24px." }
   ],
   "accessibility": {
     "role": "button, from the native <button> element.",
@@ -50,6 +54,11 @@
     ],
     "focus": "Keep the focus-visible ring (2px color.primary, 2px offset). Never remove it without a visible replacement.",
     "contrast": "Label text at least 4.5:1 against the button background (WCAG 2.2 AA, 1.4.3). Focus ring at least 3:1 against the page (1.4.11).",
+    "contrastChecks": [
+      { "label": "primary label", "foreground": "color.onPrimary", "background": "color.primary", "min": 4.5 },
+      { "label": "secondary and ghost label", "foreground": "color.text", "background": "color.surface", "min": 4.5 },
+      { "label": "focus ring", "foreground": "color.primary", "background": "color.surface", "min": 3 }
+    ],
     "labels": "Needs a visible text label as children. Icon-only buttons need an aria-label."
   },
   "composition": [

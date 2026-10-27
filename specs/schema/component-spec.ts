@@ -39,8 +39,19 @@ export interface ComponentSpec {
     keyboard: string[]
     focus: string
     contrast: string
+    /** The colour pairs behind `contrast`, checked against the tokens by `pnpm tokens:audit`. */
+    contrastChecks: ContrastCheck[]
     labels: string
   }
   composition: string[]
   example: { language: "tsx"; code: string }
+}
+
+export interface ContrastCheck {
+  label: string
+  /** Token paths, e.g. "color.onPrimary" on "color.primary". */
+  foreground: string
+  background: string
+  /** WCAG 2.2: 4.5 for text, 3 for non-text (borders, focus rings), 7 for AAA text. */
+  min: 3 | 4.5 | 7
 }

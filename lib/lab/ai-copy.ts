@@ -31,6 +31,16 @@ export const AI_COPY = {
       caught: { unit: "issues", label: "Caught by validate_usage in the answer written without the system, before anyone reviews it." },
       sources: "Source files compared",
     },
+    selfCheck: {
+      title: "What the system checks about itself",
+      badge: "Runs before every build",
+      body: "Validating usage is not enough: a wrong token used correctly is still wrong in five languages. So the build also checks the values: every contrast pair the specs ask for, the touch target on each platform, and that each token is declared shared or platform-local. If one fails, the deploy stops.",
+      kinds: { contrast: "Contrast", target: "Touch targets", scope: "Token scope" },
+      all: "See every check",
+      pass: "Pass",
+      fail: "Fail",
+      command: "Run it locally with pnpm tokens:audit. Agents get the same results in /r/tokens.json.",
+    },
     registry: {
       title: "Public registry",
       badge: "Live",
@@ -93,6 +103,16 @@ export const AI_COPY = {
       lines: { unit: "líneas", label: "El componente Card en Angular. Su CSS ({css} líneas) se escribe una vez y lo comparten React, Angular y Vue." },
       caught: { unit: "problemas", label: "Detectados por validate_usage en la respuesta escrita sin el sistema, antes de que nadie la revise." },
       sources: "Archivos fuente comparados",
+    },
+    selfCheck: {
+      title: "Lo que el sistema verifica de sí mismo",
+      badge: "Corre antes de cada build",
+      body: "Validar el uso no alcanza: un token equivocado bien usado sigue estando mal en cinco lenguajes. Por eso el build también revisa los valores: cada par de contraste que piden las specs, el área táctil en cada plataforma y que cada token diga si es compartido o por plataforma. Si algo falla, el deploy se frena.",
+      kinds: { contrast: "Contraste", target: "Áreas táctiles", scope: "Alcance de tokens" },
+      all: "Ver todos los chequeos",
+      pass: "Pasa",
+      fail: "Falla",
+      command: "Se corre en local con pnpm tokens:audit. Los agentes reciben los mismos resultados en /r/tokens.json.",
     },
     registry: {
       title: "Registry público",

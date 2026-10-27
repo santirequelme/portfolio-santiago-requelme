@@ -5,10 +5,23 @@
 
 export type TokenType = "color" | "dimension" | "fontSize"
 
+/** Where a token's value applies. See scripts/tokens.config.mjs. */
+export const TOKEN_NS = "dev.santirequelme"
+export type TokenScope = "shared" | "platform"
+export type NativePlatform = "ios" | "android"
+
+export interface TokenMeta {
+  scope: TokenScope
+  /** Platform-local only: the value on iOS and Android ($value is the web one). */
+  ios?: string
+  android?: string
+}
+
 export interface TokenLeaf {
   $type: TokenType
   $value: string
   $description?: string
+  $extensions?: { [TOKEN_NS]?: TokenMeta }
 }
 
 export interface TokenGroup {
@@ -18,9 +31,17 @@ export interface TokenGroup {
 export interface FlatToken {
   path: string[]
   type: TokenType
+  /** The web value; `platformValue` gives the native ones. */
   value: string
   description?: string
+  /** Undefined when the token does not declare one (the audit flags that). */
+  scope?: TokenScope
+  native?: Partial<Record<NativePlatform, string>>
 }
+
+/** The value a platform gets: the native override for platform-local tokens. */
+export const platformValue = (token: FlatToken, platform: "web" | NativePlatform) =>
+  platform === "web" ? token.value : (token.native?.[platform] ?? token.value)
 
 const isLeaf = (node: TokenGroup | TokenLeaf): node is TokenLeaf => "$value" in node
 
@@ -28,7 +49,9 @@ const isLeaf = (node: TokenGroup | TokenLeaf): node is TokenLeaf => "$value" in 
 export function flattenTokens(group: TokenGroup, path: string[] = []): FlatToken[] {
   return Object.entries(group).flatMap(([key, node]) => {
     if (!isLeaf(node)) return flattenTokens(node, [...path, key])
-    return [{ path: [...path, key], type: node.$type, value: node.$value, description: node.$description }]
+    const meta = node.$extensions?.[TOKEN_NS]
+    const native = meta?.scope === "platform" ? { ios: meta.ios, android: meta.android } : undefined
+    return [{ path: [...path, key], type: node.$type, value: node.$value, description: node.$description, scope: meta?.scope, native }]
   })
 }
 
@@ -70,12 +93,12 @@ function swiftValue(token: FlatToken) {
     const f = (v: number) => (v / 255).toFixed(3)
     return `Color(red: ${f(r)}, green: ${f(g)}, blue: ${f(b)}, opacity: 1)`
   }
-  return `CGFloat(${remToPx(token.value).toFixed(2)})`
+  return `CGFloat(${remToPx(platformValue(token, "ios")).toFixed(2)})`
 }
 
 function kotlinValue(token: FlatToken) {
   if (token.type === "color") return `Color(0xff${hex6(token.value)})`
-  return `${remToPx(token.value).toFixed(2)}.${token.type === "fontSize" ? "sp" : "dp"}`
+  return `${remToPx(platformValue(token, "android")).toFixed(2)}.${token.type === "fontSize" ? "sp" : "dp"}`
 }
 
 const byName = (name: (t: FlatToken) => string) => (a: FlatToken, b: FlatToken) => (name(b) > name(a) ? -1 : 1)

@@ -33,8 +33,9 @@ An unknown component or stack returns `{ "error": { "code", "message", "received
 ## Rules
 
 1. **Always use tokens, never hardcode values.** Colours, radii, spacing and font sizes come from `tokens/lab.tokens.json`. In specs, refer to a token by its path (`color.primary`). In code, use the generated names: `var(--ds-color-primary)` on the web, `Tokens.colorPrimary` in Swift and Kotlin. If no token fits, add one to `tokens/lab.tokens.json` first; do not inline the value.
-2. **Follow the `accessibility` section of the spec.** It defines the role, keyboard behaviour, focus visibility, minimum contrast and required labels. Never remove a focus style without a visible replacement. Never use a placeholder as a label.
+2. **Follow the `accessibility` section of the spec.** It defines the role, keyboard behaviour, focus visibility, minimum contrast and required labels. Never remove a focus style without a visible replacement. Never use a placeholder as a label. Never use `color.primary` for text: on `color.surface` it is below 4.5:1, so it is only for fills, borders, underlines and focus rings.
 3. **Use only what the spec describes.** No props, variants, sizes or states that are not in the spec. If you need one, change the spec first.
+4. **Decide per token what is shared.** Every token declares `scope` in `$extensions["dev.santirequelme"]`: `shared` (one value everywhere) or `platform` (`$value` is the web value, with `ios` and `android` beside it). Anything a platform guideline sets, like the minimum touch target, is platform-local. On native, the visible height comes from `control.*` and the tap area is padded to `control.minTarget`.
 
 ## Adding a component
 
@@ -49,6 +50,7 @@ An unknown component or stack returns `{ "error": { "code", "message", "received
 pnpm specs:validate   # specs vs schema, tokens and code
 pnpm tokens:build     # tokens/lab.tokens.json → tokens/generated/
 pnpm tokens:check     # the lab's live token files match Style Dictionary
+pnpm tokens:audit     # contrast pairs, touch targets and token scope (also runs before pnpm build)
 npx tsc --noEmit      # type check
 pnpm test             # registry core and /r routes
 ```
@@ -57,6 +59,7 @@ pnpm test             # registry core and /r routes
 
 Do not copy these; fix them when you touch the component.
 
-- No tokens yet for the primary hover shade, the page canvas (used as the focus ring offset) or control heights. The web recipes compute or hardcode them. `color.muted` now exists, but the playground recipes still read their own `--ui-muted`.
+- No tokens yet for the primary hover shade, the page canvas (used as the focus ring offset) or the sm and lg text sizes. The web recipes compute or hardcode them. The playground recipes read their own `--ui-*` palette (light and dark); `pnpm tokens:audit` checks its contrast too.
 - Button has no loading state; Input has no error state.
-- Contrast below what the specs require: primary Button label 4.36:1 and ghost Button text 4.32:1 (dark) and 3.88:1 (light), against 4.5:1; Input outline border about 1.3:1, against 3:1.
+- Contrast is checked against `color.surface`, not the page behind it, and not on the filled Card's tinted background.
+- Figma is not compared with the tokens yet, so a value that is wrong in both places passes.
