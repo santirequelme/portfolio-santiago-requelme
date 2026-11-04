@@ -4,7 +4,6 @@ import { ProjectsList } from "@/components/projects-list"
 import { ContentSections } from "@/components/content-sections"
 import { Footer } from "@/components/footer"
 import { SpatialBackground } from "@/components/spatial-background"
-import { HalloweenLayer } from "@/components/halloween/halloween-layer"
 import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { LabTeaser } from "@/components/lab/lab-teaser"
 
@@ -13,7 +12,6 @@ export default function Home() {
     <div className="min-h-screen relative">
       <ScrollProgress />
       <SpatialBackground />
-      <HalloweenLayer />
       <Header />
       <main id="main-content">
         <Hero />
