@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SpatialBackground } from "@/components/spatial-background"
-import { HalloweenLayer } from "@/components/halloween/halloween-layer"
 import { CaseStudyView } from "@/components/case-study/case-study-view"
 import { CASE_STUDIES, getCaseStudy } from "@/lib/case-studies"
 
@@ -32,7 +31,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   return (
     <div className="min-h-screen relative">
       <SpatialBackground />
-      <HalloweenLayer />
       <Header />
       <main id="main-content">
         <CaseStudyView slug={slug} />
