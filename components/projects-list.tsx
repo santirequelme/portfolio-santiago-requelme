@@ -1,16 +1,22 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, ChevronDown } from "lucide-react"
 import { SectionMarker, SelectionOverlay } from "./tech/annotations"
+import { buttonClass } from "@/lib/ui"
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap"
+
+// Cards shown before "View more"; the rest stay behind the button.
+const FEATURED = 6
 
 export function ProjectsList() {
   const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
+  const moreRef = useRef<HTMLButtonElement>(null)
+  const [showAll, setShowAll] = useState(false)
 
   useGSAP(
     () => {
@@ -64,6 +70,7 @@ export function ProjectsList() {
     { scope: sectionRef },
   )
 
+  // The first FEATURED are always shown; the rest open with "View more".
   const projects = [
     {
       title: t("projects.wellbeinn-app.title"),
@@ -78,10 +85,16 @@ export function ProjectsList() {
       url: "https://wellbeinn.com/products/wellbeinn-band",
     },
     {
-      title: t("projects.legacy.title"),
-      description: t("projects.legacy.description"),
-      image: "/images/legacy-platform.svg",
-      url: "/work/digital-legacy-platform",
+      title: t("projects.supply-chain-dashboard.title"),
+      description: t("projects.supply-chain-dashboard.description"),
+      image: "/images/dashboard.webp",
+      url: "https://suply-chain-dashboard.vercel.app/",
+    },
+    {
+      title: t("projects.wedding.title"),
+      description: t("projects.wedding.description"),
+      image: "/images/weddings.webp",
+      url: "https://www.riu.com/es/weddings",
     },
     {
       title: t("projects.design-system.title"),
@@ -90,12 +103,17 @@ export function ProjectsList() {
       url: "/design-system",
     },
     {
-      title: t("projects.supply-chain-dashboard.title"),
-      description: t("projects.supply-chain-dashboard.description"),
-      image: "/images/dashboard.webp",
-      url: "https://suply-chain-dashboard.vercel.app/",
+      title: t("projects.portfolio-system.title"),
+      description: t("projects.portfolio-system.description"),
+      image: "/images/portfolio-system.webp",
+      url: "/system",
     },
-  
+    {
+      title: t("projects.legacy.title"),
+      description: t("projects.legacy.description"),
+      image: "/images/legacy-platform.svg",
+      url: "/work/digital-legacy-platform",
+    },
     {
       title: t("projects.pulse-app.title"),
       description: t("projects.pulse-app.description"),
@@ -103,10 +121,10 @@ export function ProjectsList() {
       url: "https://pulse-app-a.netlify.app/",
     },
     {
-      title: t("projects.wedding.title"),
-      description: t("projects.wedding.description"),
-      image: "/images/weddings.webp",
-      url: "https://www.riu.com/es/weddings",
+      title: t("projects.hotel.title"),
+      description: t("projects.hotel.description"),
+      image: "/images/homepage.webp",
+      url: "https://www.riu.com/en",
     },
     {
       title: t("projects.booking.title"),
@@ -121,18 +139,25 @@ export function ProjectsList() {
       url: "https://www.riu.com/en/riu-experience/",
     },
     {
-      title: t("projects.hotel.title"),
-      description: t("projects.hotel.description"),
-      image: "/images/homepage.webp",
-      url: "https://www.riu.com/en",
-    },
-    {
       title: t("projects.hubspot.title"),
       description: t("projects.hubspot.description"),
       image: "/images/hubspot.webp",
       url: "https://rocketx.group/",
-    }
+    },
   ]
+  const visible = showAll ? projects : projects.slice(0, FEATURED)
+
+  const toggle = () => {
+    if (showAll) {
+      setShowAll(false)
+      // Keep the button under the pointer instead of leaving the reader far below.
+      requestAnimationFrame(() => moreRef.current?.scrollIntoView({ block: "center" }))
+      return
+    }
+    setShowAll(true)
+    // Move keyboard users to the first card that just appeared.
+    requestAnimationFrame(() => document.querySelector<HTMLElement>(`#projects-grid .project-card:nth-child(${FEATURED + 1}) a`)?.focus())
+  }
 
   return (
     <section ref={sectionRef} id="projectList" className="relative py-32 px-4">
@@ -162,11 +187,18 @@ export function ProjectsList() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10">
-          {projects.map((project, index) => {
+        <div id="projects-grid" className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10">
+          {visible.map((project, index) => {
             const isInternal = project.url.startsWith("/")
             return (
-            <div key={`project-${index}`} className="project-card">
+            <div
+              key={project.url}
+              className={
+                index < FEATURED
+                  ? "project-card"
+                  : "project-card animate-in fade-in slide-in-from-bottom-6 duration-500 ease-out fill-mode-both motion-reduce:animate-none"
+              }
+            >
               <Link
                 href={project.url}
                 target={isInternal ? undefined : "_blank"}
@@ -212,6 +244,23 @@ export function ProjectsList() {
             </div>
             )
           })}
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <button
+            ref={moreRef}
+            type="button"
+            onClick={toggle}
+            aria-expanded={showAll}
+            aria-controls="projects-grid"
+            className={buttonClass("secondary", "md")}
+          >
+            {showAll ? t("projects.less") : `${t("projects.more")} (${projects.length - FEATURED})`}
+            <ChevronDown
+              aria-hidden="true"
+              className={`h-4 w-4 transition-transform duration-300 motion-reduce:transition-none ${showAll ? "rotate-180" : ""}`}
+            />
+          </button>
         </div>
       </div>
     </section>
