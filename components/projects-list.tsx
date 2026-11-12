@@ -6,7 +6,7 @@ import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { SectionMarker, SelectionOverlay } from "./tech/annotations"
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK, FINE_POINTER } from "@/lib/gsap"
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap"
 
 export function ProjectsList() {
   const { t } = useLanguage()
@@ -57,43 +57,6 @@ export function ProjectsList() {
             },
           )
         })
-      })
-
-      // "View project" pill that trails the cursor over each image.
-      mm.add(FINE_POINTER, () => {
-        const cleanups = gsap.utils.toArray<HTMLElement>(".project-media").map((media) => {
-          const pill = media.querySelector<HTMLElement>(".project-pill")!
-          gsap.set(pill, { xPercent: -50, yPercent: -50, scale: 0, opacity: 0 })
-          const xTo = gsap.quickTo(pill, "x", { duration: 0.45, ease: "power3.out" })
-          const yTo = gsap.quickTo(pill, "y", { duration: 0.45, ease: "power3.out" })
-
-          const place = (e: PointerEvent, instant = false) => {
-            const rect = media.getBoundingClientRect()
-            const x = e.clientX - rect.left
-            const y = e.clientY - rect.top
-            if (instant) gsap.set(pill, { x, y })
-            else {
-              xTo(x)
-              yTo(y)
-            }
-          }
-          const onEnter = (e: PointerEvent) => {
-            place(e, true)
-            gsap.to(pill, { scale: 1, opacity: 1, duration: 0.55, ease: "expo.out", overwrite: "auto" })
-          }
-          const onMove = (e: PointerEvent) => place(e)
-          const onLeave = () => gsap.to(pill, { scale: 0, opacity: 0, duration: 0.35, ease: "expo.in", overwrite: "auto" })
-
-          media.addEventListener("pointerenter", onEnter)
-          media.addEventListener("pointermove", onMove)
-          media.addEventListener("pointerleave", onLeave)
-          return () => {
-            media.removeEventListener("pointerenter", onEnter)
-            media.removeEventListener("pointermove", onMove)
-            media.removeEventListener("pointerleave", onLeave)
-          }
-        })
-        return () => cleanups.forEach((cleanup) => cleanup())
       })
 
       return () => mm.revert()
@@ -213,7 +176,7 @@ export function ProjectsList() {
                 <SelectionOverlay />
 
                 {/* Image, inset inside the card */}
-                <div className="project-media relative aspect-video overflow-hidden rounded-inner bg-secondary md:cursor-none">
+                <div className="project-media relative aspect-video overflow-hidden rounded-inner bg-secondary">
                   <div className="project-image absolute -inset-y-[8%] inset-x-0">
                     <Image
                       src={project.image}
@@ -224,19 +187,6 @@ export function ProjectsList() {
                       className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
                     />
                   </div>
-
-                  {/* Cursor-following lens (pointer devices only). White with
-                      mix-blend-difference, so it inverts the image beneath it
-                      like a photographic negative; the label is knocked out. */}
-                  <span
-                    aria-hidden="true"
-                    className="project-pill pointer-events-none absolute left-0 top-0 z-10 hidden h-28 w-28 md:flex flex-col items-center justify-center gap-1 rounded-full bg-white text-black mix-blend-difference opacity-0"
-                  >
-                    <ArrowUpRight className="h-5 w-5" strokeWidth={1.75} />
-                    <span className="max-w-[5.5rem] text-center font-mono text-[11px] font-medium uppercase leading-tight tracking-[0.12em]">
-                      {t("projects.view")}
-                    </span>
-                  </span>
                 </div>
 
                 {/* Text */}
