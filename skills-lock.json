@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "skills": {
+    "better-typography": {
+      "source": "jakubkrehel/skills",
+      "commit": "276449adf5fa509adaab842b3559cb375ca868a4",
+      "sourceType": "github",
+      "skillPath": "skills/better-typography/SKILL.md",
+      "computedHash": "46b9c3a581e240b1e3e9f2a34469bfd8fceb075149cadb6ff670e4ee74ab7622"
+    }
+  }
+}

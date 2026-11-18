@@ -109,6 +109,12 @@ export function ProjectsList() {
       url: "/system",
     },
     {
+      title: t("projects.smartband.title"),
+      description: t("projects.smartband.description"),
+      image: "/images/smartband.webp",
+      url: "/landings/smartband.html",
+    },
+    {
       title: t("projects.legacy.title"),
       description: t("projects.legacy.description"),
       image: "/images/legacy-platform.svg",
@@ -189,7 +195,8 @@ export function ProjectsList() {
         {/* Projects Grid */}
         <div id="projects-grid" className="grid gap-6 md:gap-8 md:grid-cols-3 lg:gap-10">
           {visible.map((project, index) => {
-            const isInternal = project.url.startsWith("/")
+            // Static pages in /public (like the Smartband landing) open in a new tab, as they are not app routes.
+            const isInternal = project.url.startsWith("/") && !project.url.endsWith(".html")
             return (
             <div
               key={project.url}
