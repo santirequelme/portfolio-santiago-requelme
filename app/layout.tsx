@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   title: {
-    default: "Santiago Requelme - Product Engineer",
+    default: "Santiago Requelme - Product Design Engineer",
     template: "%s | Santiago Requelme",
   },
-  description: "Product engineer with a frontend and design background. I design, prototype and build product features end to end, from the first idea to production code.",
-  keywords: ["Product Engineer", "Design Engineer", "Frontend Engineer", "UI Developer", "React", "Next.js", "TypeScript", "Santiago Requelme", "Portfolio", "Web Developer", "Frontend Developer"],
+  description: "Product design engineer: frontend + UX/UI, 6+ years. I design, prototype and build product features end to end, from the first idea to production code.",
+  keywords: ["Product Design Engineer", "Product Engineer", "Design Engineer", "Frontend Engineer", "UI Developer", "React", "Next.js", "TypeScript", "Santiago Requelme", "Portfolio", "Web Developer", "Frontend Developer"],
   authors: [{ name: "Santiago Requelme", url: siteUrl }],
   creator: "Santiago Requelme",
   openGraph: {
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     alternateLocale: "es_ES",
     url: siteUrl,
     siteName: "Santiago Requelme Portfolio",
-    title: "Santiago Requelme - Product Engineer",
-    description: "Product engineer with a frontend and design background, building product features end to end.",
+    title: "Santiago Requelme - Product Design Engineer",
+    description: "Product design engineer (frontend + UX/UI) building product features end to end.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Santiago Requelme - Product Engineer",
-    description: "Product engineer with a frontend and design background, building product features end to end.",
+    title: "Santiago Requelme - Product Design Engineer",
+    description: "Product design engineer (frontend + UX/UI) building product features end to end.",
     creator: "@santirequelme",
   },
   robots: {

@@ -73,6 +73,12 @@ export function ProjectsList() {
   // The first FEATURED are always shown; the rest open with "View more".
   const projects = [
     {
+      title: t("projects.legacy.title"),
+      description: t("projects.legacy.description"),
+      image: "/images/legacy-platform.svg",
+      url: "/work/digital-legacy-platform",
+    },
+    {
       title: t("projects.wellbeinn-app.title"),
       description: t("projects.wellbeinn-app.description"),
       image: "/images/wellbeinn-app.jpg",
@@ -113,12 +119,6 @@ export function ProjectsList() {
       description: t("projects.smartband.description"),
       image: "/images/smartband.webp",
       url: "/landings/smartband.html",
-    },
-    {
-      title: t("projects.legacy.title"),
-      description: t("projects.legacy.description"),
-      image: "/images/legacy-platform.svg",
-      url: "/work/digital-legacy-platform",
     },
     {
       title: t("projects.pulse-app.title"),
