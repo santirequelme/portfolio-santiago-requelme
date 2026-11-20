@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
-import { TypingText } from "./typing-text"
 import { useLanguage } from "@/contexts/language-context"
 import { Magnetic } from "./motion/magnetic"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
@@ -123,7 +122,7 @@ export function Hero() {
         <div ref={textRef} className="flex-1 lg:w-[70%] text-center lg:text-left z-10">
           <p className={`${enter} font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground mb-8`}>
             <span className="mr-2 inline-block h-1.5 w-1.5 translate-y-[-1px] bg-primary align-middle" aria-hidden="true" />
-            {t("cv.role")}
+            {t("hero.status")}
           </p>
 
           {/* Heading + Subtitle inside h1 - same display size, contrasted by color.
@@ -146,7 +145,7 @@ export function Hero() {
           <h1
             className={`${enter} delay-100 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-10`}
           >
-            <TypingText />
+            <span className="block">{t("hero.title")}</span>
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={t("hero.subtitle")}
@@ -177,6 +176,21 @@ export function Hero() {
               </motion.p>
             </AnimatePresence>
           </div>
+
+          {/* Proof up front: the three results recruiters ask about first. */}
+          <dl className={`${enter} delay-200 mb-10 grid max-w-xl grid-cols-3 gap-4 lg:mx-0 mx-auto text-left`}>
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="border-l border-border pl-3">
+                <dt className="sr-only">{t(`hero.metric${n}.label`)}</dt>
+                <dd className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+                  {t(`hero.metric${n}.value`)}
+                </dd>
+                <dd aria-hidden="true" className="mt-1 text-xs sm:text-sm leading-snug text-muted-foreground">
+                  {t(`hero.metric${n}.label`)}
+                </dd>
+              </div>
+            ))}
+          </dl>
 
           {/* Actions: primary + secondary */}
           <div className={`${enter} delay-300 flex flex-wrap items-center justify-center gap-3 lg:justify-start`}>

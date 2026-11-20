@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { ImageResponse } from "next/og"
 
-export const alt = "Santiago Requelme - Product Engineer"
+export const alt = "Santiago Requelme - Product Design Engineer"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -31,7 +31,7 @@ export default async function OpengraphImage() {
             Portfolio
           </div>
           <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, marginTop: 20 }}>Santiago Requelme</div>
-          <div style={{ fontSize: 40, color: "#cfc6bd", marginTop: 16 }}>Product Engineer · Frontend & Design</div>
+          <div style={{ fontSize: 40, color: "#cfc6bd", marginTop: 16 }}>Product Design Engineer · Frontend + UX/UI</div>
           <div style={{ fontSize: 26, color: "#9a8f86", marginTop: 48 }}>santirequelme.dev</div>
         </div>
         <img

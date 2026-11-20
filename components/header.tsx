@@ -230,9 +230,7 @@ export function Header() {
 
               {/* Hire CTA Button */}
               <a
-                href="https://www.linkedin.com/in/santiago-requelme/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:santireke37@gmail.com"
                 className={buttonClass("primary", "sm")}
               >
                 {t("header.hireMe")}
@@ -415,9 +413,7 @@ export function Header() {
                   className="mb-8"
                 >
                   <a
-                    href="https://www.linkedin.com/in/santiago-requelme/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="mailto:santireke37@gmail.com"
                     onClick={() => setMobileMenuOpen(false)}
                     className={buttonClass("primary", "lg", "w-full")}
                   >
@@ -433,7 +429,7 @@ export function Header() {
                   transition={{ duration: 0.3, delay: 0.5 }}
                   className="text-center text-sm text-muted-foreground border-t border-border/50 pt-8"
                 >
-                  <p>Product Engineer · Frontend & Design</p>
+                  <p>Product Design Engineer · Frontend + UX/UI</p>
                 </motion.div>
               </div>
             </motion.div>

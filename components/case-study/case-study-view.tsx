@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
-import { getCaseStudy } from "@/lib/case-studies"
+import { CASE_STUDIES, getCaseStudy } from "@/lib/case-studies"
 import { CaseStudyDemo } from "./demos"
 import { buttonClass, chipClass } from "@/lib/ui"
 
@@ -15,6 +15,12 @@ export function CaseStudyView({ slug }: { slug: string }) {
   const study = getCaseStudy(slug)
   if (!study) return null
   const c = study.content[language]
+
+  // Walk through the case studies in order; the last one leads to the design system.
+  const nextStudy = CASE_STUDIES[CASE_STUDIES.indexOf(study) + 1]
+  const next = nextStudy
+    ? { href: `/work/${nextStudy.slug}`, title: nextStudy.content[language].title }
+    : { href: "/design-system", title: t("projects.design-system.title") }
 
   return (
     <article className="relative z-10 mx-auto max-w-5xl px-4 pt-28 md:pt-40 pb-24">
@@ -41,6 +47,18 @@ export function CaseStudyView({ slug }: { slug: string }) {
             </div>
           ))}
         </dl>
+
+        {study.liveUrl && (
+          <a
+            href={study.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("secondary", "md", "group mt-8")}
+          >
+            {t("case.live")}
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+          </a>
+        )}
 
         <div className="mt-6">
           <p className="sr-only">{t("case.stack")}</p>
@@ -101,20 +119,16 @@ export function CaseStudyView({ slug }: { slug: string }) {
 
       <nav className="mt-16 flex flex-col gap-4 border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <Link
-          href="/design-system"
+          href={next.href}
           className="group inline-flex flex-col rounded-control focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
         >
           <span className="text-xs uppercase tracking-wider text-muted-foreground">{t("case.next")}</span>
           <span className="mt-1 inline-flex items-center gap-1 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
-            {t("projects.design-system.title")}
+            {next.title}
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
           </span>
         </Link>
-        <a
-          href="https://www.linkedin.com/in/santiago-requelme/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonClass("primary", "lg")}
+        <a href="mailto:santireke37@gmail.com" className={buttonClass("primary", "lg")}
         >
           {t("about.workWithMe")}
         </a>
