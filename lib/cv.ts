@@ -160,11 +160,11 @@ export const ROLES: Role[] = [
 ]
 
 export const WORK: Work[] = [
-  { title: "Wellbeinn Mate App", image: "/images/wellbeinn-app.jpg", url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app", tag: { en: "Latest · iOS & Android", es: "Último · iOS y Android" } },
+  { title: "Wellbeinn Mate App", image: "/images/wellbeinn-app.jpg", url: "/work/wellbeinn-mate-app", tag: { en: "Case study · iOS & Android", es: "Caso de estudio · iOS y Android" } },
   { title: "Wellbeinn Band Landing", image: "/images/wellbeinn-band.jpg", url: "https://wellbeinn.com/products/wellbeinn-band", tag: { en: "Wellbeinn", es: "Wellbeinn" } },
   { title: "Digital Legacy Platform", image: "/images/legacy-platform.svg", url: "/work/digital-legacy-platform", tag: { en: "Case study", es: "Caso de estudio" } },
   { title: "Aura Design System", image: "/images/design-system.svg", url: "/design-system", tag: { en: "Design system", es: "Design system" } },
-  { title: "Supply Chain Dashboard", image: "/images/dashboard.webp", url: "https://suply-chain-dashboard.vercel.app/", tag: { en: "Dashboard", es: "Dashboard" } },
+  { title: "Supply Chain Dashboard", image: "/images/dashboard.webp", url: "/work/supply-chain-dashboard", tag: { en: "Case study", es: "Caso de estudio" } },
   { title: "RIU Booking", image: "/images/booking.webp", url: "https://www.riu.com/en/booking", tag: { en: "RIU Hotels", es: "RIU Hotels" } },
   { title: "RIU Weddings", image: "/images/weddings.webp", url: "https://www.riu.com/es/weddings", tag: { en: "RIU Hotels", es: "RIU Hotels" } },
   { title: "RIU Experience", image: "/images/experience.webp", url: "https://www.riu.com/en/riu-experience/", tag: { en: "RIU Hotels", es: "RIU Hotels" } },

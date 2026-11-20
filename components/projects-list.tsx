@@ -82,7 +82,7 @@ export function ProjectsList() {
       title: t("projects.wellbeinn-app.title"),
       description: t("projects.wellbeinn-app.description"),
       image: "/images/wellbeinn-app.jpg",
-      url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app",
+      url: "/work/wellbeinn-mate-app",
     },
     {
       title: t("projects.wellbeinn-band.title"),
@@ -94,7 +94,7 @@ export function ProjectsList() {
       title: t("projects.supply-chain-dashboard.title"),
       description: t("projects.supply-chain-dashboard.description"),
       image: "/images/dashboard.webp",
-      url: "https://suply-chain-dashboard.vercel.app/",
+      url: "/work/supply-chain-dashboard",
     },
     {
       title: t("projects.wedding.title"),
