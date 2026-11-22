@@ -73,10 +73,16 @@ export function ProjectsList() {
   // The first FEATURED are always shown; the rest open with "View more".
   const projects = [
     {
+      title: t("projects.legacy.title"),
+      description: t("projects.legacy.description"),
+      image: "/images/legacy-platform.svg",
+      url: "/work/digital-legacy-platform",
+    },
+    {
       title: t("projects.wellbeinn-app.title"),
       description: t("projects.wellbeinn-app.description"),
       image: "/images/wellbeinn-app.jpg",
-      url: "https://play.google.com/store/apps/details?id=com.wellbeinn.app",
+      url: "/work/wellbeinn-mate-app",
     },
     {
       title: t("projects.wellbeinn-band.title"),
@@ -88,7 +94,7 @@ export function ProjectsList() {
       title: t("projects.supply-chain-dashboard.title"),
       description: t("projects.supply-chain-dashboard.description"),
       image: "/images/dashboard.webp",
-      url: "https://suply-chain-dashboard.vercel.app/",
+      url: "/work/supply-chain-dashboard",
     },
     {
       title: t("projects.wedding.title"),
@@ -113,12 +119,6 @@ export function ProjectsList() {
       description: t("projects.smartband.description"),
       image: "/images/smartband.webp",
       url: "/landings/smartband.html",
-    },
-    {
-      title: t("projects.legacy.title"),
-      description: t("projects.legacy.description"),
-      image: "/images/legacy-platform.svg",
-      url: "/work/digital-legacy-platform",
     },
     {
       title: t("projects.pulse-app.title"),

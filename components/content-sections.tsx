@@ -142,9 +142,7 @@ function CTAButton({ label }: { label: string }) {
     <div className="cta-wrap flex justify-center pt-8">
       <Magnetic strength={0.4}>
         <motion.a
-          href="https://www.linkedin.com/in/santiago-requelme/"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="mailto:santireke37@gmail.com"
           className={buttonClass("primary", "lg", "px-8")}
         >
           <AnimatePresence mode="wait">
